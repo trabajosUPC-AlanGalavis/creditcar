@@ -28,4 +28,11 @@ export default {
   text-align: center;
   margin: 20%;
 }
+.center h1 {
+  font-size: 2rem;
+  color: var(--black);
+}
+p {
+  color: var(--black);
+}
 </style>

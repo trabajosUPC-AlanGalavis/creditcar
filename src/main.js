@@ -24,6 +24,7 @@ import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 //Router
 import router from "@/router";
+import InputNumber from "primevue/inputnumber";
 
 
 createApp(App)
@@ -42,5 +43,6 @@ createApp(App)
     .component('pv-data-table', DataTable)
     .component('pv-dialog', Dialog)
     .component('pv-input-text', InputText)
+    .component('pv-input-number', InputNumber)
     .use(router)
     .mount('#app')

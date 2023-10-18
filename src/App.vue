@@ -7,8 +7,10 @@ export default {
 </script>
 
 <template>
-  <toolbar></toolbar>
-  <router-view></router-view>
+  <div class="select-none">
+    <toolbar></toolbar>
+    <router-view></router-view>
+  </div>
 </template>
 
 <style>
@@ -41,15 +43,18 @@ export default {
   --small-text-regular-size: 14px;
 }
 
+* {
+  font-family: var(--font-primary) !important;
+}
+
 body {
-  font-family: var(--font-primary);
   background-color: #D7E9F2;
 }
 
 .card {
   background-color: var(--white);
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 1px 0 rgba(0, 0, 0, 0.20);
-  border-radius: 20px;
+  border-radius: 20px !important;
   margin: 2.7rem 2rem;
 }
 </style>

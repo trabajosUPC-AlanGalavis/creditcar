@@ -37,7 +37,7 @@ export default {
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto">
+  <div class="max-w-4xl mx-auto">
     <pv-card class="card md:mx-50 md:px-5">
       <template #header>
         <div class="mb-3">

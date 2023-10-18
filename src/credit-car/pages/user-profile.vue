@@ -1,15 +1,29 @@
 <script>
+import { creditcarApiService } from "@/credit-car/services/creditcar-api.service";
+
 export default {
   name: "user-profile",
   data() {
     return {
-      image: "https://schoolworkhelper.net/wp-content/uploads/2011/07/Winston-Smith.gif",
-      name: "Winston Smith",
-      email: "winstonsmith@gmail.com",
-    }
-  }
-}
+      creditcarApi: null,
+      image: "",
+      first_name: "",
+      email: "",
+    };
+  },
+  created() {
+    this.creditcarApi = new creditcarApiService();
+    this.creditcarApi.getProfiles()
+        .then((response) => {
+          this.image = response.data.image;
+          this.first_name = response.data.first_name;
+          this.last_name = response.data.last_name;
+          this.email = response.data.email;
+        });
+  },
+};
 </script>
+
 
 <template>
   <div class="max-w-4xl mx-auto">
@@ -28,7 +42,7 @@ export default {
               <div class="mb-4">
                 <div class="flex justify-between items-center">
                   <p class="font-bold mr-2">Nombre:</p>
-                  <p class="text-sm overflow-ellipsis">{{ name }}</p>
+                  <p class="text-sm overflow-ellipsis">{{ first_name }} {{last_name}}</p>
                 </div>
                 <a class="text-blue-500 text-sm underline">Cambiar nombre</a>
               </div>

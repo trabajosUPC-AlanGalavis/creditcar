@@ -1,5 +1,5 @@
 <script>
-import { creditcarApiService } from "@/public/services/creditcar-api.service";
+import { creditcarApiService } from "@/creditcar/services/creditcar-api.service";
 
 export default {
   name: "user-profile",
@@ -13,12 +13,12 @@ export default {
   },
   created() {
     this.creditcarApi = new creditcarApiService();
-    this.creditcarApi.getProfiles()
+    this.creditcarApi.getUsers()
         .then((response) => {
-          this.image = response.data.image;
-          this.first_name = response.data.first_name;
-          this.last_name = response.data.last_name;
-          this.email = response.data.email;
+          this.image = response.data[0].image;
+          this.first_name = response.data[0].first_name;
+          this.last_name = response.data[0].last_name;
+          this.email = response.data[0].email;
         });
   },
 };

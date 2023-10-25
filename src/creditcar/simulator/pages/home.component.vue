@@ -1,6 +1,6 @@
 <script>
 
-import {creditcarApiService} from "@/public/services/creditcar-api.service";
+import {creditcarApiService} from "@/creditcar/services/creditcar-api.service";
 
 export default {
   name: "home",
@@ -32,7 +32,8 @@ export default {
   <div class="mb-6">
     <div class="shadow hero flex items-center h-fit mb-20">
       <div class="w-full md:w-1/2 text-center my-40 mx-5">
-        <p class="text-6xl md:text-7xl font-bold mb-4 text-white">Bienvenido a <span class="text-red-500">CreditCar</span>
+        <p class="text-6xl md:text-7xl font-bold mb-4 text-white">Bienvenido a <span
+            class="text-red-500">CreditCar</span>
         </p>
         <p class="text-xl text-white">Elige tu vehículo soñado y organiza un plan de pagos</p>
       </div>
@@ -53,14 +54,20 @@ export default {
       </div>
 
       <div class="flex flex-wrap justify-center mx-5">
-        <pv-card v-for="car in filteredCars" class="card m-3 w-full md:w-3" :key="car.id">
-          <template #content>
-            <router-link to="/car">
+        <router-link
+            v-for="car in filteredCars"
+            :to="'/car/' + car.id"
+            class="card m-3 w-full md:w-3"
+            :key="car.id"
+        >
+          <pv-card>
+            <template #content>
+              <img :src="car.image">
               <p class="text-lg"><b>{{ car.brand }}</b> {{ car.model }}</p>
               <p>{{ car.price }}</p>
-            </router-link>
-          </template>
-        </pv-card>
+            </template>
+          </pv-card>
+        </router-link>
       </div>
 
       <div v-if="filteredCars.length === 0" class="text-red-500">
@@ -73,7 +80,7 @@ export default {
 
 <style scoped>
 .hero {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), url("assets/hero.png"), center, no-repeat;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), url("../../../../assets/hero.png"), center, no-repeat;
   background-size: cover;
   background-position: center;
 }
@@ -92,5 +99,9 @@ pv-input-text {
   border-radius: 3rem;
   border: solid 0.14rem;
   width: 75%;
+}
+
+:deep(.p-card .p-card-body) {
+  padding: 0 !important;
 }
 </style>

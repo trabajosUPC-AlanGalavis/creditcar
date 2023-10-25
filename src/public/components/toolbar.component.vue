@@ -1,10 +1,26 @@
 <script>
+import {creditcarApiService} from "@/creditcar/services/creditcar-api.service";
+
 export default {
   name: "toolbar",
   data() {
     return {
+      creditcarApi: null,
+      full_name: '',
+      user_image: '',
       showMenu: false
     };
+  },
+  created() {
+    this.creditcarApi = new creditcarApiService();
+    this.creditcarApi.getUsers()
+        .then((response) => {
+          console.log(this.response);
+          const first_name = response.data[0].first_name;
+          const last_name = response.data[0].last_name;
+          this.full_name = first_name + ' ' + last_name;
+          this.user_image = response.data[0].image;
+        });
   },
   methods: {
     toggleNavbar() {
@@ -34,11 +50,9 @@ export default {
           <ul class="flex flex-col md:flex-row list-none ml-auto">
             <li class="nav-item">
               <router-link to="/profile">
-                <div class="px-3 py-2 flex items-center font-bold leading-snug">
-                <span class="ml-2 flex items-center">
-                  <pv-avatar image="" shape="circle" class="border-2 border-red-500 mr-2"/>
-                  Profile
-                </span>
+                <div class="px-3 py-2 items-center font-bold ml-2 flex">
+                  <pv-avatar :image="user_image" shape="circle" class="border-2 border-red-500 mr-2"/>
+                  <p class="text-black">{{ full_name }}</p>
                 </div>
               </router-link>
             </li>

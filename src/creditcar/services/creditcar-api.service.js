@@ -1,11 +1,11 @@
 import http from '../../shared/services/http-common';
 
 export class creditcarApiService {
-    getProfiles () {
+    getUsers () {
         return http.get('/users');
     }
 
-    getProfileById (id) {
+    getUserById (id) {
         return http.get(`/users?id=${id}`);
     }
 

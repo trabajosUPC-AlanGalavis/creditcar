@@ -1,58 +1,62 @@
 {
-  "users": {
-    "image": "https://schoolworkhelper.net/wp-content/uploads/2011/07/Winston-Smith.gif",
-    "first_name": "Winston",
-    "last_name": "Smith",
-    "email": "winstonsmith@gmail.com"
-  },
+  "users": [
+    {
+      "id": 1,
+      "image": "https://schoolworkhelper.net/wp-content/uploads/2011/07/Winston-Smith.gif",
+      "first_name": "Winston",
+      "last_name": "Smith",
+      "email": "winstonsmith@gmail.com",
+      "password": "123456"
+    }
+  ],
   "cars": [
     {
       "id": 1,
       "brand": "Volkswagen",
       "model": "Golf 2021",
-      "image": "assets/volkswagen.png",
+      "image": "https://developer.mercedes-benz.com/docs-and-specs/published/products/vehicle_images/documentation/standard.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 2,
       "brand": "Chevrolet",
       "model": "Spark 2021",
-      "image": "assets/chevrolet.png",
+      "image": "https://developer.mercedes-benz.com/docs-and-specs/published/products/vehicle_images/documentation/standard.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 3,
       "brand": "Renault",
       "model": "Sandero 2021",
-      "image": "assets/renault.png",
+      "image": "https://developer.mercedes-benz.com/docs-and-specs/published/products/vehicle_images/documentation/standard.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 4,
       "brand": "Mazda",
       "model": "2 2021",
-      "image": "assets/mazda.png",
+      "image": "https://developer.mercedes-benz.com/docs-and-specs/published/products/vehicle_images/documentation/standard.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 5,
       "brand": "Toyota",
       "model": "Yaris 2021",
-      "image": "assets/toyota.png",
+      "image": "https://developer.mercedes-benz.com/docs-and-specs/published/products/vehicle_images/documentation/standard.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 6,
       "brand": "Kia",
       "model": "Picanto 2021",
-      "image": "assets/kia.png",
+      "image": "https://developer.mercedes-benz.com/docs-and-specs/published/products/vehicle_images/documentation/standard.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 7,
       "brand": "Hyundai",
       "model": "Grand i10 2021",
-      "image": "assets/hyundai.png",
+      "image": "https://developer.mercedes-benz.com/docs-and-specs/published/products/vehicle_images/documentation/standard.png",
       "price": "Desde $ 1.000.000"
     }
   ]

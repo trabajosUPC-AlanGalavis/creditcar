@@ -43,12 +43,12 @@ export default {
   --small-text-regular-size: 14px;
 }
 
-* {
+* :not(i) {
   font-family: var(--font-primary) !important;
 }
 
 body {
-  background-color: #D7E9F2;
+  background-color: #FCFBFB;
 }
 
 .card {

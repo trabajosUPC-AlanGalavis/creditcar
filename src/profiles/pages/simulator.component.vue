@@ -1,5 +1,5 @@
 <script>
-import ButtonPrimary from "@/credit-car/components/button-primary.component.vue";
+import ButtonPrimary from "@/profiles/components/button-primary.component.vue";
 import axios from "axios";
 
 export default {

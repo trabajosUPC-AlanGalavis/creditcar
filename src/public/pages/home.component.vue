@@ -1,11 +1,25 @@
 <script>
+import {creditcarApiService} from "@/profiles/services/creditcar-api.service";
+
 export default {
   name: "home",
   data() {
     return {
-
+      creditcarApi: null,
+      cars: [],
+      car_name: '',
+      car_description: '',
+      car_price: '',
+      car_image:'',
     }
   },
+  created() {
+    this.creditcarApi = new creditcarApiService();
+    this.creditcarApi.getCars()
+        .then((response) => {
+          this.cars = response.data;
+        });
+  }
 }
 </script>
 
@@ -26,11 +40,11 @@ export default {
     </pv-input-text>
 
     <div class="flex flex-wrap justify-center">
-      <pv-card v-for="card in cards" class="m-3 w-full md:w-3">
+      <pv-card v-for="car in cars" class="m-3 w-full md:w-3">
         <template #content>
-          <p class="font-bold">{{card.title}}</p>
-          <p class="font-bold">{{card.description}}</p>
-          <p>{{card.price}}</p>
+          <p class="font-bold">{{car.name}}</p>
+          <p class="font-bold">{{car.description}}</p>
+          <p>{{car.price}}</p>
         </template>
       </pv-card>
     </div>

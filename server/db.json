@@ -4,5 +4,57 @@
     "first_name": "Winston",
     "last_name": "Smith",
     "email": "winstonsmith@gmail.com"
-  }
+  },
+  "cars": [
+    {
+      "id": 1,
+      "title": "Volkswagen",
+      "description": "Volkswagen Golf 2021",
+      "image": "assets/volkswagen.png",
+      "price": "Desde $ 1.000.000"
+    },
+    {
+      "id": 2,
+      "title": "Chevrolet",
+      "description": "Chevrolet Spark 2021",
+      "image": "assets/chevrolet.png",
+      "price": "Desde $ 1.000.000"
+    },
+    {
+      "id": 3,
+      "title": "Renault",
+      "description": "Renault Sandero 2021",
+      "image": "assets/renault.png",
+      "price": "Desde $ 1.000.000"
+    },
+    {
+      "id": 4,
+      "title": "Mazda",
+      "description": "Mazda 2 2021",
+      "image": "assets/mazda.png",
+      "price": "Desde $ 1.000.000"
+    },
+    {
+      "id": 5,
+      "title": "Toyota",
+      "description": "Toyota Yaris 2021",
+      "image": "assets/toyota.png",
+      "price": "Desde $ 1.000.000"
+    },
+    {
+      "id": 6,
+      "title": "Kia",
+      "description": "Kia Picanto 2021",
+      "image": "assets/kia.png",
+      "price": "Desde $ 1.000.000"
+    },
+    {
+      "id": 7,
+      "title": "Hyundai",
+      "description": "Hyundai Grand i10 2021",
+      "image": "assets/hyundai.png",
+      "price": "Desde $ 1.000.000"
+    }
+  ],
+}
 }

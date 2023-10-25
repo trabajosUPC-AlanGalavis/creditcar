@@ -14,7 +14,7 @@ export default {
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,7 +28,7 @@ export default {
   --black: #282828;
   --white: #FFFFFF;
   --red: #FF3439;
-  --font-primary: Nunito;
+  --font-primary: 'Open Sans';
   --heading-1-size: 52px;
   --heading-2-size: 36px;
   --heading-3-size: 24px;

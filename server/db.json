@@ -8,50 +8,50 @@
   "cars": [
     {
       "id": 1,
-      "name": "Volkswagen",
-      "description": "Volkswagen Golf 2021",
+      "brand": "Volkswagen",
+      "model": "Golf 2021",
       "image": "assets/volkswagen.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 2,
-      "name": "Chevrolet",
-      "description": "Chevrolet Spark 2021",
+      "brand": "Chevrolet",
+      "model": "Spark 2021",
       "image": "assets/chevrolet.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 3,
-      "name": "Renault",
-      "description": "Renault Sandero 2021",
+      "brand": "Renault",
+      "model": "Sandero 2021",
       "image": "assets/renault.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 4,
-      "name": "Mazda",
-      "description": "Mazda 2 2021",
+      "brand": "Mazda",
+      "model": "2 2021",
       "image": "assets/mazda.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 5,
-      "name": "Toyota",
-      "description": "Toyota Yaris 2021",
+      "brand": "Toyota",
+      "model": "Yaris 2021",
       "image": "assets/toyota.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 6,
-      "name": "Kia",
-      "description": "Kia Picanto 2021",
+      "brand": "Kia",
+      "model": "Picanto 2021",
       "image": "assets/kia.png",
       "price": "Desde $ 1.000.000"
     },
     {
       "id": 7,
-      "name": "Hyundai",
-      "description": "Hyundai Grand i10 2021",
+      "brand": "Hyundai",
+      "model": "Grand i10 2021",
       "image": "assets/hyundai.png",
       "price": "Desde $ 1.000.000"
     }

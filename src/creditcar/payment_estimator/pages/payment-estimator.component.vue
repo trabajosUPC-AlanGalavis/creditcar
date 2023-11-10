@@ -34,8 +34,22 @@ export default {
         creditLifeInsurance: this.creditLifeInsurance,
         vehicleInsurance: this.vehicleInsurance,
       });
+    },
+    changeCurrency(){
+      if (this.currency === 'usd') {
+        this.currency = 'soles';
+      } else {
+        this.currency = 'usd';
+      }
+    },
+    changeRateType() {
+      if (this.rateType === 'effective') {
+        this.rateType = 'nominal';
+      } else {
+        this.rateType = 'effective';
+      }
     }
-  },
+  }
 }
 </script>
 
@@ -58,13 +72,15 @@ export default {
                        name="currency"
                        checked
                        class="cursor-pointer"
-                       v-model="currency">
+                       :value="currency"
+                       @input="changeCurrency">
                 <label for="usd">Dólares ($)</label>
                 <input type="radio"
                        id="soles"
                        name="currency"
                        class="cursor-pointer"
-                       v-model="currency">
+                       :value="currency"
+                       @input="changeCurrency">
                 <label for="soles">Soles (S/)</label>
               </div>
             </li>
@@ -76,13 +92,21 @@ export default {
                        name="rate-type"
                        checked
                        class="cursor-pointer"
-                       v-model="rateType">
+                       :value="rateType"
+                       @input="changeRateType">
                 <label for="effective">Efectiva</label>
                 <input type="radio"
                        id="nominal"
                        name="rate-type"
                        class="cursor-pointer"
-                       v-model="rateType">
+                       :value="rateType"
+                       @input="changeRateType">
+                <label for="nominal">Nominal</label>
+                <input
+                    id="nominal"
+                    name="rate-type"
+                    class="cursor-pointer"
+                    v-model="rateType">
                 <label for="nominal">Nominal</label>
               </div>
               <p v-if="rateType === 'effective'" class="font-normal mb-2">Con capitalización mensual</p>

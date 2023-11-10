@@ -7,21 +7,21 @@ export default {
   data() {
     return {
       creditcarApi: null,
-      cars: [],
+      vehicles: [],
       searchTerm: "",
     };
   },
   created() {
     this.creditcarApi = new creditcarApiService();
-    this.creditcarApi.getCars().then((response) => {
-      this.cars = response.data;
+    this.creditcarApi.getVehicles().then((response) => {
+      this.vehicles = response.data;
     });
   },
   computed: {
-    filteredCars() {
-      return this.cars.filter((car) =>
-          car.brand.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          car.model.toLowerCase().includes(this.searchTerm.toLowerCase())
+    filteredVehicles() {
+      return this.vehicles.filter((vehicle) =>
+          vehicle.brand.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          vehicle.model.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     },
   },
@@ -48,29 +48,28 @@ export default {
             name="search"
             placeholder="Buscar inventario..."
             v-model="searchTerm"
-            @input="filterCars"
+            @input="filterVehicles"
             class="rounded-input rounded-full border border-red-500 px-3 py-2 mb-5">
         </pv-input-text>
       </div>
 
       <div class="flex flex-wrap justify-center mx-5">
         <router-link
-            v-for="car in filteredCars"
-            :to="'/car/' + car.id"
+            v-for="vehicle in filteredVehicles"
+            :to="'/payment-estimator/vehicle/' + vehicle.id"
             class="card m-3 w-full md:w-3"
-            :key="car.id"
-        >
-          <pv-card>
+            :key="vehicle.id">
+          <pv-card class="shadow">
             <template #content>
-              <img :src="car.image">
-              <p class="text-lg"><b>{{ car.brand }}</b> {{ car.model }}</p>
-              <p>{{ car.price }}</p>
+              <img :src="vehicle.image">
+              <p class="text-lg"><b>{{ vehicle.brand }}</b> {{ vehicle.model }}</p>
+              <p>{{ vehicle.price }}</p>
             </template>
           </pv-card>
         </router-link>
       </div>
 
-      <div v-if="filteredCars.length === 0" class="text-red-500">
+      <div v-if="filteredVehicles.length === 0" class="text-red-500">
         <p>No se encontraron resultados.</p>
       </div>
     </div>

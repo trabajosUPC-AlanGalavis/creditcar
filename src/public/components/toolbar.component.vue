@@ -48,7 +48,21 @@ export default {
         </div>
         <div :class="{'hidden': !showMenu, 'flex': showMenu}" class="md:flex md:flex-grow items-center">
           <ul class="flex flex-col md:flex-row list-none ml-auto">
-            <li class="nav-item">
+            <li>
+              <router-link to="/home">
+                <div class="px-3 py-2 items-center font-bold ml-2 flex">
+                  <p class="text-black">Buscar inventario</p>
+                </div>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/vehicle-management">
+                <div class="px-3 py-2 items-center font-bold ml-2 flex">
+                  <p class="text-black">Mis vehículos</p>
+                </div>
+              </router-link>
+            </li>
+            <li>
               <router-link to="/profile">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
                   <pv-avatar :image="user_image" shape="circle" class="border-2 border-red-500 mr-2"/>

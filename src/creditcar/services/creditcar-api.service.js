@@ -9,7 +9,7 @@ export class creditcarApiService {
         return http.get(`/users?id=${id}`);
     }
 
-    getCars(){
-        return http.get('/cars')
+    getVehicles(){
+        return http.get('/vehicles')
     }
 }

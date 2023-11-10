@@ -2,8 +2,8 @@ import {createRouter, createWebHistory} from 'vue-router'
 import PageNotFound from "@/public/pages/page-not-found.component.vue";
 import simulator from "@/creditcar/simulator/pages/simulator.component.vue";
 import userProfile from "@/creditcar/profiles/pages/user-profile.vue";
-import home from "@/creditcar/simulator/pages/home.component.vue";
-import CarDetails from "@/creditcar/simulator/pages/car-details.component.vue";
+import home from "@/creditcar/home/pages/home.component.vue";
+import PaymentEstimator from "@/creditcar/payment_estimator/pages/payment-estimator.component.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,9 +21,9 @@ const router = createRouter({
             component: home
         },
         {
-            path: '/car/:id',
-            name: 'car-details',
-            component: CarDetails
+            path: '/payment-estimator/vehicle/:id',
+            name: 'payment-estimator',
+            component: PaymentEstimator
         },
         {
             path: '/simulator',

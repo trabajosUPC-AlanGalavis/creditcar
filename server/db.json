@@ -9,7 +9,7 @@
       "password": "123456"
     }
   ],
-  "cars": [
+  "vehicles": [
     {
       "id": 1,
       "brand": "Volkswagen",

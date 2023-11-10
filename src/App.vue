@@ -27,7 +27,7 @@ export default {
   --gray-3:#4D4D4D;
   --black: #282828;
   --white: #FFFFFF;
-  --red: #FF3439;
+  --red: #eb0a1e;
   --font-primary: 'Open Sans';
   --heading-1-size: 52px;
   --heading-2-size: 36px;

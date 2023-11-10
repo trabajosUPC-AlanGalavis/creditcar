@@ -26,12 +26,27 @@ export default {
 
 
 <template>
+
+  <div class="mb-6">
+    <div class="flex items-center h-fit mb-20 bg-gray-100">
+      <div class="w-full md:w-1/2 text-center my-20 mx-5">
+        <p class="text-6xl md:text-7xl font-bold mb-4">Mi cuenta</p>
+        <p class="text-xl">Actualiza la información de tu cuenta.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="text-center">
+        <p class="text-5xl font-bold mb-4">Información personal</p>
+    </div>
+  </div>
+
   <div class="max-w-4xl mx-auto">
-    <pv-card class="card md:px-5">
+    <pv-card class="card bg-gray-100 md:px-5">
       <template #content>
         <div class="lg:flex">
-          <div class="lg:w-1/2 text-center align-content-center mb-5 md:mr-5">
-            <p class="font-bold text-4xl mb-4">Mi cuenta</p>
+          <div class="lg:w-1/2 text-center align-middle mb-5 md:mr-5">
             <div class="flex items-center justify-center mb-2">
               <img class="rounded-full w-56 h-56" :src="image" alt="avatar">
             </div>
@@ -51,20 +66,24 @@ export default {
                   <p class="font-bold mr-2">Correo electrónico:</p>
                   <p class="text-sm overflow-ellipsis">{{ email }}</p>
                 </div>
-                <a class="text-blue-500 text-sm underline">Cambiar correo electrónico</a>
+                <a class="text-blue-500 text-sm underline cursor-pointer">Cambiar correo electrónico</a>
               </div>
               <div class="mb-4">
                 <div class="flex justify-between items-center">
                   <p class="font-bold mr-2">Contraseña:</p>
                   <p class="text-sm overflow-ellipsis">●●●●●●●●</p>
                 </div>
-                <a class="text-blue-500 text-sm underline">Cambiar contraseña</a>
+                <a class="text-blue-500 text-sm underline cursor-pointer">Cambiar contraseña</a>
               </div>
               <div class="mb-4">
                 <div class="flex justify-between items-center">
                   <p class="font-bold mr-2">Cuenta:</p>
                 </div>
-                <a class="text-red-500 text-sm underline">Eliminar cuenta</a>
+                <div class="mb-3">
+                  <a class="text-red-500 text-sm underline cursor-pointer">Cerrar sesión</a>
+                </div>
+
+                <a class="text-red-500 text-sm underline cursor-pointer">Eliminar cuenta</a>
               </div>
             </div>
           </div>
@@ -80,8 +99,13 @@ export default {
 }
 
 img {
-  border: solid 7px var(--primary-blue);
+  border: solid 7px var(--red);
 }
+
+.shadow {
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 1px 0 rgba(0, 0, 0, 0.20);
+}
+
 
 .overflow-ellipsis {
   white-space: nowrap;

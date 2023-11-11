@@ -108,12 +108,6 @@ export default {
                        :value="rateType"
                        @input="changeRateType">
                 <label for="nominal">Nominal</label>
-                <input
-                    id="nominal"
-                    name="rate-type"
-                    class="cursor-pointer"
-                    v-model="rateType">
-                <label for="nominal">Nominal</label>
               </div>
               <p v-if="rateType === 'effective'" class="font-normal mb-2">Con capitalización mensual</p>
               <label for="rate-value" class="font-normal mb-2">2.1 Ingresa la tasa de interés</label>

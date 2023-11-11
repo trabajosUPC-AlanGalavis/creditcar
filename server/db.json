@@ -59,5 +59,52 @@
       "image": "https://developer.mercedes-benz.com/docs-and-specs/published/products/vehicle_images/documentation/standard.png",
       "price": "Desde $ 1.000.000"
     }
+  ],
+  "payments": [
+    {
+      "id": 1,
+      "currency": "usd",
+      "rateType": "fixed",
+      "selectedRate": "daily",
+      "selectedPeriod": "annual",
+      "rateValue": 0.1,
+      "closingDate": 0,
+      "totalGracePeriod": 0,
+      "partialGracePeriod": 0,
+      "initialFee": 0,
+      "finalFee": 0,
+      "creditLifeInsurance": 0,
+      "vehicleInsurance": 0
+    },
+    {
+      "currency": "usd",
+      "rateType": "effective",
+      "selectedRate": "daily",
+      "selectedPeriod": "annual",
+      "rateValue": 0,
+      "closingDate": 0,
+      "totalGracePeriod": 0,
+      "partialGracePeriod": 0,
+      "initialFee": 0,
+      "finalFee": 0,
+      "creditLifeInsurance": 0,
+      "vehicleInsurance": 0,
+      "id": 2
+    },
+    {
+      "currency": "soles",
+      "rateType": "nominal",
+      "selectedRate": "daily",
+      "selectedPeriod": "annual",
+      "rateValue": 0,
+      "closingDate": 0,
+      "totalGracePeriod": 0,
+      "partialGracePeriod": 0,
+      "initialFee": 0,
+      "finalFee": 0,
+      "creditLifeInsurance": 0,
+      "vehicleInsurance": 0,
+      "id": 3
+    }
   ]
 }

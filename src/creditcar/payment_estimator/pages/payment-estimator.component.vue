@@ -10,6 +10,8 @@ export default {
       simulator: new PaymentApiService(),
       currency: "usd",
       rateType: "effective",
+      selectedRate: "daily",
+      selectedPeriod: "annual",
       rateValue: 0,
       closingDate: 0,
       totalGracePeriod: 0,
@@ -28,6 +30,8 @@ export default {
       dataToSend = {
         currency: this.currency,
         rateType: this.rateType,
+        selectedRate: this.selectedRate,
+        selectedPeriod: this.selectedPeriod,
         rateValue: this.rateValue,
         closingDate: this.closingDate,
         totalGracePeriod: this.totalGracePeriod,
@@ -138,8 +142,33 @@ export default {
                        @input="changeRateType">
                 <label for="nominal">Nominal</label>
               </div>
-              <p v-if="rateType === 'effective'" class="font-normal mb-2">Con capitalización mensual</p>
-              <label for="rate-value" class="font-normal mb-2">2.1 Ingresa la tasa de interés</label>
+              <div>
+                <label class="font-normal mb-2" for="periodOptions"> 2.1.1 Plazo de Tasa:</label>
+                <select class="font-normal mb-2" v-model="selectedPeriod" id="periodOptions">
+                  <option value="daily">Diaria</option>
+                  <option value="weekly">Semanal</option>
+                  <option value="biweekly">Quincenal</option>
+                  <option value="monthly">Mensual</option>
+                  <option value="bimonthly">Bimestral</option>
+                  <option value="quarterly">Trimestral</option>
+                  <option value="semiannual">Semestral</option>
+                  <option value="annual">Anual</option>
+                </select>
+              </div>
+              <div v-if="rateType === 'effective'">
+                <label class="font-normal mb-2" for="rateOptions"> 2.1.2 Con capitalización:</label>
+                <select class="font-normal mb-2" v-model="selectedRate" id="rateOptions">
+                  <option value="daily">Diaria</option>
+                  <option value="weekly">Semanal</option>
+                  <option value="biweekly">Quincenal</option>
+                  <option value="monthly">Mensual</option>
+                  <option value="bimonthly">Bimestral</option>
+                  <option value="quarterly">Trimestral</option>
+                  <option value="semiannual">Semestral</option>
+                  <option value="annual">Anual</option>
+                </select>
+              </div>
+              <label for="rate-value" class="font-normal mb-2">2.2 Ingresa la tasa de interés</label>
               <pv-input-number
                   inputId="rate-value"
                   suffix="%"

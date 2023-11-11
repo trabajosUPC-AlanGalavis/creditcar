@@ -34,7 +34,13 @@ export default {
         creditLifeInsurance: this.creditLifeInsurance,
         vehicleInsurance: this.vehicleInsurance,
       });
-    }
+    },
+    resetScrollbar() {
+      window.scrollTo(0, 0);
+    },
+  },
+  mounted() {
+    this.resetScrollbar();
   },
 }
 </script>

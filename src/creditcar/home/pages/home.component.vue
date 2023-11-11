@@ -9,6 +9,7 @@ export default {
       creditcarApi: null,
       vehicles: [],
       searchTerm: "",
+      hoverVehicle: null,
     };
   },
   created() {
@@ -25,12 +26,20 @@ export default {
       );
     },
   },
+  methods: {
+    showShadow(vehicleId) {
+      this.hoverVehicle = vehicleId;
+    },
+    hideShadow(vehicleId) {
+      this.hoverVehicle = null;
+    },
+  }
 };
 </script>
 
 <template>
   <div class="mb-6">
-    <div class="shadow hero flex items-center h-fit mb-20">
+    <div class="shadow hero flex items-center h-fit">
       <div class="w-full md:w-1/2 text-center my-40 mx-5">
         <p class="text-6xl md:text-7xl font-bold mb-4 text-white">Bienvenido a <span
             class="text-red-500">CreditCar</span>
@@ -40,7 +49,8 @@ export default {
     </div>
 
     <div class="text-center">
-      <p class="text-5xl font-bold mb-5">Descubre los vehículos disponibles</p>
+      <div class="bg-gray-200 pt-6 pb-2 mb-4">
+      <p class="text-5xl font-bold mb-5 ">Descubre los vehículos disponibles</p>
       <div>
         <pv-input-text
             id="search"
@@ -49,17 +59,19 @@ export default {
             placeholder="Buscar inventario..."
             v-model="searchTerm"
             @input="filterVehicles"
-            class="rounded-input rounded-full border border-red-500 px-3 py-2 mb-5">
+            class="rounded-input bg-transparent rounded-full border border-red-500 px-3 py-2 mb-5">
         </pv-input-text>
       </div>
-
+      </div>
       <div class="flex flex-wrap justify-center mx-5">
         <router-link
             v-for="vehicle in filteredVehicles"
             :to="'/payment-estimator/vehicle/' + vehicle.id"
-            class="card m-3 w-full md:w-3"
-            :key="vehicle.id">
-          <pv-card class="shadow">
+            class="m-3 w-full md:w-3 relative"
+            :key="vehicle.id"
+            @mouseenter="showShadow(vehicle.id)"
+            @mouseleave="hideShadow(vehicle.id)">
+          <pv-card class="shadow" :class="{ 'card-hover': hoverVehicle === vehicle.id }">
             <template #content>
               <img :src="vehicle.image">
               <p class="text-lg"><b>{{ vehicle.brand }}</b> {{ vehicle.model }}</p>
@@ -103,4 +115,10 @@ pv-input-text {
 :deep(.p-card .p-card-body) {
   padding: 0 !important;
 }
+
+
+.card-hover {
+  box-shadow: 0 7px 12px rgba(0, 0, 0, 0.14);
+}
+
 </style>

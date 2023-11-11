@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import PageNotFound from "@/public/pages/page-not-found.component.vue";
-import simulator from "@/creditcar/simulator/pages/simulator.component.vue";
 import userProfile from "@/creditcar/profiles/pages/user-profile.vue";
 import home from "@/creditcar/home/pages/home.component.vue";
 import PaymentEstimator from "@/creditcar/payment_estimator/pages/payment-estimator.component.vue";
@@ -24,10 +23,6 @@ const router = createRouter({
             path: '/payment-estimator/vehicle/:id',
             name: 'payment-estimator',
             component: PaymentEstimator
-        },
-        {
-            path: '/simulator',
-            component: simulator
         },
         {
             path: '/profile',

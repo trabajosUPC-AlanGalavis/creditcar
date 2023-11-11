@@ -35,7 +35,7 @@ export default {
         vehicleInsurance: this.vehicleInsurance,
       });
     },
-    changeCurrency(){
+    changeCurrency() {
       if (this.currency === 'usd') {
         this.currency = 'soles';
       } else {
@@ -60,15 +60,31 @@ export default {
 </script>
 
 <template>
+  <div class="max-w-4xl mx-5 md:mx-auto mt-7">
+    <div class="lg:flex text-center md:text-left">
+      <div class="lg:w-1/2 flex flex-column justify-center md:ml-4">
+        <div>
+          <p class="text-4xl md:text-4xl font-bold">Planifica la compra de tu {{ "car_name" }}</p>
+          <hr class="division mb-3">
+        </div>
+        <p class="font-normal">Desde {{ "precio1_" }}</p>
+      </div>
+      <div class="lg:w-1/2 p-1">
+          <div class="items-center justify-right">
+            <div class="flex justify-center items-center">
+              <img
+                  src="https://www.toyota.com/config/pub/3d/toyota/1008125/1005491/Exterior/1/864_477_PNG/e5c8d471d89f61bf15f1fa7b275e9fc350ba44e6f871069a73290b304c5ee61b.png"
+                  height="100%" width="100%" alt="car_image">
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
   <div class="max-w-4xl mx-auto">
     <pv-card class="card md:mx-50 md:px-5">
-      <template #header>
-        <div class="mb-3">
-          <h2 class="text-center pt-5 text-3xl">Planifica la compra de tu</h2>
-        </div>
-      </template>
       <template #content>
-        <form class="px-5" @submit.prevent="handleSubmit">
+        <form class="pt-3 px-5" @submit.prevent="handleSubmit">
           <ol>
             <li class="mb-6">
               <p class="text-lg mb-2">Elige el tipo de moneda</p>
@@ -137,29 +153,31 @@ export default {
             </li>
             <li class="mb-6">
               <p class="text-lg  mb-2">Selecciona el período de gracia</p>
-                <label for="total-grace-period" class="font-normal mb-5">4.1 Ingresa el número de cuotas sobra las cuales aplica el período de gracia total</label>
-                <pv-input-number
-                    inputId="total-grace-period"
-                    suffix=" cuotas"
-                    name="total-grace-period"
-                    placeholder="0"
-                    required
-                    min="0"
-                    class="w-full border rounded-md mb-5"
-                    v-model="totalGracePeriod">
-                </pv-input-number>
+              <label for="total-grace-period" class="font-normal mb-5">4.1 Ingresa el número de cuotas sobra las cuales
+                aplica el período de gracia total</label>
+              <pv-input-number
+                  inputId="total-grace-period"
+                  suffix=" cuotas"
+                  name="total-grace-period"
+                  placeholder="0"
+                  required
+                  min="0"
+                  class="w-full border rounded-md mb-5"
+                  v-model="totalGracePeriod">
+              </pv-input-number>
 
-                <label for="partial-grace-period" class="font-normal mb-2">4.2 Ingresa el número de cuotas sobra las cuales aplica el período de gracia parcial</label>
-                <pv-input-number
-                    inputId="partial-grace-period"
-                    suffix=" cuotas"
-                    name="partial-grace-period"
-                    placeholder="0"
-                    required
-                    min="0"
-                    class="w-full border rounded-md"
-                    v-model="partialGracePeriod">
-                </pv-input-number>
+              <label for="partial-grace-period" class="font-normal mb-2">4.2 Ingresa el número de cuotas sobra las
+                cuales aplica el período de gracia parcial</label>
+              <pv-input-number
+                  inputId="partial-grace-period"
+                  suffix=" cuotas"
+                  name="partial-grace-period"
+                  placeholder="0"
+                  required
+                  min="0"
+                  class="w-full border rounded-md"
+                  v-model="partialGracePeriod">
+              </pv-input-number>
             </li>
             <li class="mb-6">
               <label for="initial-fee" class="text-lg mb-2">¿Cuál es el porcentaje de la cuota inicial?</label>
@@ -188,7 +206,8 @@ export default {
               </pv-input-number>
             </li>
             <li class="mb-6">
-              <label for="credit-life-insurance" class="text-lg mb-2">¿Cuál es la tasa del seguro de desgravamen?</label>
+              <label for="credit-life-insurance" class="text-lg mb-2">¿Cuál es la tasa del seguro de
+                desgravamen?</label>
               <pv-input-number
                   inputId="credit-life-insurance"
                   suffix="%"
@@ -264,4 +283,11 @@ input[type="radio"]:checked {
 ol {
   list-style: number;
 }
+
+.division {
+  border-top: 2px solid var(--red);
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
 </style>

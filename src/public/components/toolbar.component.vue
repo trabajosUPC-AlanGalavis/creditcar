@@ -37,7 +37,7 @@ export default {
         <div class="w-full relative flex justify-between md:w-auto px-4 md:static md:block md:justify-start">
           <router-link to="/">
             <div class="font-bold leading-relaxed flex mr-4 py-2 whitespace-nowrap items-center">
-              <img src="/assets/logo-white.png" alt="logo" width="30" height="30" class="mr-2">
+              <img src="/assets/logo.png" alt="logo" width="30" height="30" class="mr-2">
               <p class="text-red-500">CreditCar</p>
             </div>
           </router-link>

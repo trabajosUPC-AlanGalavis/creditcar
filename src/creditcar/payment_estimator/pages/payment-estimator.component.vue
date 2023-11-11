@@ -1,12 +1,13 @@
 <script>
 import ButtonPrimary from "@/creditcar/profiles/components/button-primary.component.vue";
-import axios from "axios";
+import {PaymentApiService} from "@/creditcar/payment_estimator/services/payment-api.service";
 
 export default {
   name: "payment-estimator",
   components: {ButtonPrimary},
   data() {
     return {
+      simulator: new PaymentApiService(),
       currency: "usd",
       rateType: "effective",
       rateValue: 0,
@@ -21,8 +22,10 @@ export default {
     }
   },
   methods: {
-    async handleSubmit() {
-      await axios.post('/simulator', {
+
+    handleSubmit() {
+      let dataToSend;
+      dataToSend = {
         currency: this.currency,
         rateType: this.rateType,
         rateValue: this.rateValue,
@@ -33,7 +36,17 @@ export default {
         finalFee: this.finalFee,
         creditLifeInsurance: this.creditLifeInsurance,
         vehicleInsurance: this.vehicleInsurance,
-      });
+      }
+      this.simulator.create(
+          dataToSend
+          )
+          .then((response) => {
+            console.log("Data", dataToSend)
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
     changeCurrency() {
       if (this.currency === 'usd') {
@@ -240,7 +253,8 @@ export default {
                 :buttonColor="'var(--red)'"
                 :buttonTextColor="'var(--white)'"
                 :buttonBorderColor="'var(--red)'"
-                type="submit">
+                type="submit"
+            v-model="handleSubmit">
             </button-primary>
           </div>
         </form>

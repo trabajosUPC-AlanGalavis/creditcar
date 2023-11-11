@@ -48,8 +48,14 @@ export default {
       } else {
         this.rateType = 'effective';
       }
-    }
-  }
+    },
+    resetScrollbar() {
+      window.scrollTo(0, 0);
+    },
+  },
+  mounted() {
+    this.resetScrollbar();
+  },
 }
 </script>
 

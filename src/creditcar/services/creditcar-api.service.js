@@ -12,4 +12,8 @@ export class creditcarApiService {
     getVehicles(){
         return http.get('/vehicles')
     }
+
+    getVehiclesById(id){
+        return http.get(`/vehicles?id=${id}`)
+    }
 }

@@ -1,12 +1,15 @@
 <script>
 import ButtonPrimary from "@/creditcar/profiles/components/button-primary.component.vue";
 import {PaymentApiService} from "@/creditcar/payment_estimator/services/payment-api.service";
+import {creditcarApiService} from "@/creditcar/services/creditcar-api.service";
 
 export default {
   name: "payment-estimator",
   components: {ButtonPrimary},
   data() {
     return {
+      creditcarApi: null,
+      vehicle: null,
       simulator: new PaymentApiService(),
       currency: "usd",
       rateType: "effective",
@@ -16,15 +19,13 @@ export default {
       closingDate: 0,
       totalGracePeriod: 0,
       partialGracePeriod: 0,
-      vehicleCost: 0,
-      initialFee: 0,
+      initialFee: 20,
       finalFee: 0,
       creditLifeInsurance: 0,
-      vehicleInsurance: 0,
+      vehicleInsurance: 0
     }
   },
   methods: {
-
     handleSubmit() {
       let dataToSend;
       dataToSend = {
@@ -43,7 +44,7 @@ export default {
       }
       this.simulator.create(
           dataToSend
-          )
+      )
           .then((response) => {
             console.log("Data", dataToSend)
             console.log(response);
@@ -68,7 +69,14 @@ export default {
     },
     resetScrollbar() {
       window.scrollTo(0, 0);
-    },
+    }
+  },
+  created() {
+    this.creditcarApi = new creditcarApiService();
+    const vehicleId = this.$route.params.id;
+    this.creditcarApi.getVehiclesById(vehicleId).then((response) => {
+      this.vehicle = response.data[0];
+    });
   },
   mounted() {
     this.resetScrollbar();
@@ -81,20 +89,18 @@ export default {
     <div class="lg:flex text-center md:text-left">
       <div class="lg:w-1/2 flex flex-column justify-center md:ml-4">
         <div>
-          <p class="text-4xl md:text-4xl font-bold">Planifica la compra de tu {{ "car_name" }}</p>
+          <p class="text-4xl md:text-4xl font-bold">Planifica la compra de tu {{ vehicle.brand }} {{ vehicle.model }}</p>
           <hr class="division mb-3">
         </div>
-        <p class="font-normal">Desde {{ "precio1_" }}</p>
+        <p class="font-normal">Desde ${{ vehicle.price }}</p>
       </div>
       <div class="lg:w-1/2 p-1">
-          <div class="items-center justify-right">
-            <div class="flex justify-center items-center">
-              <img
-                  src="https://www.toyota.com/config/pub/3d/toyota/1008125/1005491/Exterior/1/864_477_PNG/e5c8d471d89f61bf15f1fa7b275e9fc350ba44e6f871069a73290b304c5ee61b.png"
-                  height="100%" width="100%" alt="car_image">
-            </div>
+        <div class="items-center justify-right">
+          <div class="flex justify-center items-center">
+            <img :src="vehicle.image" alt="car_image">
           </div>
         </div>
+      </div>
     </div>
   </div>
 
@@ -187,7 +193,8 @@ export default {
                   suffix=" meses"
                   name="closing-date"
                   placeholder="Plazo de pago (Meses)"
-                  min="0"
+                  min="24"
+                  max="36"
                   required
                   class="w-full border rounded-md"
                   v-model="closingDate">
@@ -204,6 +211,7 @@ export default {
                   placeholder="0"
                   required
                   min="0"
+                  max="36"
                   class="w-full border rounded-md mb-5"
                   v-model="totalGracePeriod">
               </pv-input-number>
@@ -217,6 +225,7 @@ export default {
                   placeholder="0"
                   required
                   min="0"
+                  max="36"
                   class="w-full border rounded-md"
                   v-model="partialGracePeriod">
               </pv-input-number>
@@ -230,6 +239,7 @@ export default {
                   placeholder="Cuota inicial (%)"
                   required
                   min="0"
+                  max="20"
                   class="w-full border rounded-md"
                   v-model="initialFee">
               </pv-input-number>
@@ -283,7 +293,7 @@ export default {
                 :buttonTextColor="'var(--white)'"
                 :buttonBorderColor="'var(--red)'"
                 type="submit"
-            v-model="handleSubmit">
+                v-model="handleSubmit">
             </button-primary>
           </div>
         </form>

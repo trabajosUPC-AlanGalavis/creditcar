@@ -75,7 +75,7 @@ export default {
             <template #content>
               <img :src="vehicle.image">
               <p class="text-lg"><b>{{ vehicle.brand }}</b> {{ vehicle.model }}</p>
-              <p>{{ vehicle.price }}</p>
+              <p>Desde ${{ vehicle.price }}</p>
             </template>
           </pv-card>
         </router-link>

@@ -1,7 +1,8 @@
 <script>
-import ButtonPrimary from "@/creditcar/profiles/components/button-primary.component.vue";
+import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
 import {PaymentApiService} from "@/creditcar/payment_estimator/services/payment-api.service";
-import {creditcarApiService} from "@/creditcar/services/creditcar-api.service";
+import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
+import router from "@/router";
 
 export default {
   name: "payment-estimator",
@@ -22,36 +23,40 @@ export default {
       initialFee: 20,
       finalFee: 0,
       creditLifeInsurance: 0,
-      vehicleInsurance: 0
+      vehicleInsurance: 0,
+      formInvalid: true
     }
   },
   methods: {
     handleSubmit() {
-      let dataToSend;
-      dataToSend = {
-        currency: this.currency,
-        rateType: this.rateType,
-        selectedRate: this.selectedRate,
-        selectedPeriod: this.selectedPeriod,
-        rateValue: this.rateValue,
-        closingDate: this.closingDate,
-        totalGracePeriod: this.totalGracePeriod,
-        partialGracePeriod: this.partialGracePeriod,
-        initialFee: this.initialFee,
-        finalFee: this.finalFee,
-        creditLifeInsurance: this.creditLifeInsurance,
-        vehicleInsurance: this.vehicleInsurance,
+      if (this.validateForm()) {
+        let dataToSend;
+        dataToSend = {
+          currency: this.currency,
+          rateType: this.rateType,
+          selectedRate: this.selectedRate,
+          selectedPeriod: this.selectedPeriod,
+          rateValue: this.rateValue,
+          closingDate: this.closingDate,
+          totalGracePeriod: this.totalGracePeriod,
+          partialGracePeriod: this.partialGracePeriod,
+          initialFee: this.initialFee,
+          finalFee: this.finalFee,
+          creditLifeInsurance: this.creditLifeInsurance,
+          vehicleInsurance: this.vehicleInsurance,
+        }
+        this.simulator.create(dataToSend)
+            .then((response) => {
+              console.log("Data", dataToSend)
+              console.log(response);
+              if (this.formInvalid) {
+                router.push('/generated-plan');
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
       }
-      this.simulator.create(
-          dataToSend
-      )
-          .then((response) => {
-            console.log("Data", dataToSend)
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
     },
     changeCurrency() {
       if (this.currency === 'usd') {
@@ -69,7 +74,19 @@ export default {
     },
     resetScrollbar() {
       window.scrollTo(0, 0);
-    }
+    },
+    validateForm() {
+      this.formInvalid = this.currency &&
+          this.rateType &&
+          this.selectedRate &&
+          this.selectedPeriod &&
+          this.rateValue > 0 &&
+          this.closingDate > 0 &&
+          this.finalFee > 0 &&
+          this.creditLifeInsurance > 0 &&
+          this.vehicleInsurance > 0;
+      return this.formInvalid;
+    },
   },
   created() {
     this.creditcarApi = new creditcarApiService();
@@ -85,11 +102,11 @@ export default {
 </script>
 
 <template>
-  <div class="max-w-4xl mx-5 md:mx-auto mt-7">
+  <div class="max-w-4xl mx-5 md:mx-auto mt-4">
     <div class="lg:flex text-center md:text-left">
-      <div class="lg:w-1/2 flex flex-column justify-center md:ml-4">
+      <div class="lg:w-1/2 flex flex-column justify-center md:ml-5">
         <div>
-          <p class="text-4xl md:text-4xl font-bold">Planifica la compra de tu {{ vehicle.brand }} {{ vehicle.model }}</p>
+          <p class="text-4xl leading-snug">Planifica la compra de tu <br> <b>{{ vehicle.brand }}</b> {{vehicle.model }}</p>
           <hr class="division mb-3">
         </div>
         <p class="font-normal">Desde ${{ vehicle.price }}</p>
@@ -151,9 +168,10 @@ export default {
               <div class="mb-3">
                 <p class="font-normal mb-2"> 2.1.1 Plazo de Tasa: </p>
                 <div>
-                  <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer" v-model="selectedPeriod" id="periodOptions">
+                  <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
+                          v-model="selectedPeriod" id="periodOptions">
                     <option class="text-[--red] bg-white" value="daily">Diaria</option>
-                    <option class="text-[--red] bg-white"  value="weekly">Semanal</option>
+                    <option class="text-[--red] bg-white" value="weekly">Semanal</option>
                     <option class="text-[--red] bg-white" value="biweekly">Quincenal</option>
                     <option class="text-[--red] bg-white" value="monthly">Mensual</option>
                     <option class="text-[--red] bg-white" value="bimonthly">Bimestral</option>
@@ -162,12 +180,12 @@ export default {
                     <option class="text-[--red] bg-white" value="annual">Anual</option>
                   </select>
                 </div>
-
               </div>
               <div v-if="rateType === 'effective'" class="mb-3">
                 <p class="font-normal mb-2"> 2.1.2 Con capitalización:</p>
                 <div>
-                  <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer" v-model="selectedRate" id="rateOptions">
+                  <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
+                          v-model="selectedRate" id="rateOptions">
                     <option class="text-[--red] bg-white" value="daily">Diaria</option>
                     <option class="text-[--red] bg-white" value="weekly">Semanal</option>
                     <option class="text-[--red] bg-white" value="biweekly">Quincenal</option>
@@ -287,6 +305,7 @@ export default {
                 v-model="handleSubmit">
             </button-primary>
           </div>
+          <p v-if="formInvalid === false" class="text-center text-[--red]">Por favor completa todos los campos antes de continuar</p>
         </form>
       </template>
     </pv-card>
@@ -302,7 +321,7 @@ export default {
   border-radius: 20px;
 }
 
-h2, label, p, ol {
+h2, label, ol {
   color: var(--black);
   font-weight: bold;
 }

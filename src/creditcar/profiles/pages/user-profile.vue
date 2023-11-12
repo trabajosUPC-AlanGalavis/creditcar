@@ -1,5 +1,5 @@
 <script>
-import { creditcarApiService } from "@/creditcar/services/creditcar-api.service";
+import { creditcarApiService } from "@/creditcar/shared/services/creditcar-api.service";
 
 export default {
   name: "user-profile",

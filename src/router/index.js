@@ -4,6 +4,7 @@ import userProfile from "@/creditcar/profiles/pages/user-profile.vue";
 import home from "@/creditcar/home/pages/home.component.vue";
 import PaymentEstimator from "@/creditcar/payment_estimator/pages/payment-estimator.component.vue";
 import GeneratedPlan from "@/creditcar/payment_estimator/pages/generated-plan.component.vue";
+import PlanHistory from "@/creditcar/plan_history/pages/plan_history.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,10 @@ const router = createRouter({
         {
             path:'/generated-plan',
             component: GeneratedPlan
+        },
+        {
+            path:'/plan-history',
+            component: PlanHistory
         },
         {
             path: '/profile',

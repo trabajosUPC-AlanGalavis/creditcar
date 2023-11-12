@@ -75,6 +75,21 @@
       "finalFee": 0,
       "creditLifeInsurance": 0,
       "vehicleInsurance": 0
+    },
+    {
+      "currency": "usd",
+      "rateType": "effective",
+      "selectedRate": "daily",
+      "selectedPeriod": "annual",
+      "rateValue": 1,
+      "closingDate": "24",
+      "totalGracePeriod": 1,
+      "partialGracePeriod": 1,
+      "initialFee": 20,
+      "finalFee": 1,
+      "creditLifeInsurance": 1,
+      "vehicleInsurance": 1,
+      "id": 2
     }
   ]
 }

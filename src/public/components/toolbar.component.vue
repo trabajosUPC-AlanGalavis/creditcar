@@ -56,9 +56,9 @@ export default {
               </router-link>
             </li>
             <li>
-              <router-link to="/vehicle-management">
+              <router-link to="/plan-history">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
-                  <p class="text-black">Mis vehículos</p>
+                  <p class="text-black">Mis planes de pago</p>
                 </div>
               </router-link>
             </li>

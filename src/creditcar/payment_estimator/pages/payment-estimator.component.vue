@@ -105,7 +105,7 @@ export default {
   </div>
 
   <div class="max-w-4xl mx-auto">
-    <pv-card class="card md:mx-50 md:px-5">
+    <pv-card class="card mt-0 md:mx-50 md:px-5">
       <template #content>
         <form class="pt-3 px-5" @submit.prevent="handleSubmit">
           <ol>
@@ -148,31 +148,36 @@ export default {
                        @input="changeRateType">
                 <label for="nominal">Nominal</label>
               </div>
-              <div>
-                <label class="font-normal mb-2" for="periodOptions"> 2.1.1 Plazo de Tasa:</label>
-                <select class="font-normal mb-2" v-model="selectedPeriod" id="periodOptions">
-                  <option value="daily">Diaria</option>
-                  <option value="weekly">Semanal</option>
-                  <option value="biweekly">Quincenal</option>
-                  <option value="monthly">Mensual</option>
-                  <option value="bimonthly">Bimestral</option>
-                  <option value="quarterly">Trimestral</option>
-                  <option value="semiannual">Semestral</option>
-                  <option value="annual">Anual</option>
-                </select>
+              <div class="mb-3">
+                <p class="font-normal mb-2"> 2.1.1 Plazo de Tasa: </p>
+                <div>
+                  <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer" v-model="selectedPeriod" id="periodOptions">
+                    <option class="text-[--red] bg-white" value="daily">Diaria</option>
+                    <option class="text-[--red] bg-white"  value="weekly">Semanal</option>
+                    <option class="text-[--red] bg-white" value="biweekly">Quincenal</option>
+                    <option class="text-[--red] bg-white" value="monthly">Mensual</option>
+                    <option class="text-[--red] bg-white" value="bimonthly">Bimestral</option>
+                    <option class="text-[--red] bg-white" value="quarterly">Trimestral</option>
+                    <option class="text-[--red] bg-white" value="semiannual">Semestral</option>
+                    <option class="text-[--red] bg-white" value="annual">Anual</option>
+                  </select>
+                </div>
+
               </div>
-              <div v-if="rateType === 'effective'">
-                <label class="font-normal mb-2" for="rateOptions"> 2.1.2 Con capitalización:</label>
-                <select class="font-normal mb-2" v-model="selectedRate" id="rateOptions">
-                  <option value="daily">Diaria</option>
-                  <option value="weekly">Semanal</option>
-                  <option value="biweekly">Quincenal</option>
-                  <option value="monthly">Mensual</option>
-                  <option value="bimonthly">Bimestral</option>
-                  <option value="quarterly">Trimestral</option>
-                  <option value="semiannual">Semestral</option>
-                  <option value="annual">Anual</option>
-                </select>
+              <div v-if="rateType === 'effective'" class="mb-3">
+                <p class="font-normal mb-2"> 2.1.2 Con capitalización:</p>
+                <div>
+                  <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer" v-model="selectedRate" id="rateOptions">
+                    <option class="text-[--red] bg-white" value="daily">Diaria</option>
+                    <option class="text-[--red] bg-white" value="weekly">Semanal</option>
+                    <option class="text-[--red] bg-white" value="biweekly">Quincenal</option>
+                    <option class="text-[--red] bg-white" value="monthly">Mensual</option>
+                    <option class="text-[--red] bg-white" value="bimonthly">Bimestral</option>
+                    <option class="text-[--red] bg-white" value="quarterly">Trimestral</option>
+                    <option class="text-[--red] bg-white" value="semiannual">Semestral</option>
+                    <option class="text-[--red] bg-white" value="annual">Anual</option>
+                  </select>
+                </div>
               </div>
               <label for="rate-value" class="font-normal mb-2">2.2 Ingresa la tasa de interés</label>
               <pv-input-number
@@ -228,20 +233,6 @@ export default {
                   max="36"
                   class="w-full border rounded-md"
                   v-model="partialGracePeriod">
-              </pv-input-number>
-            </li>
-            <li class="mb-6">
-              <label for="initial-fee" class="text-lg mb-2">¿Cuál es el porcentaje de la cuota inicial?</label>
-              <pv-input-number
-                  inputId="initial-fee"
-                  suffix="%"
-                  name="initial-fee"
-                  placeholder="Cuota inicial (%)"
-                  required
-                  min="0"
-                  max="20"
-                  class="w-full border rounded-md"
-                  v-model="initialFee">
               </pv-input-number>
             </li>
             <li class="mb-6">

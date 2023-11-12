@@ -50,7 +50,7 @@ export default {
             <div class="flex items-center justify-center mb-2">
               <img class="rounded-full w-56 h-56" :src="image" alt="avatar">
             </div>
-            <a class="text-blue-500 text-sm underline">Cambiar foto de perfil</a>
+            <a class="text-blue-500 text-sm underline cursor-pointer">Cambiar foto de perfil</a>
           </div>
           <div class="lg:w-1/2 p-1">
             <div>
@@ -59,7 +59,7 @@ export default {
                   <p class="font-bold mr-2">Nombre:</p>
                   <p class="text-sm overflow-ellipsis">{{ first_name }} {{last_name}}</p>
                 </div>
-                <a class="text-blue-500 text-sm underline">Cambiar nombre</a>
+                <a class="text-blue-500 text-sm underline cursor-pointer">Cambiar nombre</a>
               </div>
               <div class="mb-4">
                 <div class="flex justify-between items-center">

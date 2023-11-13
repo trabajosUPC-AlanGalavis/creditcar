@@ -5,6 +5,10 @@ export class PaymentApiService {
         return http.get("/payments");
     }
 
+    getById(id) {
+        return http.get(`/payments/${id}`);
+    }
+
     create(data) {
         return http.post("/payments", data);
     }

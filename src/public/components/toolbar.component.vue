@@ -25,7 +25,7 @@ export default {
       });
     };
     updateData();
-    setInterval(updateData, 500);
+    setInterval(updateData, 100);
   },
   methods: {
     toggleNavbar() {
@@ -53,21 +53,21 @@ export default {
         <div :class="{'hidden': !showMenu, 'flex': showMenu}" class="md:flex md:flex-grow items-center">
           <ul class="flex flex-col md:flex-row list-none ml-auto">
             <li>
-              <router-link v-if="!$route.path.includes('/login')" to="/home">
+              <router-link v-if="!($route.path.includes('/login') || $route.path.includes('/signup'))" to="/home">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
                   <p class="text-black">Buscar inventario</p>
                 </div>
               </router-link>
             </li>
             <li>
-              <router-link v-if="!$route.path.includes('/login')" to="/payment-history">
+              <router-link v-if="!($route.path.includes('/login') || $route.path.includes('/signup'))" to="/payment-history">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
                   <p class="text-black">Mis planes de pago</p>
                 </div>
               </router-link>
             </li>
             <li>
-              <router-link v-if="!$route.path.includes('/login')" to="/profile">
+              <router-link v-if="!($route.path.includes('/login') || $route.path.includes('/signup'))" to="/profile">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
                   <pv-avatar :image="user_image" shape="circle" class="border-2 border-red-500 mr-2"/>
                   <p class="text-black">{{ full_name }}</p>

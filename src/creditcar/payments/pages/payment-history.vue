@@ -1,17 +1,24 @@
 <script>
 import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
+import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
 export default  {
   name: "payment-history",
   data() {
     return {
       paymentApi: null,
-      payments: []
+      creditcarApi: null,
+      payments: [],
+      vehicles: []
     }
   },
   created() {
     this.paymentApi = new PaymentApiService();
     this.paymentApi.getByUserId(1).then((response) => {
       this.payments = response.data;
+    });
+    this.creditcarApi = new creditcarApiService();
+    this.creditcarApi.getVehicles().then((response) => {
+      this.vehicles = response.data;
     });
   },
 }
@@ -26,23 +33,28 @@ export default  {
   </div>
 
   <div class="flex flex-column justify-center items-center">
-    <router-link v-for="payment in payments" to="/">
+      <router-link
+          v-for="payment in payments"
+          :to="'/generated-payment/' + payment.id"
+          :key="payment.id">
       <pv-card class=" shadow px-8 my-3">
         <template #content>
           <div class="lg:flex text-center md:text-left">
             <div class="lg:w-1/2 flex flex-column justify-center">
               <div class="flex justify-center items-center">
-                <img :src="payment.vehicleId" alt="vehicle_image">
+                <img v-if="vehicles[payment.vehicleId]" :src="vehicles[payment.vehicleId].image" alt="vehicle_image">
               </div>
             </div>
             <div class="lg:w-1/2 p-1">
               <div class="items-center justify-right">
                 <div>
                   <!-- To-do: Extract vehicle brand, model, price and payment creation date -->
-                  <p class="text-lg"><b>{{payment.vehicleId}}</b> {{payment.vehicleId}}</p>
-                  <p>Precio: {{payment.vehicleId}}</p>
+                  <p class="text-lg" v-if="vehicles[payment.vehicleId]">
+                    <b>{{vehicles[payment.vehicleId].brand}}</b> {{vehicles[payment.vehicleId].model}}
+                  </p>
+                  <p v-if="vehicles[payment.vehicleId]">Precio: {{vehicles[payment.vehicleId].price}}</p>
                   <p>Plazo de pago: {{payment.closingDate}} meses</p>
-                  <p>Fecha de creación: {{}}</p>
+                  <p>Fecha de creación: {{payment.createDate}}</p>
                 </div>
               </div>
             </div>

@@ -1,6 +1,7 @@
 <script>
 import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
 import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
+import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
 
 export default {
   name: "generated-payment",
@@ -8,13 +9,19 @@ export default {
   data() {
     return {
       paymentApi: null,
-      payment: null,
+      creditcarApi: null,
+      payment: [],
+      vehicles: []
     }
   },
   created() {
     this.paymentApi = new PaymentApiService();
-    this.paymentApi.getAll().then((response) => {
+    this.paymentApi.getById(this.$route.params.id).then((response) => {
       this.payment = response.data;
+    });
+    this.creditcarApi = new creditcarApiService();
+    this.creditcarApi.getVehicles().then((response) => {
+      this.vehicles = response.data;
     });
   },
 }
@@ -35,18 +42,18 @@ export default {
       <template #content>
         <div class="px-5">
           <h2 class="text-center font-bold">Información del vehículo</h2>
-          <p class="mb-3"><span class="text-[--red] font-bold">Marca</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Modelo</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Precio</span> {{}}</p>
+          <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Marca</span> {{vehicles[payment.vehicleId].brand}}</p>
+          <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Modelo</span> {{vehicles[payment.vehicleId].model}}</p>
+          <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Precio</span> {{vehicles[payment.vehicleId].price}}</p>
 
           <hr class="division mb-3">
 
           <h2 class="text-center font-bold">Información ingresada</h2>
-          <p class="mb-3"><span class="text-[--red] font-bold">Tipo de moneda</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Tasa de interés</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Frecuencia de pago</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Plazo de pago</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Cuota final</span> {{}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">Tipo de moneda</span> {{payment.currency}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">Tasa de interés</span> {{payment.formattedRateValue}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">Frecuencia de pago</span> Mensual</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">Plazo de pago</span> {{payment.closingDate}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">Cuota final</span> {{payment.finalFee}}</p>
 
           <hr class="division mb-3">
 

@@ -2,6 +2,8 @@
   "names": [
     {
       "full_name": "Andres Soto",
+      "email": "andressotokr1@gmail.com",
+      "password": "a",
       "id": 1
     }
   ],
@@ -13,6 +15,16 @@
       "last_name": "Smith",
       "email": "winstonsmith@gmail.com",
       "password": "123456"
+    },
+    {
+      "email": "andressotokr1@gmail.com",
+      "first_name": "Andres",
+      "last_name": "Soto",
+      "password": "a",
+      "password_confirmation": "a",
+      "dni": "12345678",
+      "zip_code": "15048",
+      "id": 2
     }
   ],
   "vehicles": [

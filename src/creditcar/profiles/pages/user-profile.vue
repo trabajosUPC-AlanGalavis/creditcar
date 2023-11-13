@@ -92,7 +92,11 @@ export default {
                   <p class="font-bold mr-2">Cuenta:</p>
                 </div>
                 <div class="mb-3">
-                  <a class="text-red-500 text-sm underline cursor-pointer">Cerrar sesión</a>
+                  <router-link to="/login">
+                    <button class="text-red-500 text-sm underline cursor-pointer">
+                      Cerrar sesión
+                    </button>
+                  </router-link>
                 </div>
 
                 <a class="text-red-500 text-sm underline cursor-pointer">Eliminar cuenta</a>

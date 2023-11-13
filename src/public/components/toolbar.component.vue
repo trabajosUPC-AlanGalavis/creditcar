@@ -13,7 +13,17 @@ export default {
       full_name: '',
     };
   },
+  computed: {
+    logoLink() {
+      const currentRoute = this.$route.path;
 
+      const loginSignupRoute = '/login';
+
+      const otherRoute = '/home';
+
+      return (currentRoute === '/login' || currentRoute === '/signup') ? loginSignupRoute : otherRoute;
+    },
+  },
   created() {
     this.creditcarApi = new creditcarApiService();
     const updateData = () => {
@@ -40,7 +50,7 @@ export default {
     <nav class="header relative flex flex-wrap items-center justify-between pt-3 pb-2">
       <div class="container mx-auto flex flex-wrap items-center justify-between">
         <div class="w-full relative flex justify-between md:w-auto px-4 md:static md:block md:justify-start">
-          <router-link to="/">
+          <router-link :to="logoLink">
             <div class="font-bold leading-relaxed flex mr-4 py-2 whitespace-nowrap items-center">
               <img src="/assets/logo.png" alt="logo" width="30" height="30" class="mr-2">
               <p class="text-red-500">CreditCar</p>

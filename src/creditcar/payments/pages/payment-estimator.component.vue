@@ -1,6 +1,6 @@
 <script>
 import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
-import {PaymentApiService} from "@/creditcar/payment_estimator/services/payment-api.service";
+import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
 import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
 import router from "@/router";
 
@@ -51,7 +51,7 @@ export default {
               console.log("Data", dataToSend)
               console.log(response);
               if (this.formInvalid) {
-                router.push('/generated-plan');
+                router.push('/generated-payment');
               }
             })
             .catch((error) => {

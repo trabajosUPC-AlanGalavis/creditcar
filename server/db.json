@@ -63,6 +63,8 @@
   "payments": [
     {
       "id": 1,
+      "vehicleId": 1,
+      "userId": 1,
       "currency": "usd",
       "rateType": "fixed",
       "selectedRate": "daily",
@@ -77,6 +79,8 @@
       "vehicleInsurance": 0
     },
     {
+      "vehicleId": 1,
+      "userId": 1,
       "currency": "usd",
       "rateType": "effective",
       "selectedRate": "daily",
@@ -90,6 +94,18 @@
       "creditLifeInsurance": 1,
       "vehicleInsurance": 1,
       "id": 2
+    },
+    {
+      "id": 3
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
     }
   ]
 }

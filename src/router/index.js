@@ -2,9 +2,9 @@ import {createRouter, createWebHistory} from 'vue-router'
 import PageNotFound from "@/public/pages/page-not-found.component.vue";
 import userProfile from "@/creditcar/profiles/pages/user-profile.vue";
 import home from "@/creditcar/home/pages/home.component.vue";
-import PaymentEstimator from "@/creditcar/payment_estimator/pages/payment-estimator.component.vue";
-import GeneratedPlan from "@/creditcar/payment_estimator/pages/generated-plan.component.vue";
-import PlanHistory from "@/creditcar/plan_history/pages/plan_history.vue";
+import PaymentEstimator from "@/creditcar/payments/pages/payment-estimator.component.vue";
+import GeneratedPayment from "@/creditcar/payments/pages/generated-payment.component.vue";
+import PaymentHistory from "@/creditcar/payments/pages/payment-history.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,12 +27,12 @@ const router = createRouter({
             component: PaymentEstimator
         },
         {
-            path:'/generated-plan',
-            component: GeneratedPlan
+            path:'/generated-payment',
+            component: GeneratedPayment
         },
         {
-            path:'/plan-history',
-            component: PlanHistory
+            path:'/payment-history',
+            component: PaymentHistory
         },
         {
             path: '/profile',

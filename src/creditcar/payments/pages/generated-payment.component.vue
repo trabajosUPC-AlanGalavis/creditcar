@@ -1,9 +1,9 @@
 <script>
 import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
-import {PaymentApiService} from "@/creditcar/payment_estimator/services/payment-api.service";
+import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
 
 export default {
-  name: "generated-plan",
+  name: "generated-payment",
   components: {ButtonPrimary},
   data() {
     return {

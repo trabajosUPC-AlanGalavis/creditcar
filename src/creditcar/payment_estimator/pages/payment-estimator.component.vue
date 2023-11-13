@@ -225,20 +225,20 @@ export default {
               <label for="closing-date" class="text-lg mb-2">¿Cuál es el plazo de pago?</label>
               <div class="flex space-x-4 mb-4 items-center">
                 <input type="radio"
-                       id="effective"
-                       name="rate-type"
+                       id="24"
+                       name="closing-date"
                        checked
                        class="cursor-pointer"
                        :value="closingDate"
                        @input="changeClosingDate">
-                <label for="effective">24 meses</label>
+                <label for="24">24 meses</label>
                 <input type="radio"
-                       id="nominal"
-                       name="rate-type"
+                       id="36"
+                       name="closing-date"
                        class="cursor-pointer"
                        :value="closingDate"
                        @input="changeClosingDate">
-                <label for="nominal">36 meses</label>
+                <label for="36">36 meses</label>
               </div>
             </li>
             <li class="mb-6">

@@ -2,7 +2,6 @@ import {createRouter, createWebHistory} from 'vue-router'
 import PageNotFound from "@/public/pages/page-not-found.component.vue";
 import userProfile from "@/creditcar/profiles/pages/user-profile.vue";
 import home from "@/creditcar/home/pages/home.component.vue";
-import GeneratedPlan from "@/creditcar/payment_estimator/pages/generated-plan.component.vue";
 import Login from "@/public/pages/login.component.vue";
 import Signup from "@/public/pages/signup.component.vue";
 import PasswordReset from "@/public/pages/password-reset.component.vue";

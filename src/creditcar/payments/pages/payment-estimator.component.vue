@@ -25,13 +25,261 @@ export default {
       finalFee: 0,
       creditLifeInsurance: 0,
       vehicleInsurance: 0,
-      formInvalid: true
+      formInvalid: true,
+      formattedRateValue: 0,
     }
   },
   methods: {
+    calculateEffectiveMonthlyRate() {
+      let decimalRate = this.rateValue/100;
+      let rateType = this.rateType;
+      let selectedRate = this.selectedRate;
+      let m = 0;
+      let n = 0;
+      let selectedPeriod = this.selectedPeriod;
+      let effectiveMonthlyRate = 0;
+      if(rateType === "effective"){
+        if(selectedPeriod === "daily"){
+          effectiveMonthlyRate = Math.pow((1 + decimalRate), 30) - 1;
+        } else if(selectedPeriod === "monthly"){
+          effectiveMonthlyRate = decimalRate;
+        } else if(selectedPeriod === "bimonthly"){
+          effectiveMonthlyRate = Math.pow((1 + decimalRate), 1/2) - 1;
+        } else if(selectedPeriod === "quarterly"){
+          effectiveMonthlyRate = Math.pow((1 + decimalRate), 1/3) - 1;
+        } else if (selectedPeriod === "four-month"){
+          effectiveMonthlyRate = Math.pow((1+ decimalRate), 1/4) - 1;
+        } else if(selectedPeriod === "semiannual"){
+          effectiveMonthlyRate = Math.pow((1 + decimalRate), 1/6) - 1;
+        } else if(selectedPeriod === "annual"){
+          effectiveMonthlyRate = Math.pow((1 + decimalRate), 1/12) - 1;
+        }
+      } else if(rateType === "nominal"){
+        if(selectedPeriod === "daily"){
+          if (selectedRate === "daily"){
+            m=1;
+            n=30;
+          } else if (selectedPeriod === "biweekly"){
+            m=1/15;
+            n=2;
+          } else if (selectedPeriod === "monthly"){
+            m=1/30;
+            n=1;
+          } else if (selectedPeriod === "bimonthly"){
+            m=1/60;
+            n=1/2;
+          } else if (selectedPeriod === "quarterly"){
+            m=1/90;
+            n=1/3;
+          } else if (selectedPeriod === "four-month"){
+            m=1/120;
+            n=1/4;
+          } else if (selectedPeriod === "semiannual"){
+            m=1/180;
+            n=1/6;
+          } else if (selectedPeriod === "annual"){
+            m=1/360;
+            n=1/12;
+          }
+          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+        }  else if(selectedPeriod === "biweekly"){
+          if (selectedRate === "daily"){
+            m=15;
+            n=30;
+          } else if (selectedPeriod === "biweekly"){
+            m=1;
+            n=2;
+          } else if (selectedPeriod === "monthly"){
+            m=1/2;
+            n=1;
+          } else if (selectedPeriod === "bimonthly"){
+            m=1/4;
+            n=1/2;
+          } else if (selectedPeriod === "quarterly"){
+            m=1/6;
+            n=1/3;
+          } else if (selectedPeriod === "four-month"){
+            m=1/8;
+            n=1/4;
+          } else if (selectedPeriod === "semiannual"){
+            m=1/12;
+            n=1/6;
+          } else if (selectedPeriod === "annual"){
+            m=1/24;
+            n=1/12;
+          }
+          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+        } else if(selectedPeriod === "monthly"){
+          if (selectedRate === "daily"){
+            m=30;
+            n=30;
+          } else if (selectedPeriod === "biweekly"){
+            m=2;
+            n=2;
+          } else if (selectedPeriod === "monthly"){
+            m=1;
+            n=1;
+          } else if (selectedPeriod === "bimonthly"){
+            m=1/2;
+            n=1/2;
+          } else if (selectedPeriod === "quarterly"){
+            m=1/3;
+            n=1/3;
+          } else if (selectedPeriod === "four-month"){
+            m=1/4;
+            n=1/4;
+          } else if (selectedPeriod === "semiannual"){
+            m=1/6;
+            n=1/6;
+          } else if (selectedPeriod === "annual"){
+            m=1/12;
+            n=1/12;
+          }
+          effectiveMonthlyRate = decimalRate;
+        } else if(selectedPeriod === "bimonthly"){
+          if (selectedRate === "daily"){
+            m=60;
+            n=30;
+          } else if (selectedPeriod === "biweekly"){
+            m=4;
+            n=2;
+          } else if (selectedPeriod === "monthly"){
+            m=2;
+            n=1;
+          } else if (selectedPeriod === "bimonthly"){
+            m=1;
+            n=1/2;
+          } else if (selectedPeriod === "quarterly"){
+            m=2/3;
+            n=1/3;
+          } else if (selectedPeriod === "four-month"){
+            m=2/4;
+            n=1/4;
+          } else if (selectedPeriod === "semiannual"){
+            m=1/3;
+            n=1/6;
+          } else if (selectedPeriod === "annual"){
+            m=1/6;
+            n=1/12;
+          }
+          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+        } else if(selectedPeriod === "quarterly"){
+          if (selectedRate === "daily"){
+            m=90;
+            n=30;
+          } else if (selectedPeriod === "biweekly"){
+            m=6;
+            n=2;
+          } else if (selectedPeriod === "monthly"){
+            m=3;
+            n=1;
+          } else if (selectedPeriod === "bimonthly"){
+            m=3/2;
+            n=1/2;
+          } else if (selectedPeriod === "quarterly"){
+            m=1;
+            n=1/3;
+          } else if (selectedPeriod === "four-month"){
+            m=3/4;
+            n=1/4;
+          } else if (selectedPeriod === "semiannual"){
+            m=1/2;
+            n=1/6;
+          } else if (selectedPeriod === "annual"){
+            m=1/4;
+            n=1/12;
+          }
+          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+        } else if(selectedPeriod === "four-month"){
+          if (selectedRate === "daily"){
+            m=120;
+            n=30;
+          } else if (selectedPeriod === "biweekly"){
+            m=8;
+            n=2;
+          } else if (selectedPeriod === "monthly"){
+            m=4;
+            n=1;
+          } else if (selectedPeriod === "bimonthly"){
+            m=2;
+            n=1/2;
+          } else if (selectedPeriod === "quarterly"){
+            m=4/3;
+            n=1/3;
+          } else if (selectedPeriod === "four-month"){
+            m=1;
+            n=1/4;
+          } else if (selectedPeriod === "semiannual"){
+            m=2/3;
+            n=1/6;
+          } else if (selectedPeriod === "annual"){
+            m=1/3;
+            n=1/12;
+          }
+          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+        } else if(selectedPeriod === "semiannual"){
+          if (selectedRate === "daily"){
+            m=180;
+            n=30;
+          } else if (selectedPeriod === "biweekly"){
+            m=12;
+            n=2;
+          } else if (selectedPeriod === "monthly"){
+            m=6;
+            n=1;
+          } else if (selectedPeriod === "bimonthly"){
+            m=3;
+            n=1/2;
+          } else if (selectedPeriod === "quarterly"){
+            m=2;
+            n=1/3;
+          } else if (selectedPeriod === "four-month"){
+            m=3/2;
+            n=1/4;
+          } else if (selectedPeriod === "semiannual"){
+            m=1;
+            n=1/6;
+          } else if (selectedPeriod === "annual"){
+            m=1/2;
+            n=1/12;
+          }
+          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+        } else if(selectedPeriod === "annual"){
+          if (selectedRate === "daily"){
+            m=360;
+            n=30;
+          } else if (selectedPeriod === "biweekly"){
+            m=24;
+            n=2;
+          } else if (selectedPeriod === "monthly"){
+            m=12;
+            n=1;
+          } else if (selectedPeriod === "bimonthly"){
+            m=6;
+            n=1/2;
+          } else if (selectedPeriod === "quarterly"){
+            m=4;
+            n=1/3;
+          } else if (selectedPeriod === "four-month"){
+            m=3;
+            n=1/4;
+          } else if (selectedPeriod === "semiannual"){
+            m=2;
+            n=1/6;
+          } else if (selectedPeriod === "annual"){
+            m=1;
+            n=1/12;
+          }
+          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+        }
+      }
+      this.formattedRateValue = effectiveMonthlyRate;
+      console.log("Effective Monthly Rate", effectiveMonthlyRate);
+    },
     handleSubmit() {
       if (this.validateForm()) {
         let dataToSend;
+        this.calculateEffectiveMonthlyRate();
         dataToSend = {
           currency: this.currency,
           rateType: this.rateType,
@@ -183,27 +431,27 @@ export default {
                   <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
                           v-model="selectedPeriod" id="periodOptions">
                     <option class="text-[--red] bg-white" value="daily">Diaria</option>
-                    <option class="text-[--red] bg-white" value="weekly">Semanal</option>
                     <option class="text-[--red] bg-white" value="biweekly">Quincenal</option>
                     <option class="text-[--red] bg-white" value="monthly">Mensual</option>
                     <option class="text-[--red] bg-white" value="bimonthly">Bimestral</option>
                     <option class="text-[--red] bg-white" value="quarterly">Trimestral</option>
+                    <option class="text-[--red] bg-white" value="four-month">Cuatrimestral</option>
                     <option class="text-[--red] bg-white" value="semiannual">Semestral</option>
                     <option class="text-[--red] bg-white" value="annual">Anual</option>
                   </select>
                 </div>
               </div>
-              <div v-if="rateType === 'effective'" class="mb-3">
+              <div v-if="rateType === 'nominal'" class="mb-3">
                 <p class="font-normal mb-2"> 2.1.2 Con capitalización:</p>
                 <div>
                   <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
                           v-model="selectedRate" id="rateOptions">
                     <option class="text-[--red] bg-white" value="daily">Diaria</option>
-                    <option class="text-[--red] bg-white" value="weekly">Semanal</option>
                     <option class="text-[--red] bg-white" value="biweekly">Quincenal</option>
                     <option class="text-[--red] bg-white" value="monthly">Mensual</option>
                     <option class="text-[--red] bg-white" value="bimonthly">Bimestral</option>
                     <option class="text-[--red] bg-white" value="quarterly">Trimestral</option>
+                    <option class="text-[--red] bg-white" value="four-month">Cuatrimestral</option>
                     <option class="text-[--red] bg-white" value="semiannual">Semestral</option>
                     <option class="text-[--red] bg-white" value="annual">Anual</option>
                   </select>

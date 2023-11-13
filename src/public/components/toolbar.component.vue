@@ -1,26 +1,31 @@
 <script>
 import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
+import loginComponent from "@/public/pages/login.component.vue";
+import axios from "axios";
 
 export default {
   name: "toolbar",
   data() {
     return {
       creditcarApi: null,
-      full_name: '',
       user_image: '',
-      showMenu: false
+      showMenu: false,
+      full_name: '',
     };
   },
+
   created() {
     this.creditcarApi = new creditcarApiService();
-    this.creditcarApi.getUsers()
-        .then((response) => {
-          console.log(this.response);
-          const first_name = response.data[0].first_name;
-          const last_name = response.data[0].last_name;
-          this.full_name = first_name + ' ' + last_name;
-          this.user_image = response.data[0].image;
-        });
+    const updateData = () => {
+      this.creditcarApi.getNames().then((response) => {
+        this.full_name = response.data[0].full_name;
+      });
+      this.creditcarApi.getUsers().then((response) => {
+        this.user_image = response.data[0].image;
+      });
+    };
+    updateData();
+    setInterval(updateData, 500);
   },
   methods: {
     toggleNavbar() {
@@ -41,29 +46,28 @@ export default {
               <p class="text-red-500">CreditCar</p>
             </div>
           </router-link>
-          <button class="cursor-pointer leading-none rounded block md:hidden outline-none focus:outline-none"
-                  type="button" @click="toggleNavbar">
+          <button class="cursor-pointer leading-none rounded block md:hidden outline-none focus:outline-none" type="button" @click="toggleNavbar">
             <i class="fa fa-bars"></i>
           </button>
         </div>
         <div :class="{'hidden': !showMenu, 'flex': showMenu}" class="md:flex md:flex-grow items-center">
           <ul class="flex flex-col md:flex-row list-none ml-auto">
             <li>
-              <router-link to="/home">
+              <router-link v-if="!$route.path.includes('/login')" to="/home">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
                   <p class="text-black">Buscar inventario</p>
                 </div>
               </router-link>
             </li>
             <li>
-              <router-link to="/vehicle-management">
+              <router-link v-if="!$route.path.includes('/login')" to="/vehicle-management">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
                   <p class="text-black">Mis vehículos</p>
                 </div>
               </router-link>
             </li>
             <li>
-              <router-link to="/profile">
+              <router-link v-if="!$route.path.includes('/login')" to="/profile">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
                   <pv-avatar :image="user_image" shape="circle" class="border-2 border-red-500 mr-2"/>
                   <p class="text-black">{{ full_name }}</p>
@@ -75,8 +79,8 @@ export default {
       </div>
     </nav>
   </div>
-
 </template>
+
 
 <style scoped>
 .header {

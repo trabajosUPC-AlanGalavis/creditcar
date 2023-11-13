@@ -9,11 +9,27 @@ export class creditcarApiService {
         return http.get(`/users?id=${id}`);
     }
 
+    getUserByEmail (email) {
+        return http.get(`/users?email=${email}`);
+    }
+
     getVehicles(){
         return http.get('/vehicles')
     }
 
     getVehiclesById(id){
         return http.get(`/vehicles?id=${id}`)
+    }
+
+    create(type, data) {
+        return http.post(`/${type}`, data);
+    }
+
+    getNames(){
+        return http.get('/names')
+    }
+
+    deleteName(){
+        return http.delete(`/names/1`)
     }
 }

@@ -276,6 +276,44 @@ export default {
       this.formattedRateValue = effectiveMonthlyRate;
       console.log("Effective Monthly Rate", effectiveMonthlyRate);
     },
+    calculateVAN(initialInvestment, cashFlows, effectiveMonthlyRate) {
+      let van = initialInvestment; // Invertir el flujo de caja inicial
+      let vna = 0;
+      for (let i = 0; i < cashFlows.length; i++) {
+        vna += cashFlows[i] / Math.pow(1 + effectiveMonthlyRate, i + 1);
+      }
+      van += vna;
+      return van;
+    },
+    calculateTIR(cashFlows) {
+      const tolerance = 0.0001; // Tolerancia para la precisión de la aproximación
+      let lowerBound = -1.0;
+      let upperBound = 1.0;
+      let guess = (lowerBound + upperBound) / 2;
+
+      let irr = 0;
+
+      for (let i = 0; i < 100; i++) { // Número máximo de iteraciones (ajusta según sea necesario)
+        let npv = 0;
+
+        for (let j = 0; j < cashFlows.length; j++) {
+          npv += cashFlows[j] / Math.pow(1 + guess, j);
+        }
+
+        if (Math.abs(npv) < tolerance) {
+          irr = guess;
+          break;
+        } else if (npv > 0) {
+          upperBound = guess;
+        } else {
+          lowerBound = guess;
+        }
+
+        guess = (lowerBound + upperBound) / 2;
+      }
+
+      return irr;
+    },
     handleSubmit() {
       if (this.validateForm()) {
         let dataToSend;

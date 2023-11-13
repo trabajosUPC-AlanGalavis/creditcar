@@ -60,9 +60,9 @@ export default {
               </router-link>
             </li>
             <li>
-              <router-link v-if="!$route.path.includes('/login')" to="/vehicle-management">
+              <router-link v-if="!$route.path.includes('/login')" to="/payment-history">
                 <div class="px-3 py-2 items-center font-bold ml-2 flex">
-                  <p class="text-black">Mis vehículos</p>
+                  <p class="text-black">Mis planes de pago</p>
                 </div>
               </router-link>
             </li>

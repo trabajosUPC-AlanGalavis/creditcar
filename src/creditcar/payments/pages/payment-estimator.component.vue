@@ -1,6 +1,6 @@
 <script>
 import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
-import {PaymentApiService} from "@/creditcar/payment_estimator/services/payment-api.service";
+import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
 import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
 import router from "@/router";
 
@@ -17,10 +17,11 @@ export default {
       selectedRate: "daily",
       selectedPeriod: "annual",
       rateValue: 0,
-      closingDate: 0,
+      closingDate: 24,
       totalGracePeriod: 0,
       partialGracePeriod: 0,
       initialFee: 20,
+      creditFee: 0,
       finalFee: 0,
       creditLifeInsurance: 0,
       vehicleInsurance: 0,
@@ -50,7 +51,7 @@ export default {
               console.log("Data", dataToSend)
               console.log(response);
               if (this.formInvalid) {
-                router.push('/generated-plan');
+                router.push('/generated-payment');
               }
             })
             .catch((error) => {
@@ -72,6 +73,17 @@ export default {
         this.rateType = 'effective';
       }
     },
+    changeClosingDate() {
+      if (this.closingDate === 24) {
+        this.closingDate = 36;
+      } else {
+        this.closingDate = 24;
+      }
+    },
+    changeFinalFee(){
+      this.finalFee = 100 - this.initialFee - this.creditFee;
+      return this.finalFee;
+    },
     resetScrollbar() {
       window.scrollTo(0, 0);
     },
@@ -82,7 +94,7 @@ export default {
           this.selectedPeriod &&
           this.rateValue > 0 &&
           this.closingDate > 0 &&
-          this.finalFee > 0 &&
+          this.creditFee > 0 &&
           this.creditLifeInsurance > 0 &&
           this.vehicleInsurance > 0;
       return this.formInvalid;
@@ -211,17 +223,23 @@ export default {
             </li>
             <li class="mb-6">
               <label for="closing-date" class="text-lg mb-2">¿Cuál es el plazo de pago?</label>
-              <pv-input-number
-                  inputId="closing-date"
-                  suffix=" meses"
-                  name="closing-date"
-                  placeholder="Plazo de pago (Meses)"
-                  min="24"
-                  max="36"
-                  required
-                  class="w-full border rounded-md"
-                  v-model="closingDate">
-              </pv-input-number>
+              <div class="flex space-x-4 mb-4 items-center">
+                <input type="radio"
+                       id="24"
+                       name="closing-date"
+                       checked
+                       class="cursor-pointer"
+                       :value="closingDate"
+                       @input="changeClosingDate">
+                <label for="24">24 meses</label>
+                <input type="radio"
+                       id="36"
+                       name="closing-date"
+                       class="cursor-pointer"
+                       :value="closingDate"
+                       @input="changeClosingDate">
+                <label for="36">36 meses</label>
+              </div>
             </li>
             <li class="mb-6">
               <p class="text-lg  mb-2">Selecciona el período de gracia</p>
@@ -254,7 +272,9 @@ export default {
               </pv-input-number>
             </li>
             <li class="mb-6">
-              <label for="final-fee" class="text-lg mb-2">¿Cuál es el porcentaje de la cuota final?</label>
+              <p class="text-lg mb-2">Financiamiento</p>
+              <p class="text-lg mb-2">5.1 Cuota Incial: {{initialFee}}%</p>
+              <label for="final-fee" class="text-lg mb-2">5.2 ¿Cuál es el porcentaje del crédito a financiar?</label>
               <pv-input-number
                   inputId="final-fee"
                   suffix="%"
@@ -262,9 +282,11 @@ export default {
                   placeholder="Cuota final (%)"
                   required
                   min="0"
+                  max="40"
                   class="w-full border rounded-md"
-                  v-model="finalFee">
+                  v-model="creditFee">
               </pv-input-number>
+              <p class="text-lg mt-2">5.3 Cuota Final: {{changeFinalFee()}}%</p>
             </li>
             <li class="mb-6">
               <label for="credit-life-insurance" class="text-lg mb-2">¿Cuál es la tasa del seguro de

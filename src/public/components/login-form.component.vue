@@ -13,6 +13,7 @@ export default {
       passwordAuth: false,
       emailAuth: false,
       full_name: '',
+      user_id: '',
     }
   },
   methods: {
@@ -25,10 +26,12 @@ export default {
             await this.creditcarApi.deleteName();
           }
           this.full_name = response.data[i].first_name + ' ' + response.data[i].last_name;
+          this.user_id = response.data[i].id;
           await this.creditcarApi.create('names', {
             full_name: this.full_name,
             email: this.email,
             password: this.password,
+            user_id: this.user_id,
           });
           this.passwordAuth = true;
           this.emailAuth = true;

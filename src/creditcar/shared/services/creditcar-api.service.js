@@ -32,4 +32,7 @@ export class creditcarApiService {
     deleteName(){
         return http.delete(`/names/1`)
     }
+    deleteUser(email){
+        return http.delete(`/users/${email}`)
+    }
 }

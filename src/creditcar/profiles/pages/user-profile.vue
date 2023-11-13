@@ -11,6 +11,15 @@ export default {
     passwordCircles() {
       return this.password.replace(/./g, '●');
     },
+    deleteAccount() {
+      if (this.full_name !== "Winston Smith"){
+        if (confirm("¿Estás seguro de que quieres eliminar tu cuenta?") ) {
+          this.creditcarApi.deleteName();
+          this.creditcarApi.deleteUser(this.user_id);
+          this.$router.push("/login");
+        }
+      }
+    },
   },
   data() {
     return {
@@ -19,6 +28,7 @@ export default {
       full_name: "",
       email: "",
       password: "",
+      user_id: "",
     };
   },
   created() {
@@ -27,12 +37,14 @@ export default {
       this.full_name = response.data[0].full_name;
       this.email = response.data[0].email;
       this.password = response.data[0].password;
+      this.user_id = response.data[0].user_id;
     });
     this.creditcarApi.getUsers()
         .then((response) => {
           this.image = response.data[0].image;
         });
   },
+
 };
 </script>
 
@@ -99,7 +111,11 @@ export default {
                   </router-link>
                 </div>
 
-                <a class="text-red-500 text-sm underline cursor-pointer">Eliminar cuenta</a>
+                <router-link to="/login">
+                  <button class="text-red-500 text-sm underline cursor-pointer" @click="deleteAccount">
+                    Eliminar cuenta
+                  </button>
+                </router-link>
               </div>
             </div>
           </div>

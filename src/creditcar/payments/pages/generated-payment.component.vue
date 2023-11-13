@@ -53,7 +53,7 @@ export default {
           <p class="mb-3"><span class="text-[--red] font-bold">Tasa de interés</span> {{payment.formattedRateValue}}</p>
           <p class="mb-3"><span class="text-[--red] font-bold">Frecuencia de pago</span> Mensual</p>
           <p class="mb-3"><span class="text-[--red] font-bold">Plazo de pago</span> {{payment.closingDate}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Cuota final</span> {{payment.finalFee}}</p>
+          <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Cuota final</span> {{payment.finalFee/100*vehicles[payment.vehicleId].price}}</p>
 
           <hr class="division mb-3">
 

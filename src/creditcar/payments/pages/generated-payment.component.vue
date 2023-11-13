@@ -58,11 +58,11 @@ export default {
           <hr class="division mb-3">
 
           <h2 class="text-center font-bold">Resultados</h2>
-          <p class="mb-3"><span class="text-[--red] font-bold">COK</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TEA</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TCEA</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">VAN</span> {{}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TIR</span> {{}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">COK</span> {{payment.cok}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">TEA</span> {{}}</p> <!---TODO: Calculate TEA to nukear-->
+          <p class="mb-3"><span class="text-[--red] font-bold">TCEA</span> {{payment.tcea}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">VAN</span> {{payment.van}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">TIR</span> {{payment.tir}}</p>
 
           <div class="pt-5">
             <pv-data-table

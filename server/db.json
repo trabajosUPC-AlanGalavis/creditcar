@@ -96,7 +96,11 @@
       "creditLifeInsurance": 0,
       "vehicleInsurance": 0,
       "createDate": "11/13/2023",
-      "formattedRateValue": 5
+      "formattedRateValue": 5,
+      "cok": 0.1,
+      "van": 0.1,
+      "tcea": 0.1,
+      "tir": 0.1
     },
     {
       "vehicleId": 1,
@@ -115,6 +119,10 @@
       "vehicleInsurance": 1,
       "createDate": "11/13/2023",
       "formattedRateValue": 8,
+      "cok": 0.1,
+      "van": 0.1,
+      "tcea": 0.1,
+      "tir": 0.1,
       "id": 2
     }
   ]

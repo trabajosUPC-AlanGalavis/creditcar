@@ -1,24 +1,36 @@
 <script>
 import { creditcarApiService } from "@/creditcar/shared/services/creditcar-api.service";
+import password from "primevue/password/Password.vue";
 
 export default {
   name: "user-profile",
+  computed: {
+    password() {
+      return password
+    },
+    passwordCircles() {
+      return this.password.replace(/./g, '●');
+    },
+  },
   data() {
     return {
       creditcarApi: null,
       image: "",
-      first_name: "",
+      full_name: "",
       email: "",
+      password: "",
     };
   },
   created() {
     this.creditcarApi = new creditcarApiService();
+    this.creditcarApi.getNames().then((response) => {
+      this.full_name = response.data[0].full_name;
+      this.email = response.data[0].email;
+      this.password = response.data[0].password;
+    });
     this.creditcarApi.getUsers()
         .then((response) => {
           this.image = response.data[0].image;
-          this.first_name = response.data[0].first_name;
-          this.last_name = response.data[0].last_name;
-          this.email = response.data[0].email;
         });
   },
 };
@@ -57,7 +69,7 @@ export default {
               <div class="mb-4">
                 <div class="flex justify-between items-center">
                   <p class="font-bold mr-2">Nombre:</p>
-                  <p class="text-sm overflow-ellipsis">{{ first_name }} {{last_name}}</p>
+                  <p class="text-sm overflow-ellipsis">{{ full_name }}</p>
                 </div>
                 <a class="text-blue-500 text-sm underline cursor-pointer">Cambiar nombre</a>
               </div>
@@ -71,7 +83,7 @@ export default {
               <div class="mb-4">
                 <div class="flex justify-between items-center">
                   <p class="font-bold mr-2">Contraseña:</p>
-                  <p class="text-sm overflow-ellipsis">●●●●●●●●</p>
+                  <p class="text-sm overflow-ellipsis">{{ passwordCircles }}</p>
                 </div>
                 <a class="text-blue-500 text-sm underline cursor-pointer">Cambiar contraseña</a>
               </div>

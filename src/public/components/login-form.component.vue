@@ -25,7 +25,11 @@ export default {
             await this.creditcarApi.deleteName();
           }
           this.full_name = response.data[i].first_name + ' ' + response.data[i].last_name;
-          await this.creditcarApi.create('names', {full_name: this.full_name});
+          await this.creditcarApi.create('names', {
+            full_name: this.full_name,
+            email: this.email,
+            password: this.password,
+          });
           this.passwordAuth = true;
           this.emailAuth = true;
         }

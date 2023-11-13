@@ -27,6 +27,7 @@ export default {
       vehicleInsurance: 0,
       formInvalid: true,
       formattedRateValue: 0,
+      vehicleId: null,
     }
   },
   methods: {
@@ -276,14 +277,66 @@ export default {
       this.formattedRateValue = effectiveMonthlyRate;
       console.log("Effective Monthly Rate", effectiveMonthlyRate);
     },
-    calculateVAN(initialInvestment, cashFlows, effectiveMonthlyRate) {
+    calculateCashFlow(){
+      this.calculateEffectiveMonthlyRate();
+      let monthlyInterestRate = this.formattedRateValue;
+      //const initialInvestment = this.initialFee/100 * this.vehicle.price;
+      let creditFee = this.creditFee/100 * this.vehicle.price; //convert it to percentage y valor del credito
+      let creditLifeInsurance = this.creditLifeInsurance/100; //convert it to percentage
+      let vehicleInsurance = this.vehicleInsurance/100 * this.vehicle.price;//other costs is constant among the schedule
+      let totalPayments = this.closingDate;//number of payments
+      const totalGracePeriod = this.totalGracePeriod;//always considered at the start of the cashflow if there is no total grace period value 0
+      const partialGracePeriod = this.partialGracePeriod;//always considered immediately after the totalGracePeriod if there is no partial grace period value 0
+
+      // Calcular el monto del préstamo neto después de la cuota inicial y los cargos adicionales
+      let netLoanAmount = creditFee;
+
+      // Construir el array de flujos de efectivo
+      const cashFlows = [];
+
+      // Calcular los pagos regulares con el método francés
+      let interestPayment = 0;
+      let amortization = 0;
+      let totalPayment = 0;
+      for (let i = 1; i <= totalPayments; i++) {
+        if (i<=totalGracePeriod){
+          console.log("Net Loan Amount", netLoanAmount);
+          interestPayment = netLoanAmount * monthlyInterestRate;
+          cashFlows.push(-(creditLifeInsurance*netLoanAmount+vehicleInsurance));
+          netLoanAmount += interestPayment;
+          console.log("Net Loan Amount", netLoanAmount)
+        }
+        else if (i>totalGracePeriod && i<=partialGracePeriod+totalGracePeriod){
+          //console.log("Net Loan Amount", netLoanAmount);
+          interestPayment = netLoanAmount * monthlyInterestRate;
+          cashFlows.push(-(interestPayment + creditLifeInsurance*netLoanAmount+vehicleInsurance));
+        }
+        else if (i>partialGracePeriod+totalGracePeriod){
+          //console.log("Net Loan Amount", netLoanAmount);
+          if (i===totalGracePeriod+partialGracePeriod+1){
+            amortization = (netLoanAmount*(monthlyInterestRate+creditLifeInsurance))/(1-Math.pow((1+(monthlyInterestRate + creditLifeInsurance)),-totalPayments+totalGracePeriod+partialGracePeriod))
+            console.log("Amortization", amortization)
+          }
+          //interestPayment = netLoanAmount * monthlyInterestRate;
+          totalPayment = amortization + vehicleInsurance;
+          cashFlows.push(-totalPayment); // Pago mensual, considerando que es una salida de efectivo (negativo)
+
+          // Actualizar el saldo pendiente después del pago
+          netLoanAmount -= amortization;
+        }
+      }
+
+      console.log("Cash Flows: ", cashFlows);
+      return cashFlows;
+    },
+    calculateVAN(initialInvestment, cashFlows, COK) {
       let van = initialInvestment; // Invertir el flujo de caja inicial
       let vna = 0;
       for (let i = 0; i < cashFlows.length; i++) {
-        vna += cashFlows[i] / Math.pow(1 + effectiveMonthlyRate, i + 1);
+        vna += cashFlows[i] / Math.pow(1 + COK, i + 1);
       }
       van += vna;
-      return van;
+      return van*100;
     },
     calculateTIR(cashFlows) {
       const tolerance = 0.0001; // Tolerancia para la precisión de la aproximación
@@ -312,12 +365,26 @@ export default {
         guess = (lowerBound + upperBound) / 2;
       }
 
-      return irr;
+      return irr*100;
+    },
+    calculateTCEA(tirMensual) {
+      // Convierte la TIR mensual a tasa decimal
+      //const tirDecimal = tirMensual / 100;
+
+      // Calcula la TCEA usando la fórmula
+      return ((1 + tirMensual) ** 12 - 1) * 100;
     },
     handleSubmit() {
       if (this.validateForm()) {
+        const currentDate = new Date();
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const formattedDate = currentDate.toLocaleDateString(undefined, options);
         let dataToSend;
-        this.calculateEffectiveMonthlyRate();
+        let cashFlow = this.calculateCashFlow();
+        const van = this.calculateVAN(this.initialFee, cashFlow, this.formattedRateValue);//TODO cambiar por COK
+        const cashFlowTIR = [this.initialFee/100*this.vehicle.price, ...cashFlow]
+        const tir = this.calculateTIR(cashFlowTIR);
+        const tcea = this.calculateTCEA(tir);
         dataToSend = {
           currency: this.currency,
           rateType: this.rateType,
@@ -331,13 +398,21 @@ export default {
           finalFee: this.finalFee,
           creditLifeInsurance: this.creditLifeInsurance,
           vehicleInsurance: this.vehicleInsurance,
+          vehicleId: this.$route.params.id,
+          createDate: formattedDate,
+          formattedRateValue: this.formattedRateValue,
+          van: van,
+          tir: tir,
+          tcea: tcea,
+          //TODO add COK
+          //cashFlow: cashFlow,
         }
         this.simulator.create(dataToSend)
             .then((response) => {
               console.log("Data", dataToSend)
               console.log(response);
               if (this.formInvalid) {
-                router.push('/generated-payment');
+                router.push(`/generated-payment/${response.data.id}`);
               }
             })
             .catch((error) => {

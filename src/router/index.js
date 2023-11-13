@@ -27,7 +27,8 @@ const router = createRouter({
             component: PaymentEstimator
         },
         {
-            path:'/generated-payment',
+            path:'/generated-payment/:id',
+            name: 'generated-payment',
             component: GeneratedPayment
         },
         {

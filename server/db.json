@@ -84,7 +84,7 @@
       "vehicleId": 1,
       "userId": 1,
       "currency": "usd",
-      "rateType": "fixed",
+      "rateType": "effective",
       "selectedRate": "daily",
       "selectedPeriod": "annual",
       "rateValue": 0.1,
@@ -94,7 +94,9 @@
       "initialFee": 0,
       "finalFee": 0,
       "creditLifeInsurance": 0,
-      "vehicleInsurance": 0
+      "vehicleInsurance": 0,
+      "createDate": "11/13/2023",
+      "formattedRateValue": 5
     },
     {
       "vehicleId": 1,
@@ -111,19 +113,9 @@
       "finalFee": 1,
       "creditLifeInsurance": 1,
       "vehicleInsurance": 1,
+      "createDate": "11/13/2023",
+      "formattedRateValue": 8,
       "id": 2
-    },
-    {
-      "id": 3
-    },
-    {
-      "id": 4
-    },
-    {
-      "id": 5
-    },
-    {
-      "id": 6
     }
   ]
 }

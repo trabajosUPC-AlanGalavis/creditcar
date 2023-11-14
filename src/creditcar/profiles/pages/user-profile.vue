@@ -1,5 +1,6 @@
 <script>
 import { creditcarApiService } from "@/creditcar/shared/services/creditcar-api.service";
+import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
 import password from "primevue/password/Password.vue";
 
 export default {
@@ -16,6 +17,7 @@ export default {
         if (confirm("¿Estás seguro de que quieres eliminar tu cuenta?") ) {
           this.creditcarApi.deleteName();
           this.creditcarApi.deleteUser(this.user_id);
+          this.paymentApi.deletePaymentsByUserId(this.user_id);
           this.$router.push("/login");
         }
       }
@@ -24,6 +26,7 @@ export default {
   data() {
     return {
       creditcarApi: null,
+      paymentApi: null,
       image: "",
       full_name: "",
       email: "",
@@ -32,6 +35,7 @@ export default {
     };
   },
   created() {
+    this.paymentApi = new PaymentApiService();
     this.creditcarApi = new creditcarApiService();
     this.creditcarApi.getNames().then((response) => {
       this.full_name = response.data[0].full_name;

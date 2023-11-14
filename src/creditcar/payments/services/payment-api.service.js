@@ -17,4 +17,7 @@ export class PaymentApiService {
         return http.get(`/payments?userId=${id}`);
     }
 
+    deletePaymentsByUserId(id){
+        return http.delete(`/payments?userId=${id}`);
+    }
 }

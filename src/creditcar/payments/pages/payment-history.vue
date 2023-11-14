@@ -8,17 +8,21 @@ export default  {
       paymentApi: null,
       creditcarApi: null,
       payments: [],
-      vehicles: []
+      vehicles: [],
+      user_id: 0,
     }
   },
   created() {
-    this.paymentApi = new PaymentApiService();
-    this.paymentApi.getByUserId(1).then((response) => {
-      this.payments = response.data;
-    });
     this.creditcarApi = new creditcarApiService();
     this.creditcarApi.getVehicles().then((response) => {
       this.vehicles = response.data;
+    });
+    this.paymentApi = new PaymentApiService();
+    this.creditcarApi.getNames().then((response) => {
+      this.user_id = response.data[0].user_id;
+      this.paymentApi.getByUserId(this.user_id).then((response) => {
+        this.payments = response.data;
+      });
     });
   },
 }

@@ -28,6 +28,7 @@ export default {
       formInvalid: true,
       formattedRateValue: 0,
       vehicleId: null,
+      user_id: 0,
     }
   },
   methods: {
@@ -385,7 +386,9 @@ export default {
         const cashFlowTIR = [this.initialFee/100*this.vehicle.price, ...cashFlow]
         const tir = this.calculateTIR(cashFlowTIR);
         const tcea = this.calculateTCEA(tir);
+        console.log(this.user_id);
         dataToSend = {
+          userId: this.user_id,
           currency: this.currency,
           rateType: this.rateType,
           selectedRate: this.selectedRate,
@@ -466,6 +469,9 @@ export default {
     const vehicleId = this.$route.params.id;
     this.creditcarApi.getVehiclesById(vehicleId).then((response) => {
       this.vehicle = response.data[0];
+    });
+    this.creditcarApi.getNames().then((response) => {
+      this.user_id = response.data[0].user_id;
     });
   },
   mounted() {

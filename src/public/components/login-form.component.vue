@@ -14,6 +14,7 @@ export default {
       emailAuth: false,
       full_name: '',
       user_id: '',
+      image: '',
     }
   },
   methods: {
@@ -27,11 +28,13 @@ export default {
           }
           this.full_name = response.data[i].first_name + ' ' + response.data[i].last_name;
           this.user_id = response.data[i].id;
+          this.image = response.data[i].image;
           await this.creditcarApi.create('names', {
             full_name: this.full_name,
             email: this.email,
             password: this.password,
             user_id: this.user_id,
+            image: this.image,
           });
           this.passwordAuth = true;
           this.emailAuth = true;

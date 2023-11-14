@@ -16,4 +16,5 @@ export class PaymentApiService {
     getByUserId(id){
         return http.get(`/payments?userId=${id}`);
     }
+
 }

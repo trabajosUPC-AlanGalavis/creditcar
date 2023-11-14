@@ -29,8 +29,6 @@ export default {
     const updateData = () => {
       this.creditcarApi.getNames().then((response) => {
         this.full_name = response.data[0].full_name;
-      });
-      this.creditcarApi.getUsers().then((response) => {
         this.user_image = response.data[0].image;
       });
     };

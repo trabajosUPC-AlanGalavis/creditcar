@@ -15,6 +15,7 @@ export default {
       password_confirmation: "",
       dni: "",
       zip_code: "",
+      image: "",
       creditcarApi: new creditcarApiService(),
     }
   },
@@ -35,7 +36,7 @@ export default {
           first_name: this.first_name,
           last_name: this.last_name,
           password: this.password,
-          password_confirmation: this.password_confirmation,
+          image: "https://static.vecteezy.com/system/resources/previews/005/129/844/non_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg",
           dni: this.dni,
           zip_code: this.zip_code,
         });

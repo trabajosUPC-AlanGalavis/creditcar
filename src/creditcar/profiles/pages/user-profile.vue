@@ -38,11 +38,8 @@ export default {
       this.email = response.data[0].email;
       this.password = response.data[0].password;
       this.user_id = response.data[0].user_id;
+      this.image = response.data[0].image;
     });
-    this.creditcarApi.getUsers()
-        .then((response) => {
-          this.image = response.data[0].image;
-        });
   },
 
 };

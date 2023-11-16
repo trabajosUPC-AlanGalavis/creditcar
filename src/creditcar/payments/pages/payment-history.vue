@@ -1,8 +1,10 @@
 <script>
 import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
 import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
+import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
 export default  {
   name: "payment-history",
+  components: {ButtonPrimary},
   data() {
     return {
       paymentApi: null,
@@ -10,6 +12,15 @@ export default  {
       payments: [],
       vehicles: [],
       user_id: 0,
+    }
+  },
+  methods:{
+    formatPrice(value){
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      });
+      return formatter.format(value);
     }
   },
   created() {
@@ -56,7 +67,7 @@ export default  {
                   <p class="text-lg" v-if="vehicles[payment.vehicleId]">
                     <b>{{vehicles[payment.vehicleId].brand}}</b> {{vehicles[payment.vehicleId].model}}
                   </p>
-                  <p v-if="vehicles[payment.vehicleId]">Precio: {{vehicles[payment.vehicleId].price}}</p>
+                  <p v-if="vehicles[payment.vehicleId]">Precio: {{formatPrice(vehicles[payment.vehicleId].price)}}</p>
                   <p>Plazo de pago: {{payment.closingDate}} meses</p>
                   <p>Fecha de creación: {{payment.createDate}}</p>
                 </div>
@@ -65,6 +76,17 @@ export default  {
           </div>
         </template>
       </pv-card>
+    </router-link>
+    <router-link :to="'/home'">
+      <button-primary
+          class="px-6 mb-3 mt-3 font-bold"
+          :text="'Generar nuevo plan de pagos'"
+          :buttonColor="'var(--red)'"
+          :buttonTextColor="'var(--white)'"
+          :buttonBorderColor="'var(--red)'"
+          type="submit"
+          v-model="handleSubmit">
+      </button-primary>
     </router-link>
   </div>
 

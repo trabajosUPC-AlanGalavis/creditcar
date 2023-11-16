@@ -463,6 +463,13 @@ export default {
           this.vehicleInsurance > 0;
       return this.formInvalid;
     },
+    formatPrice(value){
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      });
+      return formatter.format(value);
+    }
   },
   created() {
     this.creditcarApi = new creditcarApiService();
@@ -488,7 +495,7 @@ export default {
           <p class="text-4xl leading-snug">Planifica la compra de tu <br> <b>{{ vehicle.brand }}</b> {{vehicle.model }}</p>
           <hr class="division mb-3">
         </div>
-        <p class="font-normal">Desde ${{ vehicle.price }}</p>
+        <p class="font-normal">Desde {{ formatPrice(vehicle.price) }}</p>
       </div>
       <div class="lg:w-1/2 p-1">
         <div class="items-center justify-right">
@@ -640,7 +647,7 @@ export default {
             </li>
             <li class="mb-6">
               <p class="text-lg mb-2">Financiamiento</p>
-              <p class="text-lg mb-2">5.1 Cuota Incial: {{initialFee}}%</p>
+              <p class="text-lg mb-2">5.1 Cuota Inicial: {{initialFee}}%</p>
               <label for="final-fee" class="text-lg mb-2">5.2 ¿Cuál es el porcentaje del crédito a financiar?</label>
               <pv-input-number
                   inputId="final-fee"

@@ -33,6 +33,13 @@ export default {
     hideShadow(vehicleId) {
       this.hoverVehicle = null;
     },
+    formatPrice(value){
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      });
+      return formatter.format(value);
+    }
   }
 };
 </script>
@@ -75,7 +82,7 @@ export default {
             <template #content>
               <img :src="vehicle.image">
               <p class="text-lg"><b>{{ vehicle.brand }}</b> {{ vehicle.model }}</p>
-              <p>Desde ${{ vehicle.price }}</p>
+              <p>Desde {{ formatPrice(vehicle.price) }}</p>
             </template>
           </pv-card>
         </router-link>

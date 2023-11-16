@@ -63,7 +63,6 @@ export default  {
             <div class="lg:w-1/2 p-1">
               <div class="items-center justify-right">
                 <div>
-                  <!-- To-do: Extract vehicle brand, model, price and payment creation date -->
                   <p class="text-lg" v-if="vehicles[payment.vehicleId]">
                     <b>{{vehicles[payment.vehicleId].brand}}</b> {{vehicles[payment.vehicleId].model}}
                   </p>

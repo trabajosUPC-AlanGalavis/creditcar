@@ -12,7 +12,7 @@ export default {
       creditcarApi: null,
       vehicle: null,
       simulator: new PaymentApiService(),
-      currency: "usd",
+      currency: "USD",
       rateType: "effective",
       selectedRate: "daily",
       selectedPeriod: "annual",
@@ -424,11 +424,7 @@ export default {
       }
     },
     changeCurrency() {
-      if (this.currency === 'usd') {
-        this.currency = 'soles';
-      } else {
-        this.currency = 'usd';
-      }
+      this.currency = (this.currency === 'USD' ? 'Soles' : 'USD');
     },
     changeRateType() {
       if (this.rateType === 'effective') {

@@ -204,6 +204,28 @@
       "tir": 26.01316578220576,
       "tcea": 15097526715356189000,
       "id": 6
+    },
+    {
+      "userId": 1,
+      "currency": "Soles",
+      "rateType": "effective",
+      "selectedRate": "daily",
+      "selectedPeriod": "annual",
+      "rateValue": 2,
+      "closingDate": 24,
+      "totalGracePeriod": 2,
+      "partialGracePeriod": 2,
+      "initialFee": 20,
+      "finalFee": 78,
+      "creditLifeInsurance": 2,
+      "vehicleInsurance": 2,
+      "vehicleId": "2",
+      "createDate": "15/11/2023",
+      "formattedRateValue": 0.0016515813019202241,
+      "van": -662963.4296626988,
+      "tir": 9.220673143863678,
+      "tcea": 129943331713294.58,
+      "id": 7
     }
   ]
 }

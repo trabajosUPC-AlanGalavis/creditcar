@@ -81,20 +81,20 @@ export default {
         <input id="remember" aria-describedby="remember" type="checkbox" class="rounded cursor-pointer">
       </div>
       <div class="text-sm ml-3">
-        <label for="remember" class="font-medium">Remember me</label>
+        <label for="remember" class="font-medium">Recuerdame</label>
       </div>
     </div>
     <div class="text-center">
       <button-primary
           class="px-7 mb-3"
-          :text="'Login'"
+          :text="'Iniciar sesión'"
           :buttonColor="'var(--red)'"
           :buttonTextColor="'var(--white)'"
           :buttonBorderColor="'var(--red)'"
           type="submit">
       </button-primary>
       <p class="text-blue-500 text-sm underline">
-        <router-link to="/password-reset">Forgot my password</router-link>
+        <router-link to="/password-reset">Olvidaste tu contraseña?</router-link>
       </p>
     </div>
   </form>

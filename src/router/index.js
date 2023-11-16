@@ -4,7 +4,6 @@ import userProfile from "@/creditcar/profiles/pages/user-profile.vue";
 import home from "@/creditcar/home/pages/home.component.vue";
 import Login from "@/public/pages/login.component.vue";
 import Signup from "@/public/pages/signup.component.vue";
-import PasswordReset from "@/public/pages/password-reset.component.vue";
 import SitePolicy from "@/public/pages/site-policy.component.vue";
 import PaymentEstimator from "@/creditcar/payments/pages/payment-estimator.component.vue";
 import GeneratedPayment from "@/creditcar/payments/pages/generated-payment.component.vue";
@@ -46,10 +45,6 @@ const router = createRouter({
         {
             path: "/signup",
             component: Signup,
-        },
-        {
-            path: "/password-reset",
-            component: PasswordReset,
         },
         {
             path: "/site-policy",

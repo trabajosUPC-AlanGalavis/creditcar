@@ -71,7 +71,7 @@ export default {
           class="w-full border rounded-md px-3 md:py-2"
           v-model="first_name"
       ></pv-input-text>
-      <label for="first-name">First name of the registrant</label>
+      <label for="first-name">Nombre</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -83,7 +83,7 @@ export default {
           class="w-full border rounded-md px-3 md:py-2"
           v-model="last_name"
       ></pv-input-text>
-      <label for="last-name">Last name of the registrant</label>
+      <label for="last-name">Apellido</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -95,7 +95,7 @@ export default {
           class="w-full border rounded-md px-3 py-2"
           v-model="password"
       ></pv-input-text>
-      <label for="password">Password</label>
+      <label for="password">Constraseña</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -107,7 +107,7 @@ export default {
           class="w-full border rounded-md px-3 py-2"
           v-model="password_confirmation"
       ></pv-input-text>
-      <label for="confirm-password">Confirm password</label>
+      <label for="confirm-password">Confirme contraseña</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -131,7 +131,7 @@ export default {
           class="w-full border rounded-md px-3 md:py-2"
           v-model="zip_code"
       ></pv-input-text>
-      <label for="zip-code">Zip code</label>
+      <label for="zip-code">Codigo zip</label>
     </div>
     <div class="flex items-center md:items-start mb-3">
       <div class="h-5">
@@ -139,11 +139,11 @@ export default {
       </div>
       <div class="text-sm ml-3">
         <label for="remember" class="font-medium">
-          <span>I've read and accept the</span>
-          <router-link to="site-policy" class="text-blue-500 underline cursor-pointer">Terms and Conditions
+          <span>He leido y acpeto los</span>
+          <router-link to="site-policy" class="text-blue-500 underline cursor-pointer">Terminos y condiciones
           </router-link>
-          and
-          <router-link to="site-policy" class="text-blue-500 underline cursor-pointer">Privacy Policy
+          y
+          <router-link to="site-policy" class="text-blue-500 underline cursor-pointer">Politica de privacidad
           </router-link>
         </label>
       </div>
@@ -151,7 +151,7 @@ export default {
     <div class="text-center">
       <button-primary
           class="px-7 mb-3"
-          :text="'Register'"
+          :text="'Registrarse'"
           :buttonColor="'var(--red)'"
           :buttonTextColor="'var(--white)'"
           :buttonBorderColor="'var(--red)'"

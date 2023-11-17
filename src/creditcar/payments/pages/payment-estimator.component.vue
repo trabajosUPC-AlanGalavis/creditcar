@@ -498,9 +498,9 @@ export default {
           });
           promises.push(request);
 
-          await new Promise(resolve => setTimeout(resolve, 500))
+          //await new Promise(resolve => setTimeout(resolve, 500))
         }
-        await Promise.all(promises);
+        //await Promise.all(promises);
       }
       createCashFlows();
     },

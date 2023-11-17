@@ -289,7 +289,7 @@ export default {
       this.calculateEffectiveMonthlyRate();
 
       let monthlyInterestRate = this.formattedRateValue;
-      //const initialInvestment = this.initialFee/100 * this.vehicle.price;
+      const initialInvestment = this.initialFee/100 * this.vehicle.price;
       let creditFee = this.creditFee/100 * this.vehicle.price; //convert it to percentage y valor del credito
       let creditLifeInsurance = this.creditLifeInsurance/100; //convert it to percentage
       let vehicleInsurance = this.vehicleInsurance/100 * this.vehicle.price;//other costs is constant among the schedule
@@ -362,13 +362,17 @@ export default {
       return cashFlows;
     },
     calculateVAN(initialInvestment, cashFlows, COK) {
+      console.log("Initial Investment", initialInvestment);
       let van = initialInvestment; // Invertir el flujo de caja inicial
       let vna = 0;
       for (let i = 0; i < cashFlows.length; i++) {
+        console.log("Cash Flows Van", cashFlows[i]);
         vna += cashFlows[i] / Math.pow(1 + COK, i + 1);
       }
+      console.log("NPV", vna);
       van += vna;
-      return van*100;
+      console.log("VAN antes de *100", van);
+      return van;
     },
     calculateTIR(cashFlows) {
       const tolerance = 0.0001; // Tolerancia para la precisión de la aproximación
@@ -413,7 +417,7 @@ export default {
         const formattedDate = currentDate.toLocaleDateString(undefined, options);
         let dataToSend;
         let cashFlow = this.calculateCashFlow();
-        const van = this.calculateVAN(this.initialFee, cashFlow, this.formattedRateValue);//TODO cambiar por COK
+        const van = this.calculateVAN(this.creditFee/100*this.vehicle.price, cashFlow, this.formattedRateValue);//TODO cambiar por COK
         const cashFlowTIR = [this.initialFee/100*this.vehicle.price, ...cashFlow]
         const tir = this.calculateTIR(cashFlowTIR);
         const tcea = this.calculateTCEA(tir);

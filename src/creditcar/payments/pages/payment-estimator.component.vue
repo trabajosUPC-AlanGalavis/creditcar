@@ -405,10 +405,11 @@ export default {
     },
     calculateTCEA(tirMensual) {
       // Convierte la TIR mensual a tasa decimal
-      //const tirDecimal = tirMensual / 100;
+      const tirDecimal = tirMensual / 100;
 
       // Calcula la TCEA usando la fórmula
-      return ((1 + tirMensual) ** 12 - 1) * 100;
+      const tcea = Math.pow(1 + tirDecimal, 12) - 1;
+      return tcea*100;
     },
     handleSubmit() {
       if (this.validateForm()) {
@@ -418,7 +419,7 @@ export default {
         let dataToSend;
         let cashFlow = this.calculateCashFlow();
         const van = this.calculateVAN(this.creditFee/100*this.vehicle.price, cashFlow, this.formattedRateValue);//TODO cambiar por COK
-        const cashFlowTIR = [this.initialFee/100*this.vehicle.price, ...cashFlow]
+        const cashFlowTIR = [this.creditFee/100*this.vehicle.price, ...cashFlow]
         const tir = this.calculateTIR(cashFlowTIR);
         const tcea = this.calculateTCEA(tir);
         console.log(this.user_id);

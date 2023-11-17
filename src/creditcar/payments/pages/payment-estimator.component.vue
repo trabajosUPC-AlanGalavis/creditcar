@@ -3,6 +3,8 @@ import ButtonPrimary from "@/creditcar/shared/components/button-primary.componen
 import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
 import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
 import router from "@/router";
+import {CashFlowsApiService} from "@/creditcar/payments/services/cash-flows-api.service";
+import * as events from "events";
 
 export default {
   name: "payment-estimator",
@@ -12,6 +14,7 @@ export default {
       creditcarApi: null,
       vehicle: null,
       simulator: new PaymentApiService(),
+      cashFlowApi: new CashFlowsApiService(),
       currency: "USD",
       rateType: "effective",
       selectedRate: "daily",
@@ -29,11 +32,15 @@ export default {
       formattedRateValue: 0,
       vehicleId: null,
       user_id: 0,
+      decimalRate: 0,
+      cashFlows: [],
+      paymentQuantity: 0,
+      paymentData: null
     }
   },
   methods: {
     calculateEffectiveMonthlyRate() {
-      let decimalRate = this.rateValue/100;
+      this.decimalRate = this.rateValue/100;
       let rateType = this.rateType;
       let selectedRate = this.selectedRate;
       let m = 0;
@@ -42,19 +49,19 @@ export default {
       let effectiveMonthlyRate = 0;
       if(rateType === "effective"){
         if(selectedPeriod === "daily"){
-          effectiveMonthlyRate = Math.pow((1 + decimalRate), 30) - 1;
+          effectiveMonthlyRate = Math.pow((1 + this.decimalRate), 30) - 1;
         } else if(selectedPeriod === "monthly"){
-          effectiveMonthlyRate = decimalRate;
+          effectiveMonthlyRate = this.decimalRate;
         } else if(selectedPeriod === "bimonthly"){
-          effectiveMonthlyRate = Math.pow((1 + decimalRate), 1/2) - 1;
+          effectiveMonthlyRate = Math.pow((1 + this.decimalRate), 1/2) - 1;
         } else if(selectedPeriod === "quarterly"){
-          effectiveMonthlyRate = Math.pow((1 + decimalRate), 1/3) - 1;
+          effectiveMonthlyRate = Math.pow((1 + this.decimalRate), 1/3) - 1;
         } else if (selectedPeriod === "four-month"){
-          effectiveMonthlyRate = Math.pow((1+ decimalRate), 1/4) - 1;
+          effectiveMonthlyRate = Math.pow((1+ this.decimalRate), 1/4) - 1;
         } else if(selectedPeriod === "semiannual"){
-          effectiveMonthlyRate = Math.pow((1 + decimalRate), 1/6) - 1;
+          effectiveMonthlyRate = Math.pow((1 + this.decimalRate), 1/6) - 1;
         } else if(selectedPeriod === "annual"){
-          effectiveMonthlyRate = Math.pow((1 + decimalRate), 1/12) - 1;
+          effectiveMonthlyRate = Math.pow((1 + this.decimalRate), 1/12) - 1;
         }
       } else if(rateType === "nominal"){
         if(selectedPeriod === "daily"){
@@ -83,7 +90,7 @@ export default {
             m=1/360;
             n=1/12;
           }
-          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+          effectiveMonthlyRate = (Math.pow((1 + this.decimalRate/m), n) - 1);
         }  else if(selectedPeriod === "biweekly"){
           if (selectedRate === "daily"){
             m=15;
@@ -110,7 +117,7 @@ export default {
             m=1/24;
             n=1/12;
           }
-          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+          effectiveMonthlyRate = (Math.pow((1 + this.decimalRate/m), n) - 1);
         } else if(selectedPeriod === "monthly"){
           if (selectedRate === "daily"){
             m=30;
@@ -137,7 +144,7 @@ export default {
             m=1/12;
             n=1/12;
           }
-          effectiveMonthlyRate = decimalRate;
+          effectiveMonthlyRate = this.decimalRate;
         } else if(selectedPeriod === "bimonthly"){
           if (selectedRate === "daily"){
             m=60;
@@ -164,7 +171,7 @@ export default {
             m=1/6;
             n=1/12;
           }
-          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+          effectiveMonthlyRate = (Math.pow((1 + this.decimalRate/m), n) - 1);
         } else if(selectedPeriod === "quarterly"){
           if (selectedRate === "daily"){
             m=90;
@@ -191,7 +198,7 @@ export default {
             m=1/4;
             n=1/12;
           }
-          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+          effectiveMonthlyRate = (Math.pow((1 + this.decimalRate/m), n) - 1);
         } else if(selectedPeriod === "four-month"){
           if (selectedRate === "daily"){
             m=120;
@@ -218,7 +225,7 @@ export default {
             m=1/3;
             n=1/12;
           }
-          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+          effectiveMonthlyRate = (Math.pow((1 + this.decimalRate/m), n) - 1);
         } else if(selectedPeriod === "semiannual"){
           if (selectedRate === "daily"){
             m=180;
@@ -245,7 +252,7 @@ export default {
             m=1/2;
             n=1/12;
           }
-          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+          effectiveMonthlyRate = (Math.pow((1 + this.decimalRate/m), n) - 1);
         } else if(selectedPeriod === "annual"){
           if (selectedRate === "daily"){
             m=360;
@@ -272,7 +279,7 @@ export default {
             m=1;
             n=1/12;
           }
-          effectiveMonthlyRate = (Math.pow((1 + decimalRate/m), n) - 1);
+          effectiveMonthlyRate = (Math.pow((1 + this.decimalRate/m), n) - 1);
         }
       }
       this.formattedRateValue = effectiveMonthlyRate;
@@ -280,6 +287,7 @@ export default {
     },
     calculateCashFlow(){
       this.calculateEffectiveMonthlyRate();
+
       let monthlyInterestRate = this.formattedRateValue;
       //const initialInvestment = this.initialFee/100 * this.vehicle.price;
       let creditFee = this.creditFee/100 * this.vehicle.price; //convert it to percentage y valor del credito
@@ -288,6 +296,8 @@ export default {
       let totalPayments = this.closingDate;//number of payments
       const totalGracePeriod = this.totalGracePeriod;//always considered at the start of the cashflow if there is no total grace period value 0
       const partialGracePeriod = this.partialGracePeriod;//always considered immediately after the totalGracePeriod if there is no partial grace period value 0
+      let gracePeriodType = "";
+      let initialCredit = 0;
 
       // Calcular el monto del préstamo neto después de la cuota inicial y los cargos adicionales
       let netLoanAmount = creditFee;
@@ -300,17 +310,20 @@ export default {
       let amortization = 0;
       let totalPayment = 0;
       for (let i = 1; i <= totalPayments; i++) {
+        initialCredit = netLoanAmount;
         if (i<=totalGracePeriod){
           console.log("Net Loan Amount", netLoanAmount);
           interestPayment = netLoanAmount * monthlyInterestRate;
           cashFlows.push(-(creditLifeInsurance*netLoanAmount+vehicleInsurance));
           netLoanAmount += interestPayment;
+          gracePeriodType = "T";
           console.log("Net Loan Amount", netLoanAmount)
         }
         else if (i>totalGracePeriod && i<=partialGracePeriod+totalGracePeriod){
           //console.log("Net Loan Amount", netLoanAmount);
           interestPayment = netLoanAmount * monthlyInterestRate;
           cashFlows.push(-(interestPayment + creditLifeInsurance*netLoanAmount+vehicleInsurance));
+          gracePeriodType = "P";
         }
         else if (i>partialGracePeriod+totalGracePeriod){
           //console.log("Net Loan Amount", netLoanAmount);
@@ -324,9 +337,14 @@ export default {
 
           // Actualizar el saldo pendiente después del pago
           netLoanAmount -= amortization;
+          gracePeriodType = "N";
         }
+
+        this.createCashFlow(i, this.decimalRate, gracePeriodType, initialCredit, monthlyInterestRate,
+             amortization, interestPayment, creditLifeInsurance, vehicleInsurance);
       }
 
+      this.postCashFlow();
       console.log("Cash Flows: ", cashFlows);
       return cashFlows;
     },
@@ -407,6 +425,7 @@ export default {
           van: van,
           tir: tir,
           tcea: tcea,
+          id: this.paymentQuantity + 1
           //TODO add COK
           //cashFlow: cashFlow,
         }
@@ -422,6 +441,47 @@ export default {
               console.log(error);
             });
       }
+    },
+    createCashFlow(number, annualInterestRate, gracePeriod, initialBalance,
+                   periodInterestRate, amortization, interestPayment, lifeInsurance, vehicularInsurance){
+      let cashFlowData = {
+        number: number,
+        annualInterestRate: annualInterestRate,
+        periodInterestRate: periodInterestRate,
+        gracePeriod: gracePeriod,
+        initialBalance: initialBalance,
+        interestPayment: interestPayment,
+        amortization: amortization,
+        quota: -(interestPayment + amortization),
+        lifeInsurance: lifeInsurance,
+        vehicularInsurance: vehicularInsurance,
+        finalBalance: initialBalance - amortization,
+        flow: -(interestPayment + amortization + lifeInsurance + vehicularInsurance),
+        paymentId: this.paymentQuantity + 1
+      };
+      this.cashFlows.push(cashFlowData);
+    },
+    postCashFlow(){
+      let createCashFlows = async() => {
+        const promises = []
+        for (let i = 0; i < this.cashFlows.length; i++){
+          const request = this.cashFlowApi.create(this.cashFlows[i]).then((response) => {
+            if (response.status === 500){
+              console.log('XD');
+            }
+            else {
+              console.log(response.data);
+            }
+          }).catch((error) => {
+            console.log(error);
+          });
+          promises.push(request);
+
+          await new Promise(resolve => setTimeout(resolve, 500))
+        }
+        await Promise.all(promises);
+      }
+      createCashFlows();
     },
     changeCurrency() {
       this.currency = (this.currency === 'USD' ? 'Soles' : 'USD');
@@ -476,6 +536,11 @@ export default {
     this.creditcarApi.getNames().then((response) => {
       this.user_id = response.data[0].user_id;
     });
+    this.simulator.getAll().then((response) => {
+      this.paymentData = response.data;
+      this.paymentQuantity = this.paymentData.length;
+    })
+
   },
   mounted() {
     this.resetScrollbar();

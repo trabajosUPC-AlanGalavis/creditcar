@@ -2,6 +2,7 @@
 import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
 import {PaymentApiService} from "@/creditcar/payments/services/payment-api.service";
 import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
+import {CashFlowsApiService} from "@/creditcar/payments/services/cash-flows-api.service";
 
 export default {
   name: "generated-payment",
@@ -9,22 +10,41 @@ export default {
   data() {
     return {
       paymentApi: null,
+      cashFlowsApi: null,
       creditcarApi: null,
       payment: [],
-      vehicles: []
+      vehicles: [],
+      cashFlows: [],
+      showComponent: false
     }
   },
   created() {
     this.paymentApi = new PaymentApiService();
+    this.cashFlowsApi = new CashFlowsApiService();
     this.paymentApi.getById(this.$route.params.id).then((response) => {
       this.payment = response.data;
+      this.cashFlowsApi.getByPaymentId(this.payment.id).then((response) => {
+        this.cashFlows = response.data;
+        this.cashFlows.forEach((cashFlow) => {
+          cashFlow.tea = this.formatPercentage(cashFlow.annualInterestRate)
+          cashFlow.tep = this.formatPercentage(cashFlow.periodInterestRate)
+        });
+      })
     });
     this.creditcarApi = new creditcarApiService();
     this.creditcarApi.getVehicles().then((response) => {
       this.vehicles = response.data;
     });
   },
+  mounted() {
+    setTimeout(() => {
+      this.showComponent = true;
+    }, 500);
+  },
   methods:{
+    formatPercentage(value) {
+      return `${parseFloat(value * 100).toFixed(2)}%`;
+    },
     formatPrice(value){
       const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -49,7 +69,7 @@ export default {
   <div class="max-w-4xl mx-auto">
     <pv-card class="card mt-0 md:mx-50 md:px-5">
       <template #content>
-        <div class="px-5">
+        <div class="px-5" v-if="showComponent">
           <h2 class="text-center font-bold">Información del vehículo</h2>
           <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Marca:</span> {{vehicles[payment.vehicleId].brand}}</p>
           <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Modelo:</span> {{vehicles[payment.vehicleId].model}}</p>
@@ -76,22 +96,21 @@ export default {
           <div class="pt-5">
             <pv-data-table
                 class="overflow-hidden mb-4"
-                :value="[payment]"
+                :value="this.cashFlows"
                 :paginator="true"
                 :rows="10"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown">
               <pv-column field="number" header="Nº"></pv-column>
-              <pv-column field="TEA" header="TEA"></pv-column>
-              <pv-column field="TEP" header="TEP"></pv-column>
+              <pv-column field="tea" header="TEA"></pv-column>
+              <pv-column field="tep" header="TEP"></pv-column>
               <pv-column field="gracePeriod" header="Período de gracia"></pv-column>
               <pv-column field="initialBalance" header="Saldo inicial"></pv-column>
-              <pv-column field="indexedInitialBalance" header="Saldo inicial indexado"></pv-column>
-              <pv-column field="interest" header="Interés"></pv-column>
-              <pv-column field="fee" header="Cuota"></pv-column>
+              <pv-column field="interestPayment" header="Interés"></pv-column>
+              <pv-column field="quota" header="Cuota"></pv-column>
               <pv-column field="amortization" header="Amortización"></pv-column>
-              <pv-column field="creditLifeInsurance" header="Seguro de desgravamen"></pv-column>
-              <pv-column field="vehicleInsurance" header="Seguro vehicular"></pv-column>
-              <pv-column field="vehicleInsurance" header="Saldo final"></pv-column>
+              <pv-column field="lifeInsurance" header="Seguro de desgravamen"></pv-column>
+              <pv-column field="vehicularInsurance" header="Seguro vehicular"></pv-column>
+              <pv-column field="finalBalance" header="Saldo final"></pv-column>
               <pv-column field="flow" header="Flujo"></pv-column>
             </pv-data-table>
           </div>

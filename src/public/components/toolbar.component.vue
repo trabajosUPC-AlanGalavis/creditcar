@@ -26,14 +26,13 @@ export default {
   },
   created() {
     this.creditcarApi = new creditcarApiService();
-    const updateData = () => {
-      this.creditcarApi.getNames().then((response) => {
-        this.full_name = response.data[0].full_name;
-        this.user_image = response.data[0].image;
-      });
-    };
-    updateData();
-    setInterval(updateData, 100);
+
+  },
+  updated() {
+    this.creditcarApi.getNames().then((response) => {
+      this.full_name = response.data[0].full_name;
+      this.user_image = response.data[0].image;
+    });
   },
   methods: {
     toggleNavbar() {

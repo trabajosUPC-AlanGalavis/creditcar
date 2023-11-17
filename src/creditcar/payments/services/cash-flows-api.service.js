@@ -1,6 +1,6 @@
 import http from "@/shared/services/http-common";
 
-export class PaymentApiService {
+export class CashFlowsApiService {
     getAll() {
         return http.get("/cash_flows");
     }
@@ -13,7 +13,7 @@ export class PaymentApiService {
         return http.post("/cash_flows", data);
     }
 
-    getByUserId(id){
+    getByPaymentId(id){
         return http.get(`/cash_flows?paymentId=${id}`);
     }
 

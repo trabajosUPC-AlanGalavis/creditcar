@@ -59,7 +59,7 @@ export default {
           class="w-full border rounded-md px-3 py-2"
           v-model="email"
       ></pv-input-text>
-      <label for="email">Email</label>
+      <label for="email">Correo electrónico</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -71,7 +71,7 @@ export default {
           class="w-full border rounded-md px-3 md:py-2"
           v-model="first_name"
       ></pv-input-text>
-      <label for="first-name">Nombre</label>
+      <label for="first-name">Nombres</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -83,7 +83,7 @@ export default {
           class="w-full border rounded-md px-3 md:py-2"
           v-model="last_name"
       ></pv-input-text>
-      <label for="last-name">Apellido</label>
+      <label for="last-name">Apellidos</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -107,7 +107,7 @@ export default {
           class="w-full border rounded-md px-3 py-2"
           v-model="password_confirmation"
       ></pv-input-text>
-      <label for="confirm-password">Confirme contraseña</label>
+      <label for="confirm-password">Confirmar contraseña</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -131,7 +131,7 @@ export default {
           class="w-full border rounded-md px-3 md:py-2"
           v-model="zip_code"
       ></pv-input-text>
-      <label for="zip-code">Codigo zip</label>
+      <label for="zip-code">Código zip</label>
     </div>
     <div class="flex items-center md:items-start mb-3">
       <div class="h-5">
@@ -139,11 +139,11 @@ export default {
       </div>
       <div class="text-sm ml-3">
         <label for="remember" class="font-medium">
-          <span>He leido y acpeto los</span>
-          <router-link to="site-policy" class="text-blue-500 underline cursor-pointer">Terminos y condiciones
+          <span>He leído y acepto los</span>
+          <router-link to="site-policy" class="text-blue-500 underline cursor-pointer">Términos y condiciones
           </router-link>
           y
-          <router-link to="site-policy" class="text-blue-500 underline cursor-pointer">Politica de privacidad
+          <router-link to="site-policy" class="text-blue-500 underline cursor-pointer">Política de privacidad
           </router-link>
         </label>
       </div>

@@ -14,7 +14,7 @@ export default {
       <template #content>
         <div class="mb-3 text-center md:text-left">
           <h2>Bienvenido a CreditCar</h2>
-          <p>Para usar esta aplicación debe iniciar sesión o registrarse</p>
+          <p>Para usar la aplicación, por favor inicia sesión o crea una nueva cuenta</p>
         </div>
         <div class="flex mb-5 justify-content-center md:justify-content-start">
           <div class="state-color">

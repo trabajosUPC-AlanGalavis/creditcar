@@ -62,7 +62,7 @@ export default {
           class="w-full border rounded-md px-3 py-2"
           v-model="email">
       </pv-input-text>
-      <label for="email">Email</label>
+      <label for="email">Correo electrónico</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text
@@ -74,14 +74,14 @@ export default {
           class="w-full border rounded-md px-3 py-2"
           v-model="password"
       ></pv-input-text>
-      <label for="password">Password</label>
+      <label for="password">Contraseña</label>
     </div>
     <div class="flex items-center md:items-start mb-3">
       <div class="h-5">
         <input id="remember" aria-describedby="remember" type="checkbox" class="rounded cursor-pointer">
       </div>
       <div class="text-sm ml-3">
-        <label for="remember" class="font-medium">Recuerdame</label>
+        <label for="remember" class="font-medium">Recuérdame</label>
       </div>
     </div>
     <div class="text-center">
@@ -94,7 +94,7 @@ export default {
           type="submit">
       </button-primary>
       <p class="text-blue-500 text-sm underline">
-        <router-link to="/password-reset">Olvidaste tu contraseña?</router-link>
+        <router-link to="/password-reset">¿Olvidaste tu contraseña?</router-link>
       </p>
     </div>
   </form>

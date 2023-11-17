@@ -57,16 +57,16 @@ export default  {
           <div class="lg:flex text-center md:text-left">
             <div class="lg:w-1/2 flex flex-column justify-center">
               <div class="flex justify-center items-center">
-                <img v-if="vehicles[payment.vehicleId]" :src="vehicles[payment.vehicleId].image" alt="vehicle_image">
+                <img v-if="vehicles[payment.vehicleId-1]" :src="vehicles[payment.vehicleId-1].image" alt="vehicle_image">
               </div>
             </div>
             <div class="lg:w-1/2 p-1">
               <div class="items-center justify-right">
                 <div>
-                  <p class="text-lg" v-if="vehicles[payment.vehicleId]">
-                    <b>{{vehicles[payment.vehicleId].brand}}</b> {{vehicles[payment.vehicleId].model}}
+                  <p class="text-lg" v-if="vehicles[payment.vehicleId-1]">
+                    <b>{{vehicles[payment.vehicleId-1].brand}}</b> {{vehicles[payment.vehicleId-1].model}}
                   </p>
-                  <p v-if="vehicles[payment.vehicleId]">Precio: {{formatPrice(vehicles[payment.vehicleId].price)}}</p>
+                  <p v-if="vehicles[payment.vehicleId-1]">Precio: {{formatPrice(vehicles[payment.vehicleId-1].price)}}</p>
                   <p>Plazo de pago: {{payment.closingDate}} meses</p>
                   <p>Fecha de creación: {{payment.createDate}}</p>
                 </div>

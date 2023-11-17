@@ -422,6 +422,9 @@ export default {
         const cashFlowTIR = [this.creditFee/100*this.vehicle.price, ...cashFlow]
         const tir = this.calculateTIR(cashFlowTIR);
         const tcea = this.calculateTCEA(tir);
+        let vehicleId = this.$route.params.id;
+        //convert to int vehicle id from string to int
+        vehicleId = parseInt(vehicleId);
         console.log(this.user_id);
         dataToSend = {
           userId: this.user_id,
@@ -437,7 +440,7 @@ export default {
           finalFee: this.finalFee,
           creditLifeInsurance: this.creditLifeInsurance,
           vehicleInsurance: this.vehicleInsurance,
-          vehicleId: this.$route.params.id,
+          vehicleId: vehicleId,
           createDate: formattedDate,
           formattedRateValue: this.formattedRateValue,
           van: van,

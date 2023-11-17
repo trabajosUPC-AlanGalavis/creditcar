@@ -71,9 +71,9 @@ export default {
       <template #content>
         <div class="px-5" v-if="showComponent">
           <h2 class="text-center font-bold">Información del vehículo</h2>
-          <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Marca:</span> {{vehicles[payment.vehicleId].brand}}</p>
-          <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Modelo:</span> {{vehicles[payment.vehicleId].model}}</p>
-          <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Precio:</span> {{formatPrice(vehicles[payment.vehicleId].price)}}</p>
+          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Marca:</span>  {{vehicles[payment.vehicleId-1].brand}}</p>
+          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Modelo:</span> {{vehicles[payment.vehicleId-1].model}}</p>
+          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Precio:</span> {{formatPrice(vehicles[payment.vehicleId-1].price)}}</p>
 
           <hr class="division mb-3">
 
@@ -82,7 +82,7 @@ export default {
           <p class="mb-3"><span class="text-[--red] font-bold">Tasa de interés:</span> {{parseFloat(payment.formattedRateValue * 100).toFixed(2)}}%</p>
           <p class="mb-3"><span class="text-[--red] font-bold">Frecuencia de pago:</span> Mensual</p>
           <p class="mb-3"><span class="text-[--red] font-bold">Plazo de pago:</span> {{payment.closingDate}} meses</p>
-          <p v-if="vehicles[payment.vehicleId]" class="mb-3"><span class="text-[--red] font-bold">Cuota final:</span> {{payment.finalFee/100*vehicles[payment.vehicleId].price}}</p>
+          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Cuota final:</span> {{payment.finalFee/100*vehicles[payment.vehicleId-1].price}}</p>
 
           <hr class="division mb-3">
 

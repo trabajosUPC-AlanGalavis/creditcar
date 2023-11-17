@@ -297,7 +297,7 @@ export default {
       const totalGracePeriod = this.totalGracePeriod;//always considered at the start of the cashflow if there is no total grace period value 0
       const partialGracePeriod = this.partialGracePeriod;//always considered immediately after the totalGracePeriod if there is no partial grace period value 0
       let gracePeriodType = "";
-      let initialCredit = 0;
+      //let initialCredit = 0;
 
       // Calcular el monto del préstamo neto después de la cuota inicial y los cargos adicionales
       let netLoanAmount = creditFee;
@@ -309,39 +309,52 @@ export default {
       let interestPayment = 0;
       let amortization = 0;
       let totalPayment = 0;
+      let quota = 0;
+      let calculatedCreditLifeInsurance = 0;
       for (let i = 1; i <= totalPayments; i++) {
-        initialCredit = netLoanAmount;
+        creditFee = netLoanAmount;
         if (i<=totalGracePeriod){
-          console.log("Net Loan Amount", netLoanAmount);
+          console.log("Net Loan Amount Total before", netLoanAmount);
           interestPayment = netLoanAmount * monthlyInterestRate;
-          cashFlows.push(-(creditLifeInsurance*netLoanAmount+vehicleInsurance));
+          calculatedCreditLifeInsurance = creditLifeInsurance*netLoanAmount;
+          totalPayment = calculatedCreditLifeInsurance+vehicleInsurance;
+          cashFlows.push(-(totalPayment));
           netLoanAmount += interestPayment;
           gracePeriodType = "T";
-          console.log("Net Loan Amount", netLoanAmount)
+          console.log("Net Loan Amount Total After", netLoanAmount)
         }
         else if (i>totalGracePeriod && i<=partialGracePeriod+totalGracePeriod){
-          //console.log("Net Loan Amount", netLoanAmount);
+          console.log("Net Loan Amount Partial", netLoanAmount);
           interestPayment = netLoanAmount * monthlyInterestRate;
-          cashFlows.push(-(interestPayment + creditLifeInsurance*netLoanAmount+vehicleInsurance));
+          calculatedCreditLifeInsurance = creditLifeInsurance*netLoanAmount;
+          totalPayment = calculatedCreditLifeInsurance+vehicleInsurance+interestPayment;
+          cashFlows.push(-(totalPayment));
           gracePeriodType = "P";
         }
-        else if (i>partialGracePeriod+totalGracePeriod){
+        else if (i>=partialGracePeriod+totalGracePeriod){
           //console.log("Net Loan Amount", netLoanAmount);
           if (i===totalGracePeriod+partialGracePeriod+1){
-            amortization = (netLoanAmount*(monthlyInterestRate+creditLifeInsurance))/(1-Math.pow((1+(monthlyInterestRate + creditLifeInsurance)),-totalPayments+totalGracePeriod+partialGracePeriod))
-            console.log("Amortization", amortization)
+            quota = (netLoanAmount*(monthlyInterestRate+creditLifeInsurance))/(1-Math.pow((1+(monthlyInterestRate + creditLifeInsurance)),-totalPayments+totalGracePeriod+partialGracePeriod))
+            console.log("Quota", quota)
           }
-          //interestPayment = netLoanAmount * monthlyInterestRate;
-          totalPayment = amortization + vehicleInsurance;
+          calculatedCreditLifeInsurance = creditLifeInsurance*netLoanAmount;
+          interestPayment = netLoanAmount * monthlyInterestRate;
+          totalPayment = quota + vehicleInsurance;
           cashFlows.push(-totalPayment); // Pago mensual, considerando que es una salida de efectivo (negativo)
 
+          // Calcular la amortización
+          amortization = quota - interestPayment-calculatedCreditLifeInsurance;
           // Actualizar el saldo pendiente después del pago
-          netLoanAmount -= amortization;
+          if(i===totalPayments){
+            netLoanAmount = 0;
+          }else{
+            netLoanAmount -= amortization;
+          }
           gracePeriodType = "N";
         }
 
-        this.createCashFlow(i, this.decimalRate, gracePeriodType, initialCredit, monthlyInterestRate,
-             amortization, interestPayment, creditLifeInsurance, vehicleInsurance);
+        this.createCashFlow(i, this.decimalRate, gracePeriodType, creditFee, monthlyInterestRate,
+             amortization, quota,interestPayment, calculatedCreditLifeInsurance, vehicleInsurance, netLoanAmount, -totalPayment);
       }
 
       this.postCashFlow();
@@ -443,7 +456,7 @@ export default {
       }
     },
     createCashFlow(number, annualInterestRate, gracePeriod, initialBalance,
-                   periodInterestRate, amortization, interestPayment, lifeInsurance, vehicularInsurance){
+                   periodInterestRate, amortization, quota, interestPayment, lifeInsurance, vehicularInsurance, finalbalance,flow){
       let cashFlowData = {
         number: number,
         annualInterestRate: annualInterestRate,
@@ -452,11 +465,11 @@ export default {
         initialBalance: initialBalance,
         interestPayment: interestPayment,
         amortization: amortization,
-        quota: -(interestPayment + amortization),
+        quota: quota,
         lifeInsurance: lifeInsurance,
         vehicularInsurance: vehicularInsurance,
-        finalBalance: initialBalance - amortization,
-        flow: -(interestPayment + amortization + lifeInsurance + vehicularInsurance),
+        finalBalance: finalbalance,
+        flow: flow,
         paymentId: this.paymentQuantity + 1
       };
       this.cashFlows.push(cashFlowData);

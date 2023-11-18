@@ -15,7 +15,7 @@ export default {
       payment: [],
       vehicles: [],
       cashFlows: [],
-      showComponent: false
+      showComponent: false,
     }
   },
   created() {
@@ -23,10 +23,19 @@ export default {
     this.cashFlowsApi = new CashFlowsApiService();
     this.paymentApi.getById(this.$route.params.id).then((response) => {
       this.payment = response.data;
+      this.payment.selectedDecision = this.formatDecision(this.payment.selectedDecision)
       this.cashFlowsApi.getByPaymentId(this.payment.id).then((response) => {
         this.cashFlows = response.data;
         this.cashFlows.sort(this.arrangeCashFlows)
         this.cashFlows.forEach((cashFlow) => {
+          cashFlow.initialBalance = this.formatNumber(cashFlow.initialBalance)
+          cashFlow.interestPayment = this.formatNumber(cashFlow.interestPayment)
+          cashFlow.quota = this.formatNumber(cashFlow.quota)
+          cashFlow.amortization = this.formatNumber(cashFlow.amortization)
+          cashFlow.lifeInsurance = this.formatNumber(cashFlow.lifeInsurance)
+          cashFlow.vehicularInsurance = this.formatNumber(cashFlow.vehicularInsurance)
+          cashFlow.finalBalance = this.formatNumber(cashFlow.finalBalance)
+          cashFlow.flow = this.formatNumber(cashFlow.flow)
           cashFlow.tea = this.formatPercentage(cashFlow.annualInterestRate)
           cashFlow.tep = this.formatPercentage(cashFlow.periodInterestRate)
         });
@@ -51,8 +60,20 @@ export default {
       }
       return 0;
     },
+    formatDecision(value){
+      if (value === "keep"){
+        return "Conservarlo"
+      } else if (value === "sell"){
+        return "Venderlo"
+      }else if (value === "change"){
+        return "Renovarlo"
+      }
+    },
     formatPercentage(value) {
       return `${parseFloat(value * 100).toFixed(2)}%`;
+    },
+    formatNumber(value) {
+      return `${parseFloat(value).toFixed(2)}`;
     },
     formatPrice(value){
       const formatter = new Intl.NumberFormat('en-US', {
@@ -98,6 +119,13 @@ export default {
             </div>
           </div>
 
+          <h2 class="font-bold text-2xl">Información del cliente</h2>
+          <hr class="division mb-3">
+          <p class="mb-3"><span class="text-[--red] font-bold">Nombres:</span> {{payment.clientFirstName}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">Apellidos:</span> {{payment.clientLastName}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">DNI</span> {{payment.clientDni}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">Decisión</span> {{payment.selectedDecision}}</p>
+
           <h2 class="font-bold text-2xl">Información ingresada</h2>
           <hr class="division mb-3">
           <p class="mb-3"><span class="text-[--red] font-bold">Tipo de moneda:</span> {{payment.currency}}</p>
@@ -108,10 +136,10 @@ export default {
 
           <h2 class="mt-7 font-bold text-2xl">Resultados</h2>
           <hr class="division mb-3">
-          <p class="mb-3"><span class="text-[--red] font-bold">COK:</span> {{payment.cok}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TCEA:</span> {{payment.tcea}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">VAN:</span> {{payment.van}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TIR:</span> {{payment.tir}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">COK:</span> {{parseFloat(payment.cok).toFixed(2)}}%</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">TCEA:</span> {{parseFloat(payment.tcea).toFixed(2)}}%</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">VAN:</span> {{parseFloat(payment.van).toFixed(2)}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">TIR:</span> {{parseFloat(payment.tir).toFixed(2)}}%</p>
 
           <div class="pt-5">
             <pv-data-table
@@ -119,6 +147,7 @@ export default {
                 :value="this.cashFlows"
                 :paginator="true"
                 :rows="10"
+                :rowsPerPageOptions="[12, 24, 36]"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown">
               <pv-column field="number" header="Nº"></pv-column>
               <pv-column field="tea" header="TEA"></pv-column>

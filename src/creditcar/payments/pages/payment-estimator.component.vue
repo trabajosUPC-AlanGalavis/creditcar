@@ -456,7 +456,8 @@ export default {
           tir: tir,
           tcea: tcea,
           id: this.paymentQuantity + 1,
-          cok: this.cok
+          cok: this.cok,
+          selectedDecision: this.selectedDecision
         }
         this.simulator.create(dataToSend)
             .then((response) => {

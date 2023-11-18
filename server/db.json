@@ -115,7 +115,8 @@
       "cok": 0.1,
       "van": 0.1,
       "tcea": 0.1,
-      "tir": 0.1
+      "tir": 0.1,
+      "selectedDecision": "keep"
     },
     {
       "userId": 1,
@@ -140,7 +141,8 @@
       "van": -1660.3813964768524,
       "tir": 13.551469519734383,
       "tcea": 359.5291944606398,
-      "id": 2
+      "id": 2,
+      "selectedDecision": "keep"
     }
   ],
   "cash_flows": [

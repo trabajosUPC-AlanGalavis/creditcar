@@ -39,7 +39,8 @@ export default {
       selectedDecision: "keep",
       clientName: "",
       clientLastName: "",
-      clientDni: 0
+      clientDni: 0,
+      cok: 0
 
     }
   },
@@ -423,7 +424,7 @@ export default {
         const formattedDate = currentDate.toLocaleDateString(undefined, options);
         let dataToSend;
         let cashFlow = this.calculateCashFlow();
-        const van = this.calculateVAN(this.creditFee/100*this.vehicle.price, cashFlow, this.formattedRateValue);//TODO cambiar por COK
+        const van = this.calculateVAN(this.creditFee/100*this.vehicle.price, cashFlow, this.cok);
         const cashFlowTIR = [this.creditFee/100*this.vehicle.price, ...cashFlow]
         const tir = this.calculateTIR(cashFlowTIR);
         const tcea = this.calculateTCEA(tir);
@@ -451,9 +452,8 @@ export default {
           van: van,
           tir: tir,
           tcea: tcea,
-          id: this.paymentQuantity + 1
-          //TODO add COK
-          //cashFlow: cashFlow,
+          id: this.paymentQuantity + 1,
+          cok: this.cok
         }
         this.simulator.create(dataToSend)
             .then((response) => {
@@ -735,7 +735,7 @@ export default {
             </li>
             <li class="mb-6">
               <p class="text-lg  mb-2">Selecciona el período de gracia</p>
-              <label for="total-grace-period" class="font-normal mb-5">5.1 Ingresa el número de cuotas sobra las cuales
+              <label for="total-grace-period" class="font-normal mb-5">5.1 Ingresa el número de cuotas sobre las cuales
                 aplica el período de gracia total</label>
               <pv-input-number
                   inputId="total-grace-period"
@@ -749,7 +749,7 @@ export default {
                   v-model="totalGracePeriod">
               </pv-input-number>
 
-              <label for="partial-grace-period" class="font-normal mb-2">5.2 Ingresa el número de cuotas sobra las
+              <label for="partial-grace-period" class="font-normal mb-2">5.2 Ingresa el número de cuotas sobre las
                 cuales aplica el período de gracia parcial</label>
               <pv-input-number
                   inputId="partial-grace-period"
@@ -778,7 +778,19 @@ export default {
                   class="w-full border rounded-md"
                   v-model="creditFee">
               </pv-input-number>
-              <p class=" mt-3 font-normal">6.3 Cuota final calculada: {{changeFinalFee()}}%</p>
+              <p class=" mt-3 mb-4 font-bold">6.3 Cuota final calculada: {{changeFinalFee()}}%</p>
+              <label for="cok-percent" class="font-normal mb-2">6.4 ¿Cuál es la tasa de costo de oportunidad (COK)? </label>
+              <pv-input-number
+                  inputId="cok-percent"
+                  suffix="%"
+                  name="cok-percent"
+                  placeholder="Tasa de costo de oportunidad (%)"
+                  required
+                  min="0"
+                  max="100"
+                  class="w-full border rounded-md"
+                  v-model="cok">
+              </pv-input-number>
             </li>
             <li class="mb-6">
               <label for="credit-life-insurance" class="text-lg mb-2">¿Cuál es la tasa del seguro de

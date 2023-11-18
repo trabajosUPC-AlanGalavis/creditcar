@@ -6,7 +6,8 @@
       "password": "123456",
       "user_id": 1,
       "image": "https://schoolworkhelper.net/wp-content/uploads/2011/07/Winston-Smith.gif",
-      "id": 1
+      "id": 1,
+      "company": "Carros S.A."
     }
   ],
   "users": [
@@ -16,7 +17,8 @@
       "first_name": "Winston",
       "last_name": "Smith",
       "email": "winstonsmith@gmail.com",
-      "password": "123456"
+      "password": "123456",
+      "company": "Carros S.A."
     },
     {
       "id": 2,
@@ -24,7 +26,8 @@
       "first_name": "Gregorio",
       "last_name": "Samsa",
       "email": "gregorio@gmail.com",
-      "password": "123456"
+      "password": "123456",
+      "company": "Carros S.A."
     }
   ],
   "vehicles": [

@@ -32,6 +32,7 @@ export default {
       email: "",
       password: "",
       user_id: "",
+      company: ""
     };
   },
   created() {
@@ -43,6 +44,7 @@ export default {
       this.password = response.data[0].password;
       this.user_id = response.data[0].user_id;
       this.image = response.data[0].image;
+      this.company = response.data[0].company;
     });
   },
 
@@ -63,7 +65,7 @@ export default {
 
   <div class="mb-3">
     <div class="text-center">
-        <p class="text-5xl font-bold mb-4">Información personal</p>
+        <p class="text-5xl font-bold mb-4">Información personal del empleado</p>
     </div>
   </div>
 
@@ -93,6 +95,7 @@ export default {
                 </div>
                 <a class="text-blue-500 text-sm underline cursor-pointer">Cambiar correo electrónico</a>
               </div>
+
               <div class="mb-4">
                 <div class="flex justify-between items-center">
                   <p class="font-bold mr-2">Contraseña:</p>
@@ -100,6 +103,14 @@ export default {
                 </div>
                 <a class="text-blue-500 text-sm underline cursor-pointer">Cambiar contraseña</a>
               </div>
+
+              <div class="mb-5">
+                <div class="flex justify-between items-center">
+                  <p class="font-bold mr-2">Empresa:</p>
+                  <p class="text-sm overflow-ellipsis">{{ company }}</p>
+                </div>
+              </div>
+
               <div class="mb-4">
                 <div class="flex justify-between items-center">
                   <p class="font-bold mr-2">Cuenta:</p>

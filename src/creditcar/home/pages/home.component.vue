@@ -51,7 +51,7 @@ export default {
         <p class="text-6xl md:text-7xl font-bold mb-4 text-white">Bienvenido a <span
             class="text-red-500">CreditCar</span>
         </p>
-        <p class="text-xl text-white">Elige tu vehículo soñado y organiza un plan de pagos</p>
+        <p class="text-xl text-white">Elige tu vehículo soñado de tu cliente y organiza un plan de pagos</p>
       </div>
     </div>
 

@@ -25,6 +25,7 @@ export default {
       this.payment = response.data;
       this.cashFlowsApi.getByPaymentId(this.payment.id).then((response) => {
         this.cashFlows = response.data;
+        this.cashFlows.sort(this.arrangeCashFlows)
         this.cashFlows.forEach((cashFlow) => {
           cashFlow.tea = this.formatPercentage(cashFlow.annualInterestRate)
           cashFlow.tep = this.formatPercentage(cashFlow.periodInterestRate)
@@ -42,6 +43,14 @@ export default {
     }, 500);
   },
   methods:{
+    arrangeCashFlows(a, b){
+      if (a.number < b.number){
+        return -1
+      } else if (a.number > b.number) {
+        return 1;
+      }
+      return 0;
+    },
     formatPercentage(value) {
       return `${parseFloat(value * 100).toFixed(2)}%`;
     },
@@ -99,11 +108,10 @@ export default {
 
           <h2 class="mt-7 font-bold text-2xl">Resultados</h2>
           <hr class="division mb-3">
-          <p class="mb-3"><span class="text-[--red] font-bold">COK</span> {{payment.cok}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TEA</span> {{}}</p> <!---TODO: Calculate TEA to nukear-->
-          <p class="mb-3"><span class="text-[--red] font-bold">TCEA</span> {{payment.tcea}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">VAN</span> {{payment.van}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TIR</span> {{payment.tir}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">COK:</span> {{payment.cok}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">TCEA:</span> {{payment.tcea}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">VAN:</span> {{payment.van}}</p>
+          <p class="mb-3"><span class="text-[--red] font-bold">TIR:</span> {{payment.tir}}</p>
 
           <div class="pt-5">
             <pv-data-table

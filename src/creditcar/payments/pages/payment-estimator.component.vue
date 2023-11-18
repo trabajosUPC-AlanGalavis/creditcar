@@ -575,7 +575,7 @@ export default {
     <div class="lg:flex text-center md:text-left">
       <div class="lg:w-1/2 flex flex-column justify-center md:ml-5">
         <div>
-          <p class="text-4xl leading-snug">Planifica la compra de tu <br> <b>{{ vehicle.brand }}</b> {{vehicle.model }}</p>
+          <p class="text-4xl leading-snug">Planifica la compra de un <br> <b>{{ vehicle.brand }}</b> {{vehicle.model }}</p>
           <hr class="division mb-3">
         </div>
         <p class="font-normal">Desde {{ formatPrice(vehicle.price) }}</p>
@@ -773,7 +773,7 @@ export default {
               </pv-input-number>
             </li>
             <li>
-              <p class="text-lg mb-2">¿Qué deseas hacer con el vehículo tras finalizar el pago de las cuotas?</p>
+              <p class="text-lg mb-2">¿Qué se desea hacer con el vehículo tras finalizar el pago de las cuotas?</p>
               <div>
                 <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
                         v-model="selectedDecision" id="selectedDecision">

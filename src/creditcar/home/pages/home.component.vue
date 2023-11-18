@@ -2,16 +2,18 @@
 
 import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
 import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
+import AddVehicle from "@/creditcar/home/components/add-vehicle.component.vue";
 
 export default {
   name: "home",
-  components: {ButtonPrimary},
+  components: {AddVehicle, ButtonPrimary},
   data() {
     return {
       creditcarApi: null,
       vehicles: [],
       searchTerm: "",
       hoverVehicle: null,
+      showModal: false
     };
   },
   created() {
@@ -41,6 +43,12 @@ export default {
         currency: 'USD'
       });
       return formatter.format(value);
+    },
+    addNewVehicle(vehicle) {
+      this.vehicles.push(vehicle);
+      this.creditcarApi.create("vehicles",vehicle).then((response) => {
+        console.log(response.data);
+      });
     }
   }
 };
@@ -100,11 +108,15 @@ export default {
             :text="'Agregar vehículo a la base de datos'"
             :buttonColor="'var(--red)'"
             :buttonTextColor="'var(--white)'"
-            :buttonBorderColor="'var(--red)'">
+            :buttonBorderColor="'var(--red)'"
+            @click="showModal = true">
         </button-primary>
       </div>
-
     </div>
+    <add-vehicle
+      :show-modal="showModal"
+      @close="showModal = false"
+      @vehicleAdded="addNewVehicle"/>
   </div>
 
 </template>

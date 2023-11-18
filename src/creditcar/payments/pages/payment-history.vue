@@ -47,12 +47,12 @@ export default  {
     </div>
   </div>
 
-  <div class="flex flex-column justify-center items-center">
+  <div class="flex flex-column justify-center items-center ">
       <router-link
           v-for="payment in payments"
           :to="'/generated-payment/' + payment.id"
           :key="payment.id">
-      <pv-card class=" shadow px-8 my-3">
+      <pv-card class="shadow my-3 max-w-4xl mx-auto">
         <template #content>
           <div class="lg:flex text-center md:text-left">
             <div class="lg:w-1/2 flex flex-column justify-center">

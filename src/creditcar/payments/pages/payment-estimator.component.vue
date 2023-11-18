@@ -35,7 +35,8 @@ export default {
       decimalRate: 0,
       cashFlows: [],
       paymentQuantity: 0,
-      paymentData: null
+      paymentData: null,
+      selectedDecision: "keep"
     }
   },
   methods: {
@@ -771,8 +772,19 @@ export default {
                   v-model="vehicleInsurance">
               </pv-input-number>
             </li>
+            <li>
+              <p class="text-lg mb-2">¿Qué deseas hacer con el vehículo tras finalizar el pago de las cuotas?</p>
+              <div>
+                <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
+                        v-model="selectedDecision" id="selectedDecision">
+                  <option class="text-[--red] bg-white" value="keep">Conservarlo</option>
+                  <option class="text-[--red] bg-white" value="sell">Venderlo</option>
+                  <option class="text-[--red] bg-white" value="change">Renovarlo</option>
+                </select>
+              </div>
+            </li>
           </ol>
-          <div class="text-center">
+          <div class="text-center mt-6">
             <button-primary
                 class="px-6 mb-3 font-bold"
                 :text="'Generar plan de pagos'"

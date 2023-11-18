@@ -66,27 +66,39 @@ export default {
     </div>
   </div>
 
-  <div class="max-w-4xl mx-auto">
+  <div class="mx-auto">
     <pv-card class="card mt-0 md:mx-50 md:px-5">
       <template #content>
         <div class="px-5" v-if="showComponent">
-          <h2 class="text-center font-bold">Información del vehículo</h2>
-          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Marca:</span>  {{vehicles[payment.vehicleId-1].brand}}</p>
-          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Modelo:</span> {{vehicles[payment.vehicleId-1].model}}</p>
-          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Precio:</span> {{formatPrice(vehicles[payment.vehicleId-1].price)}}</p>
-
+          <h2 class="mt-4 font-bold text-2xl">Información del vehículo</h2>
           <hr class="division mb-3">
+          <div class="lg:flex text-center md:text-left">
+            <div class="lg:w-1/2 flex flex-column justify-center">
+              <div class="justify-center items-center">
+                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Marca:</span>  {{vehicles[payment.vehicleId-1].brand}}</p>
+                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Modelo:</span> {{vehicles[payment.vehicleId-1].model}}</p>
+                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Precio:</span> {{formatPrice(vehicles[payment.vehicleId-1].price)}}</p>
+              </div>
+            </div>
+            <div class="lg:w-1/2 p-1">
+              <div class="flex justify-center items-center">
+                <div>
+                  <img v-if="vehicles[payment.vehicleId-1]" :src="vehicles[payment.vehicleId-1].image" alt="vehicle_image">
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <h2 class="text-center font-bold">Información ingresada</h2>
+          <h2 class="font-bold text-2xl">Información ingresada</h2>
+          <hr class="division mb-3">
           <p class="mb-3"><span class="text-[--red] font-bold">Tipo de moneda:</span> {{payment.currency}}</p>
           <p class="mb-3"><span class="text-[--red] font-bold">Tasa de interés:</span> {{parseFloat(payment.formattedRateValue * 100).toFixed(2)}}%</p>
           <p class="mb-3"><span class="text-[--red] font-bold">Frecuencia de pago:</span> Mensual</p>
           <p class="mb-3"><span class="text-[--red] font-bold">Plazo de pago:</span> {{payment.closingDate}} meses</p>
           <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Cuota final:</span> {{payment.finalFee/100*vehicles[payment.vehicleId-1].price}}</p>
 
+          <h2 class="mt-7 font-bold text-2xl">Resultados</h2>
           <hr class="division mb-3">
-
-          <h2 class="text-center font-bold">Resultados</h2>
           <p class="mb-3"><span class="text-[--red] font-bold">COK</span> {{payment.cok}}</p>
           <p class="mb-3"><span class="text-[--red] font-bold">TEA</span> {{}}</p> <!---TODO: Calculate TEA to nukear-->
           <p class="mb-3"><span class="text-[--red] font-bold">TCEA</span> {{payment.tcea}}</p>
@@ -118,7 +130,6 @@ export default {
       </template>
     </pv-card>
   </div>
-
 </template>
 
 <style scoped>

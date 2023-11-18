@@ -19,15 +19,15 @@ export default {
       rateType: "effective",
       selectedRate: "daily",
       selectedPeriod: "annual",
-      rateValue: 0,
+      rateValue: null,
       closingDate: 24,
-      totalGracePeriod: 0,
-      partialGracePeriod: 0,
+      totalGracePeriod: null,
+      partialGracePeriod: null,
       initialFee: 20,
-      creditFee: 0,
+      creditFee: null,
       finalFee: 0,
-      creditLifeInsurance: 0,
-      vehicleInsurance: 0,
+      creditLifeInsurance: null,
+      vehicleInsurance: null,
       formInvalid: true,
       formattedRateValue: 0,
       vehicleId: null,
@@ -39,8 +39,8 @@ export default {
       selectedDecision: "keep",
       clientName: "",
       clientLastName: "",
-      clientDni: 0,
-      cok: 0
+      clientDni: null,
+      cok: null
 
     }
   },
@@ -424,7 +424,7 @@ export default {
         const formattedDate = currentDate.toLocaleDateString(undefined, options);
         let dataToSend;
         let cashFlow = this.calculateCashFlow();
-        const van = this.calculateVAN(this.creditFee/100*this.vehicle.price, cashFlow, this.cok);
+        const van = this.calculateVAN(this.creditFee/100*this.vehicle.price, cashFlow, this.cok/100);
         const cashFlowTIR = [this.creditFee/100*this.vehicle.price, ...cashFlow]
         const tir = this.calculateTIR(cashFlowTIR);
         const tcea = this.calculateTCEA(tir);
@@ -631,6 +631,7 @@ export default {
                   required
                   placeholder="DNI"
                   class="w-full border rounded-md"
+                  :useGrouping="false"
                   v-model="clientDni">
               </pv-input-number>
             </li>
@@ -714,6 +715,7 @@ export default {
                   required
                   min="0"
                   class="w-full border rounded-md"
+                  :maxFractionDigits="4"
                   v-model="rateValue">
               </pv-input-number>
             </li>
@@ -748,7 +750,7 @@ export default {
                   placeholder="0"
                   required
                   min="0"
-                  max="36"
+                  :max="closingDate-partialGracePeriod"
                   class="w-full border rounded-md mb-5"
                   v-model="totalGracePeriod">
               </pv-input-number>
@@ -762,14 +764,14 @@ export default {
                   placeholder="0"
                   required
                   min="0"
-                  max="36"
+                  :max="closingDate-totalGracePeriod"
                   class="w-full border rounded-md"
                   v-model="partialGracePeriod">
               </pv-input-number>
             </li>
             <li class="mb-6">
               <p class="text-lg mb-2">Financiamiento</p>
-              <p class=" mb-3 font-normal">6.1 Cuota inicial preestablecida: {{initialFee}}%</p>
+              <p class=" mb-3 font-normal">6.1 Cuota inicial preestablecida: {{parseFloat(initialFee).toFixed(2)}}%</p>
               <label for="final-fee" class=" mb-2">6.2 ¿Cuál es el porcentaje del crédito a financiar?</label>
               <pv-input-number
                   inputId="final-fee"
@@ -777,12 +779,13 @@ export default {
                   name="final-fee"
                   placeholder="Cuota final (%)"
                   required
-                  min="0"
+                  min="20"
                   max="40"
                   class="w-full border rounded-md"
+                  :maxFractionDigits="4"
                   v-model="creditFee">
               </pv-input-number>
-              <p class=" mt-3 mb-4 font-bold">6.3 Cuota final calculada: {{changeFinalFee()}}%</p>
+              <p class=" mt-3 mb-4 font-bold">6.3 Cuota final calculada: {{parseFloat(changeFinalFee()).toFixed(2)}}%</p>
               <label for="cok-percent" class="font-normal mb-2">6.4 ¿Cuál es la tasa de costo de oportunidad (COK)? </label>
               <pv-input-number
                   inputId="cok-percent"
@@ -793,6 +796,7 @@ export default {
                   min="0"
                   max="100"
                   class="w-full border rounded-md"
+                  :maxFractionDigits="4"
                   v-model="cok">
               </pv-input-number>
             </li>
@@ -807,6 +811,7 @@ export default {
                   required
                   min="0"
                   class="w-full border rounded-md"
+                  :maxFractionDigits="4"
                   v-model="creditLifeInsurance">
               </pv-input-number>
             </li>
@@ -820,6 +825,7 @@ export default {
                   required
                   min="0"
                   class="w-full border rounded-md"
+                  :maxFractionDigits="4"
                   v-model="vehicleInsurance">
               </pv-input-number>
             </li>

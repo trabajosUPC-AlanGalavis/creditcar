@@ -36,7 +36,11 @@ export default {
       cashFlows: [],
       paymentQuantity: 0,
       paymentData: null,
-      selectedDecision: "keep"
+      selectedDecision: "keep",
+      clientName: "",
+      clientLastName: "",
+      clientDni: 0
+
     }
   },
   methods: {
@@ -575,7 +579,7 @@ export default {
     <div class="lg:flex text-center md:text-left">
       <div class="lg:w-1/2 flex flex-column justify-center md:ml-5">
         <div>
-          <p class="text-4xl leading-snug">Planifica la compra de un <br> <b>{{ vehicle.brand }}</b> {{vehicle.model }}</p>
+          <p class="text-4xl leading-snug">Planifica la compra de tu <br> <b>{{ vehicle.brand }}</b> {{vehicle.model }}</p>
           <hr class="division mb-3">
         </div>
         <p class="font-normal">Desde {{ formatPrice(vehicle.price) }}</p>
@@ -595,6 +599,37 @@ export default {
       <template #content>
         <form class="pt-3 px-5" @submit.prevent="handleSubmit">
           <ol>
+            <li class="mb-6">
+              <p class="text-lg mb-2">Ingresa los datos del cliente</p>
+              <label for="client-name" class="font-normal mb-2">1.1 Ingresa los nombres del cliente</label>
+              <pv-input-text
+                  inputId="client-name"
+                  name="client-name"
+                  required
+                  placeholder="Nombres"
+                  class="w-full border rounded-md mb-5"
+                  v-model="clientName">
+              </pv-input-text>
+              <label for="client-last-name" class="font-normal mb-2">1.2 Ingresa los apellidos del cliente</label>
+              <pv-input-text
+                  inputId="client-last-name"
+                  name="client-last-name"
+                  required
+                  placeholder="Apellidos"
+                  class="w-full border rounded-md mb-5"
+                  v-model="clientLastName">
+              </pv-input-text>
+              <label for="client-dni" class="font-normal mb-2">1.3 Ingresa el DNI del cliente</label>
+              <pv-input-number
+                  inputId="client-dni"
+                  name="client-dni"
+                  min="0"
+                  required
+                  placeholder="DNI"
+                  class="w-full border rounded-md"
+                  v-model="clientDni">
+              </pv-input-number>
+            </li>
             <li class="mb-6">
               <p class="text-lg mb-2">Elige el tipo de moneda</p>
               <div class="flex space-x-3 items-center">
@@ -635,7 +670,7 @@ export default {
                 <label for="nominal">Nominal</label>
               </div>
               <div class="mb-3">
-                <p class="font-normal mb-2"> 2.1.1 Plazo de Tasa: </p>
+                <p class="font-normal mb-2"> 3.1.1 Plazo de Tasa: </p>
                 <div>
                   <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
                           v-model="selectedPeriod" id="periodOptions">
@@ -651,7 +686,7 @@ export default {
                 </div>
               </div>
               <div v-if="rateType === 'nominal'" class="mb-3">
-                <p class="font-normal mb-2"> 2.1.2 Con capitalización:</p>
+                <p class="font-normal mb-2"> 3.1.2 Con capitalización:</p>
                 <div>
                   <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
                           v-model="selectedRate" id="rateOptions">
@@ -666,7 +701,7 @@ export default {
                   </select>
                 </div>
               </div>
-              <label for="rate-value" class="font-normal mb-2">2.2 Ingresa la tasa de interés</label>
+              <label for="rate-value" class="font-normal mb-2">3.2 Ingresa la tasa de interés</label>
               <pv-input-number
                   inputId="rate-value"
                   suffix="%"
@@ -700,7 +735,7 @@ export default {
             </li>
             <li class="mb-6">
               <p class="text-lg  mb-2">Selecciona el período de gracia</p>
-              <label for="total-grace-period" class="font-normal mb-5">4.1 Ingresa el número de cuotas sobra las cuales
+              <label for="total-grace-period" class="font-normal mb-5">5.1 Ingresa el número de cuotas sobra las cuales
                 aplica el período de gracia total</label>
               <pv-input-number
                   inputId="total-grace-period"
@@ -714,7 +749,7 @@ export default {
                   v-model="totalGracePeriod">
               </pv-input-number>
 
-              <label for="partial-grace-period" class="font-normal mb-2">4.2 Ingresa el número de cuotas sobra las
+              <label for="partial-grace-period" class="font-normal mb-2">5.2 Ingresa el número de cuotas sobra las
                 cuales aplica el período de gracia parcial</label>
               <pv-input-number
                   inputId="partial-grace-period"
@@ -730,8 +765,8 @@ export default {
             </li>
             <li class="mb-6">
               <p class="text-lg mb-2">Financiamiento</p>
-              <p class="text-lg mb-2">5.1 Cuota Inicial: {{initialFee}}%</p>
-              <label for="final-fee" class="text-lg mb-2">5.2 ¿Cuál es el porcentaje del crédito a financiar?</label>
+              <p class=" mb-3 font-normal">6.1 Cuota inicial preestablecida: {{initialFee}}%</p>
+              <label for="final-fee" class=" mb-2">6.2 ¿Cuál es el porcentaje del crédito a financiar?</label>
               <pv-input-number
                   inputId="final-fee"
                   suffix="%"
@@ -743,7 +778,7 @@ export default {
                   class="w-full border rounded-md"
                   v-model="creditFee">
               </pv-input-number>
-              <p class="text-lg mt-2">5.3 Cuota Final: {{changeFinalFee()}}%</p>
+              <p class=" mt-3 font-normal">6.3 Cuota final calculada: {{changeFinalFee()}}%</p>
             </li>
             <li class="mb-6">
               <label for="credit-life-insurance" class="text-lg mb-2">¿Cuál es la tasa del seguro de
@@ -773,7 +808,7 @@ export default {
               </pv-input-number>
             </li>
             <li>
-              <p class="text-lg mb-2">¿Qué se desea hacer con el vehículo tras finalizar el pago de las cuotas?</p>
+              <p class="text-lg mb-2">¿Qué desea hacer el cliente con el vehículo tras finalizar el pago de las cuotas?</p>
               <div>
                 <select class="font-bold mb-2 bg-[--red] text-white border-round p-2 cursor-pointer"
                         v-model="selectedDecision" id="selectedDecision">

@@ -1,9 +1,11 @@
 <script>
 
 import {creditcarApiService} from "@/creditcar/shared/services/creditcar-api.service";
+import ButtonPrimary from "@/creditcar/shared/components/button-primary.component.vue";
 
 export default {
   name: "home",
+  components: {ButtonPrimary},
   data() {
     return {
       creditcarApi: null,
@@ -91,6 +93,17 @@ export default {
       <div v-if="filteredVehicles.length === 0" class="text-red-500">
         <p>No se encontraron resultados.</p>
       </div>
+
+      <div class="text-center mt-6">
+        <button-primary
+            class="px-6 mb-3 font-bold"
+            :text="'Agregar vehículo a la base de datos'"
+            :buttonColor="'var(--red)'"
+            :buttonTextColor="'var(--white)'"
+            :buttonBorderColor="'var(--red)'">
+        </button-primary>
+      </div>
+
     </div>
   </div>
 

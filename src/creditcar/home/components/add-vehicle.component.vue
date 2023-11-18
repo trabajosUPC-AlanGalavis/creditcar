@@ -18,7 +18,7 @@ export default {
       if (this.isValidInput()) {
         this.$emit('vehicleAdded', this.newVehicle);
         this.closeModal();
-        window.location.reload();
+        //window.location.reload();
       } else {
         // You can add error handling or display a message to the user
         console.error('Invalid input. Please fill in all fields.');

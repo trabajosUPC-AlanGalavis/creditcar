@@ -45,9 +45,9 @@ export default {
       return formatter.format(value);
     },
     addNewVehicle(vehicle) {
-      this.vehicles.push(vehicle);
       this.creditcarApi.create("vehicles",vehicle).then((response) => {
         console.log(response.data);
+        this.vehicles.push(response.data);
       });
     }
   }

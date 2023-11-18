@@ -434,6 +434,9 @@ export default {
         console.log(this.user_id);
         dataToSend = {
           userId: this.user_id,
+          clientFirstName: this.clientName,
+          clientLastName: this.clientLastName,
+          clientDni: this.clientDni,
           currency: this.currency,
           rateType: this.rateType,
           selectedRate: this.selectedRate,

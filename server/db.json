@@ -6,8 +6,7 @@
       "password": "123456",
       "user_id": 1,
       "image": "https://schoolworkhelper.net/wp-content/uploads/2011/07/Winston-Smith.gif",
-      "id": 1,
-      "company": "Carros S.A."
+      "id": 1
     }
   ],
   "users": [
@@ -17,8 +16,8 @@
       "first_name": "Winston",
       "last_name": "Smith",
       "email": "winstonsmith@gmail.com",
-      "password": "123456",
-      "company": "Carros S.A."
+      "dni": "12345678",
+      "password": "123456"
     },
     {
       "id": 2,
@@ -26,8 +25,18 @@
       "first_name": "Gregorio",
       "last_name": "Samsa",
       "email": "gregorio@gmail.com",
+      "dni": "87654321",
+      "password": "123456"
+    },
+    {
+      "email": "alancito@aostito.com",
+      "first_name": "Alan",
+      "last_name": "Galavis",
       "password": "123456",
-      "company": "Carros S.A."
+      "image": "https://static.vecteezy.com/system/resources/previews/005/129/844/non_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg",
+      "dni": "63548097",
+      "zip_code": "15037",
+      "id": 3
     }
   ],
   "vehicles": [
@@ -86,6 +95,9 @@
       "id": 1,
       "vehicleId": 1,
       "userId": 1,
+      "clientFirstName": "Pedro",
+      "clientLastName": "Perez",
+      "clientDni": "12345678",
       "currency": "usd",
       "rateType": "effective",
       "selectedRate": "daily",
@@ -107,6 +119,9 @@
     },
     {
       "userId": 1,
+      "clientFirstName": "Pedro",
+      "clientLastName": "Perez",
+      "clientDni": "12345678",
       "currency": "USD",
       "rateType": "effective",
       "selectedRate": "daily",

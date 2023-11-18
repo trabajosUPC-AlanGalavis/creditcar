@@ -69,6 +69,7 @@ export default  {
                   <p v-if="vehicles[payment.vehicleId-1]">Precio: {{formatPrice(vehicles[payment.vehicleId-1].price)}}</p>
                   <p>Plazo de pago: {{payment.closingDate}} meses</p>
                   <p>Fecha de creación: {{payment.createDate}}</p>
+                  <p>Cliente: {{payment.clientFirstName}} {{payment.clientLastName}}</p>
                 </div>
               </div>
             </div>

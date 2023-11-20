@@ -95,7 +95,7 @@ export default {
           class="w-full border rounded-md px-3 py-2"
           v-model="password"
       ></pv-input-text>
-      <label for="password">Constraseña</label>
+      <label for="password">Contraseña</label>
     </div>
     <div class="mb-3 p-float-label">
       <pv-input-text

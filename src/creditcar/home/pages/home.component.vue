@@ -88,11 +88,13 @@ export default {
             :key="vehicle.id"
             @mouseenter="showShadow(vehicle.id)"
             @mouseleave="hideShadow(vehicle.id)">
-          <pv-card class="shadow" :class="{ 'card-hover': hoverVehicle === vehicle.id }">
+          <pv-card class="shadow card-container hover:shadow-lg px-5">
             <template #content>
-              <img :src="vehicle.image">
-              <p class="text-lg"><b>{{ vehicle.brand }}</b> {{ vehicle.model }}</p>
-              <p>Desde {{ formatPrice(vehicle.price) }}</p>
+              <img :src="vehicle.image" class="card-image" alt="Vehicle Image">
+              <div class="card-text p-4">
+                <p class="text-lg"><b>{{ vehicle.brand }}</b> {{ vehicle.model }}</p>
+                <p>Desde {{ formatPrice(vehicle.price) }}</p>
+              </div>
             </template>
           </pv-card>
         </router-link>
@@ -151,6 +153,15 @@ pv-input-text {
 
 .card-hover {
   box-shadow: 0 7px 12px rgba(0, 0, 0, 0.14);
+}
+
+.card-container {
+  height: 100%;
+}
+
+.card-image {
+  object-fit: cover;
+  height: 100%;
 }
 
 </style>

@@ -137,7 +137,7 @@ export default {
           <hr class="division mb-3">
           <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota inicial:</b> {{20/100*vehicles[payment.vehicleId-1].price}} {{payment.currency}}</p>
           <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota final:</b> {{payment.finalFee/100*vehicles[payment.vehicleId-1].price}} {{payment.currency}}</p>
-          <p class="mb-3"><b>COKi:</b> {{parseFloat(payment.cok).toFixed(2)}}%  </p>
+          <p class="mb-3"><b>COKi:</b> {{parseFloat(payment.cok*100).toFixed(2)}}%  </p>
           <p class="mb-3"><b>TCEA:</b> {{parseFloat(payment.tcea).toFixed(2)}}%</p>
           <p class="mb-3"><b>VAN: </b>
             <span class="font-bold text-lime-600" v-if="payment.van > 0"> {{parseFloat(payment.van).toFixed(2)}}</span>

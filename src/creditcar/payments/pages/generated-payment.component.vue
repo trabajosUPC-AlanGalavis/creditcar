@@ -137,7 +137,7 @@ export default {
           <hr class="division mb-3">
           <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota inicial:</b> {{20/100*vehicles[payment.vehicleId-1].price}} {{payment.currency}}</p>
           <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota final:</b> {{payment.finalFee/100*vehicles[payment.vehicleId-1].price}} {{payment.currency}}</p>
-          <p class="mb-3"><b>COK:</b> {{parseFloat(payment.cok).toFixed(2)}}%  </p>
+          <p class="mb-3"><b>COKi:</b> {{parseFloat(payment.cok).toFixed(2)}}%  </p>
           <p class="mb-3"><b>TCEA:</b> {{parseFloat(payment.tcea).toFixed(2)}}%</p>
           <p class="mb-3"><b>VAN: </b>
             <span class="font-bold text-lime-600" v-if="payment.van > 0"> {{parseFloat(payment.van).toFixed(2)}}</span>
@@ -151,10 +151,9 @@ export default {
                 :value="this.cashFlows"
                 :paginator="true"
                 :rows="10"
-                :rowsPerPageOptions="[12, 24, 36]"
+                :rowsPerPageOptions="[10, 25, 37]"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown">
               <pv-column field="number" header="Nº"></pv-column>
-              <pv-column field="tea" header="TEA"></pv-column>
               <pv-column field="tep" header="TEP"></pv-column>
               <pv-column field="gracePeriod" header="Período de gracia"></pv-column>
               <pv-column field="initialBalance" header="Saldo inicial"></pv-column>
@@ -163,8 +162,8 @@ export default {
               <pv-column field="amortization" header="Amortización"></pv-column>
               <pv-column field="lifeInsurance" header="Seguro de desgravamen"></pv-column>
               <pv-column field="vehicularInsurance" header="Seguro vehicular"></pv-column>
-              <pv-column field="finalBalance" header="Saldo final"></pv-column>
               <pv-column field="flow" header="Flujo"></pv-column>
+              <pv-column field="finalBalance" header="Saldo final"></pv-column>
             </pv-data-table>
           </div>
         </div>

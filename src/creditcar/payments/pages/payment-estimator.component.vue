@@ -40,8 +40,9 @@ export default {
       clientName: "",
       clientLastName: "",
       clientDni: null,
-      cok: null
-
+      cok: null,
+      coki: null,
+      vehicleInsurancePayment: 0,
     }
   },
   methods: {
@@ -293,15 +294,23 @@ export default {
     },
     calculateCashFlow(){
       this.calculateEffectiveMonthlyRate();
-
       let monthlyInterestRate = this.formattedRateValue;
-      const initialInvestment = this.initialFee/100 * this.vehicle.price;
-      let creditFee = this.creditFee/100 * this.vehicle.price; //convert it to percentage y valor del credito
       let creditLifeInsurance = this.creditLifeInsurance/100; //convert it to percentage
-      let vehicleInsurance = this.vehicleInsurance/100 * this.vehicle.price;//other costs is constant among the schedule
+      this.vehicleInsurancePayment = this.vehicleInsurance/100 * this.vehicle.price/12;//other costs is constant among the schedule
       let totalPayments = this.closingDate;//number of payments
       const totalGracePeriod = this.totalGracePeriod;//always considered at the start of the cashflow if there is no total grace period value 0
       const partialGracePeriod = this.partialGracePeriod;//always considered immediately after the totalGracePeriod if there is no partial grace period value 0
+
+      // Cuota regular
+      const finalFee = this.finalFee/100 * this.vehicle.price;
+      let montoPrestamo = this.creditFee/100 * this.vehicle.price + finalFee;
+      let creditFee = montoPrestamo-finalFee/(Math.pow(1+monthlyInterestRate+creditLifeInsurance,totalPayments+1)); //convert it to percentage y valor del credito
+
+      // Cuota final
+      let cuotaFinalSaldo = finalFee/(Math.pow(1+monthlyInterestRate+creditLifeInsurance,totalPayments+1));
+      let cuotaFinalInteres = 0;
+      let cuotaFinalSeguro = 0;
+
       let gracePeriodType = "";
       //let initialCredit = 0;
 
@@ -317,35 +326,44 @@ export default {
       let totalPayment = 0;
       let quota = 0;
       let calculatedCreditLifeInsurance = 0;
-      for (let i = 1; i <= totalPayments; i++) {
+      for (let i = 1; i <= totalPayments+1; i++) {
         creditFee = netLoanAmount;
+        console.log("I", i);
         if (i<=totalGracePeriod){
-          console.log("Net Loan Amount Total before", netLoanAmount);
+          // Cuoton
+          cuotaFinalInteres = cuotaFinalSaldo * monthlyInterestRate;
+          cuotaFinalSeguro = cuotaFinalSaldo * creditLifeInsurance;
+          // Cuota normal
           interestPayment = netLoanAmount * monthlyInterestRate;
           calculatedCreditLifeInsurance = creditLifeInsurance*netLoanAmount;
-          totalPayment = calculatedCreditLifeInsurance+vehicleInsurance;
+          totalPayment = calculatedCreditLifeInsurance+this.vehicleInsurancePayment;
           cashFlows.push(-(totalPayment));
           netLoanAmount += interestPayment;
           gracePeriodType = "T";
-          console.log("Net Loan Amount Total After", netLoanAmount)
         }
         else if (i>totalGracePeriod && i<=partialGracePeriod+totalGracePeriod){
-          console.log("Net Loan Amount Partial", netLoanAmount);
+          //Cuoton
+          cuotaFinalInteres = cuotaFinalSaldo * monthlyInterestRate;
+          cuotaFinalSeguro = cuotaFinalSaldo * creditLifeInsurance;
+          // Cuota Normal
           interestPayment = netLoanAmount * monthlyInterestRate;
           calculatedCreditLifeInsurance = creditLifeInsurance*netLoanAmount;
-          totalPayment = calculatedCreditLifeInsurance+vehicleInsurance+interestPayment;
+          totalPayment = calculatedCreditLifeInsurance+this.vehicleInsurancePayment+interestPayment;
           cashFlows.push(-(totalPayment));
           gracePeriodType = "P";
         }
-        else if (i>=partialGracePeriod+totalGracePeriod){
-          //console.log("Net Loan Amount", netLoanAmount);
+        else if (i>=partialGracePeriod+totalGracePeriod && i<=totalPayments){
+          //Cuoton
+          cuotaFinalInteres = cuotaFinalSaldo * monthlyInterestRate;
+          cuotaFinalSeguro = cuotaFinalSaldo * creditLifeInsurance;
+          //Cuota Normal
           if (i===totalGracePeriod+partialGracePeriod+1){
             quota = (netLoanAmount*(monthlyInterestRate+creditLifeInsurance))/(1-Math.pow((1+(monthlyInterestRate + creditLifeInsurance)),-totalPayments+totalGracePeriod+partialGracePeriod))
             console.log("Quota", quota)
           }
           calculatedCreditLifeInsurance = creditLifeInsurance*netLoanAmount;
           interestPayment = netLoanAmount * monthlyInterestRate;
-          totalPayment = quota + vehicleInsurance;
+          totalPayment = quota + this.vehicleInsurancePayment;
           cashFlows.push(-totalPayment); // Pago mensual, considerando que es una salida de efectivo (negativo)
 
           // Calcular la amortización
@@ -357,27 +375,37 @@ export default {
             netLoanAmount -= amortization;
           }
           gracePeriodType = "N";
+        } else if(i === totalPayments+1){
+          // Clear Data
+          interestPayment = 0;
+          quota = 0;
+          calculatedCreditLifeInsurance = 0;
+          totalPayment = this.vehicleInsurancePayment + finalFee;
+          amortization = totalPayment;
+          cashFlows.push(-totalPayment);
         }
 
-        this.createCashFlow(i, this.decimalRate, gracePeriodType, creditFee, monthlyInterestRate,
-             amortization, quota,interestPayment, calculatedCreditLifeInsurance, vehicleInsurance, netLoanAmount, -totalPayment);
+        let cuoton = this.vehicleInsurancePayment + finalFee;
+        if (i === totalPayments+1){
+          cuoton = 0;
+        }
+
+        this.createCashFlow(i, this.decimalRate, gracePeriodType, creditFee + cuoton, monthlyInterestRate,
+            amortization, quota,interestPayment, calculatedCreditLifeInsurance, this.vehicleInsurancePayment, netLoanAmount + cuoton, -totalPayment);
       }
 
       this.postCashFlow();
-      console.log("Cash Flows: ", cashFlows);
       return cashFlows;
     },
     calculateVAN(initialInvestment, cashFlows, COK) {
-      console.log("Initial Investment", initialInvestment);
+      this.coki = Math.pow(1 + COK, 30/360) - 1;
       let van = initialInvestment; // Invertir el flujo de caja inicial
       let vna = 0;
       for (let i = 0; i < cashFlows.length; i++) {
         console.log("Cash Flows Van", cashFlows[i]);
-        vna += cashFlows[i] / Math.pow(1 + COK, i + 1);
+        vna += cashFlows[i] / Math.pow(1 + this.coki, i + 1);
       }
-      console.log("NPV", vna);
       van += vna;
-      console.log("VAN antes de *100", van);
       return van;
     },
     calculateTIR(cashFlows) {
@@ -424,8 +452,8 @@ export default {
         const formattedDate = currentDate.toLocaleDateString(undefined, options);
         let dataToSend;
         let cashFlow = this.calculateCashFlow();
-        const van = this.calculateVAN(this.creditFee/100*this.vehicle.price, cashFlow, this.cok/100);
-        const cashFlowTIR = [this.creditFee/100*this.vehicle.price, ...cashFlow]
+        const van = this.calculateVAN((this.creditFee+this.finalFee)/100*this.vehicle.price, cashFlow, this.cok/100);
+        const cashFlowTIR = [(this.creditFee+this.finalFee)/100*this.vehicle.price, ...cashFlow]
         const tir = this.calculateTIR(cashFlowTIR);
         const tcea = this.calculateTCEA(tir);
         let vehicleId = this.$route.params.id;
@@ -456,7 +484,7 @@ export default {
           tir: tir,
           tcea: tcea,
           id: this.paymentQuantity + 1,
-          cok: this.cok,
+          cok: this.coki,
           selectedDecision: this.selectedDecision
         }
         this.simulator.create(dataToSend)
@@ -777,9 +805,9 @@ export default {
                   inputId="final-fee"
                   suffix="%"
                   name="final-fee"
-                  placeholder="Crédito a financiar (%)"
+                  placeholder="Cuota final (%)"
                   required
-                  min="30"
+                  min="20"
                   max="40"
                   class="w-full border rounded-md"
                   :maxFractionDigits="4"

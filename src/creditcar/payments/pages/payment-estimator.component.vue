@@ -777,9 +777,9 @@ export default {
                   inputId="final-fee"
                   suffix="%"
                   name="final-fee"
-                  placeholder="Cuota final (%)"
+                  placeholder="Crédito a financiar (%)"
                   required
-                  min="20"
+                  min="30"
                   max="40"
                   class="w-full border rounded-md"
                   :maxFractionDigits="4"

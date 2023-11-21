@@ -1,5 +1,3 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
 import ToastService from "primevue/toastservice";
@@ -26,6 +24,8 @@ import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 //Router
 import router from "@/router";
+import InputNumber from "primevue/inputnumber";
+
 
 createApp(App)
     .use(PrimeVue, { ripple: true })
@@ -43,5 +43,6 @@ createApp(App)
     .component('pv-data-table', DataTable)
     .component('pv-dialog', Dialog)
     .component('pv-input-text', InputText)
+    .component('pv-input-number', InputNumber)
     .use(router)
     .mount('#app')

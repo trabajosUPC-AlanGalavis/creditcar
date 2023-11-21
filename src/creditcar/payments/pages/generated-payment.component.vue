@@ -105,9 +105,9 @@ export default {
           <div class="lg:flex text-center md:text-left">
             <div class="lg:w-1/2 flex flex-column justify-center">
               <div class="justify-center items-center">
-                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Marca:</span>  {{vehicles[payment.vehicleId-1].brand}}</p>
-                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Modelo:</span> {{vehicles[payment.vehicleId-1].model}}</p>
-                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Precio:</span> {{formatPrice(vehicles[payment.vehicleId-1].price)}}</p>
+                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="font-bold">Marca:</span>  {{vehicles[payment.vehicleId-1].brand}}</p>
+                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="font-bold">Modelo:</span> {{vehicles[payment.vehicleId-1].model}}</p>
+                <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="font-bold">Precio:</span> {{formatPrice(vehicles[payment.vehicleId-1].price)}}</p>
               </div>
             </div>
             <div class="lg:w-1/2 p-1">
@@ -121,26 +121,34 @@ export default {
 
           <h2 class="font-bold text-2xl">Información del cliente</h2>
           <hr class="division mb-3">
-          <p class="mb-3"><span class="text-[--red] font-bold">Nombres:</span> {{payment.clientFirstName}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Apellidos:</span> {{payment.clientLastName}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">DNI</span> {{payment.clientDni}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Decisión</span> {{payment.selectedDecision}}</p>
+          <p class="mb-3"><span class=" font-bold">Nombres:</span> {{payment.clientFirstName}}</p>
+          <p class="mb-3"><span class=" font-bold">Apellidos:</span> {{payment.clientLastName}}</p>
+          <p class="mb-3"><span class=" font-bold">DNI</span> {{payment.clientDni}}</p>
+          <p class="mb-3"><span class=" font-bold">Decisión</span> {{payment.selectedDecision}}</p>
 
           <h2 class="font-bold text-2xl">Información ingresada</h2>
           <hr class="division mb-3">
-          <p class="mb-3"><span class="text-[--red] font-bold">Tipo de moneda:</span> {{payment.currency}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Tasa de interés:</span> {{parseFloat(payment.formattedRateValue * 100).toFixed(2)}}%</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Frecuencia de pago:</span> Mensual</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">Plazo de pago:</span> {{payment.closingDate}} meses</p>
-          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><span class="text-[--red] font-bold">Cuota final:</span> {{payment.finalFee/100*vehicles[payment.vehicleId-1].price}}</p>
+          <p class="mb-3"><b>Tipo de moneda:</b> {{payment.currency}}</p>
+          <p class="mb-3"><b>Tasa de interés:</b> {{parseFloat(payment.formattedRateValue * 100).toFixed(2)}}%</p>
+          <p class="mb-3"><b>Frecuencia de pago:</b> Mensual</p>
+          <p class="mb-3"><b>Plazo de pago:</b> {{payment.closingDate}} meses</p>
 
           <h2 class="mt-7 font-bold text-2xl">Resultados</h2>
           <hr class="division mb-3">
-          <p class="mb-3"><span class="text-[--red] font-bold">COK:</span> {{parseFloat(payment.cok).toFixed(2)}}%</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TCEA:</span> {{parseFloat(payment.tcea).toFixed(2)}}%</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">VAN:</span> {{parseFloat(payment.van).toFixed(2)}}</p>
-          <p class="mb-3"><span class="text-[--red] font-bold">TIR:</span> {{parseFloat(payment.tir).toFixed(2)}}%</p>
-
+          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota inicial:</b> {{20/100*vehicles[payment.vehicleId-1].price}} {{payment.currency}}</p>
+          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota final:</b> {{payment.finalFee/100*vehicles[payment.vehicleId-1].price}} {{payment.currency}}</p>
+          <p class="mb-3"><b>COK:</b> {{parseFloat(payment.cok).toFixed(2)}}%  </p>
+          <p class="mb-3"><b>TCEA:</b> {{parseFloat(payment.tcea).toFixed(2)}}%</p>
+          <p class="mb-3"><b>VAN: </b>
+            <span class="font-bold text-lime-600" v-if="payment.van > 0"> {{parseFloat(payment.van).toFixed(2)}}</span>
+            <span class="font-bold text-black" v-if="payment.van === 0"> {{parseFloat(payment.van).toFixed(2)}}</span>
+            <span class="font-bold text-red-400" v-if="payment.van < 0"> {{parseFloat(payment.van).toFixed(2)}}</span>
+          </p>
+          <p class="mb-3"><b>TIR: </b>
+            <span class="font-bold text-lime-600" v-if="payment.tir < payment.cok "> {{parseFloat(payment.tir).toFixed(2)}}%</span>
+            <span class="font-bold text-black" v-if="payment.tir === payment.cok "> {{parseFloat(payment.tir).toFixed(2)}}%</span>
+            <span class="font-bold text-red-400" v-if="payment.tir > payment.cok "> {{parseFloat(payment.tir).toFixed(2)}}%</span>
+          </p>
           <div class="pt-5">
             <pv-data-table
                 class="overflow-hidden mb-4"

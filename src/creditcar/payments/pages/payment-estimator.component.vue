@@ -304,8 +304,10 @@ export default {
       // Cuota regular
       const finalFee = this.finalFee/100 * this.vehicle.price;
       let montoPrestamo = this.creditFee/100 * this.vehicle.price + finalFee;
+      console.log("Monto", montoPrestamo)
       let creditFee = montoPrestamo-finalFee/(Math.pow(1+monthlyInterestRate+creditLifeInsurance,totalPayments+1)); //convert it to percentage y valor del credito
-
+      let creditFeeInitial = creditFee
+      console.log("CreditFee", creditFee)
       // Cuota final
       let cuotaFinalSaldo = finalFee/(Math.pow(1+monthlyInterestRate+creditLifeInsurance,totalPayments+1));
       let cuotaFinalInteres = 0;
@@ -328,7 +330,6 @@ export default {
       let calculatedCreditLifeInsurance = 0;
       for (let i = 1; i <= totalPayments+1; i++) {
         creditFee = netLoanAmount;
-        console.log("I", i);
         if (i<=totalGracePeriod){
           // Cuoton
           cuotaFinalInteres = cuotaFinalSaldo * monthlyInterestRate;
@@ -386,12 +387,13 @@ export default {
         }
 
         let cuoton = this.vehicleInsurancePayment + finalFee;
+        let finalBalance = netLoanAmount + finalFee
         if (i === totalPayments+1){
-          cuoton = 0;
+          finalBalance = 0;
         }
 
-        this.createCashFlow(i, this.decimalRate, gracePeriodType, creditFee + cuoton, monthlyInterestRate,
-            amortization, quota,interestPayment, calculatedCreditLifeInsurance, this.vehicleInsurancePayment, netLoanAmount + cuoton, -totalPayment);
+        this.createCashFlow(i, this.decimalRate, gracePeriodType, creditFee + finalFee, monthlyInterestRate,
+            amortization, quota,interestPayment, calculatedCreditLifeInsurance, this.vehicleInsurancePayment, finalBalance, -totalPayment);
       }
 
       this.postCashFlow();
@@ -447,6 +449,8 @@ export default {
     },
     handleSubmit() {
       if (this.validateForm()) {
+        if (this.currency === 'Soles')
+          this.vehicle.price = this.vehicle.price * 3.7
         const currentDate = new Date();
         const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         const formattedDate = currentDate.toLocaleDateString(undefined, options);
@@ -578,11 +582,20 @@ export default {
       return this.formInvalid;
     },
     formatPrice(value){
+      if(this.currency === 'USD'){
       const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
       });
-      return formatter.format(value);
+        return formatter.format(value)
+      }
+      else if (this.currency === 'Soles'){
+        const formatter = new Intl.NumberFormat('es-PE', {
+          style: 'currency',
+          currency: 'PEN'
+        });
+        return formatter.format(value*3.7)
+      }
     }
   },
   created() {

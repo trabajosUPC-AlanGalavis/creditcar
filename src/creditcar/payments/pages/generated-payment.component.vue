@@ -76,11 +76,21 @@ export default {
       return `${parseFloat(value).toFixed(2)}`;
     },
     formatPrice(value){
-      const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-      });
-      return formatter.format(value);
+      console.log(this.payment.currency)
+      if(this.payment.currency === 'USD'){
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        });
+        return formatter.format(value)
+      }
+      else if (this.payment.currency === 'Soles'){
+        const formatter = new Intl.NumberFormat('es-PE', {
+          style: 'currency',
+          currency: 'PEN'
+        });
+        return formatter.format(value*3.7)
+      }
     }
   }
 }
@@ -135,8 +145,8 @@ export default {
 
           <h2 class="mt-7 font-bold text-2xl">Resultados</h2>
           <hr class="division mb-3">
-          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota inicial:</b> {{20/100*vehicles[payment.vehicleId-1].price}} {{payment.currency}}</p>
-          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota final:</b> {{payment.finalFee/100*vehicles[payment.vehicleId-1].price}} {{payment.currency}}</p>
+          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota inicial:</b> {{formatPrice(20/100*vehicles[payment.vehicleId-1].price)}}</p>
+          <p v-if="vehicles[payment.vehicleId-1]" class="mb-3"><b>Cuota final:</b> {{formatPrice(payment.finalFee/100*vehicles[payment.vehicleId-1].price)}}</p>
           <p class="mb-3"><b>COKi:</b> {{parseFloat(payment.cok*100).toFixed(2)}}%  </p>
           <p class="mb-3"><b>TCEA:</b> {{parseFloat(payment.tcea).toFixed(2)}}%</p>
           <p class="mb-3"><b>VAN: </b>

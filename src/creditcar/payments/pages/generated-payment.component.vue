@@ -144,11 +144,7 @@ export default {
             <span class="font-bold text-black" v-if="payment.van === 0"> {{parseFloat(payment.van).toFixed(2)}}</span>
             <span class="font-bold text-red-400" v-if="payment.van < 0"> {{parseFloat(payment.van).toFixed(2)}}</span>
           </p>
-          <p class="mb-3"><b>TIR: </b>
-            <span class="font-bold text-lime-600" v-if="payment.tir < payment.cok "> {{parseFloat(payment.tir).toFixed(2)}}%</span>
-            <span class="font-bold text-black" v-if="payment.tir === payment.cok "> {{parseFloat(payment.tir).toFixed(2)}}%</span>
-            <span class="font-bold text-red-400" v-if="payment.tir > payment.cok "> {{parseFloat(payment.tir).toFixed(2)}}%</span>
-          </p>
+          <p class="mb-3"><b>TIR: </b> {{parseFloat(payment.tir).toFixed(2)}}% </p>
           <div class="pt-5">
             <pv-data-table
                 class="overflow-hidden mb-4"
